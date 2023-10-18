@@ -39,8 +39,9 @@ class _MyHomePageState extends State<MyHomePage> {
           margin: const EdgeInsets.all(10.0),
           width: 300.0,
           height: 1000.0,
-          color: Color.fromARGB(217, 185, 185, 191),
-          child: const Center(
+          color: Color.fromARGB(217, 217, 217, 255),
+          child: const Align(
+            alignment: Alignment(-0.85, -0.93),
             child: Text("Study Groups",
                 style: TextStyle(color: Color(0xff023047), fontSize: 30.0)),
           ),
