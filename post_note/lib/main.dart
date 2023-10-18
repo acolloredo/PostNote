@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
       home: const MyHomePage(title: 'CSE XXX'),
     );
@@ -52,14 +52,25 @@ class _MyHomePageState extends State<MyHomePage> {
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                const Text(
-                  'Study Groups:',
-                  textAlign: TextAlign.left,
-                ),
+                const Text('Study Groups',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                        backgroundColor: Color.fromARGB(255, 212, 225, 212),
+                        fontSize: 35)),
                 Text(
                   '$_counter',
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
+                const Text('Currently in:',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                        backgroundColor: Color.fromARGB(255, 92, 145, 92),
+                        fontSize: 30)),
+                const Text('Request to join others:',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                        backgroundColor: Color.fromARGB(255, 92, 145, 92),
+                        fontSize: 30)),
               ],
             ),
           ],
