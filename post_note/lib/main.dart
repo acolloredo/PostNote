@@ -30,57 +30,22 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Flex(
-          direction: Axis.horizontal,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                const Text('Study Groups',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        backgroundColor: Color.fromARGB(255, 212, 225, 212),
-                        fontSize: 35)),
-                Text(
-                  '$_counter',
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-                const Text('Currently in:',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        backgroundColor: Color.fromARGB(255, 92, 145, 92),
-                        fontSize: 30)),
-                const Text('Request to join others:',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        backgroundColor: Color.fromARGB(255, 92, 145, 92),
-                        fontSize: 30)),
-              ],
-            ),
-          ],
+      body: Align(
+        alignment: FractionalOffset.topLeft, // make box be on the left
+        child: Container(
+          margin: const EdgeInsets.all(10.0),
+          width: 300.0,
+          height: 1000.0,
+          color: Color.fromARGB(217, 185, 185, 191),
+          child: const Center(
+            child: Text("Study Groups",
+                style: TextStyle(color: Color(0xff023047), fontSize: 30.0)),
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
