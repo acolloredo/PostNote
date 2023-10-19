@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
                     children: <Widget>[
                       // "Study Groups" box
                       Container(
-                        width: 300,
+                        width: 500,
                         height: 800,
                         color: Colors.grey,
                       ),
