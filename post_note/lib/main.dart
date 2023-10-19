@@ -95,19 +95,50 @@ class MyApp extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           ElevatedButton(
-                            onPressed: () {
-                              // Add button action
-                            },
-                            child:
-                                Text('Week 1', style: TextStyle(fontSize: 18)),
-                          ),
+                              onPressed: () {
+                                // Add button action
+                              },
+                              child: Text('Week 1',
+                                  style: TextStyle(fontSize: 18)),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                              )),
                           ElevatedButton(
-                            onPressed: () {
-                              // Add button action
-                            },
-                            child:
-                                Text('Week 2', style: TextStyle(fontSize: 18)),
-                          ),
+                              onPressed: () {
+                                // Add button action
+                              },
+                              child: Text('Week 2',
+                                  style: TextStyle(fontSize: 18)),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                              )),
+                          ElevatedButton(
+                              onPressed: () {
+                                // Add button action
+                              },
+                              child: Text('Week 3',
+                                  style: TextStyle(fontSize: 18)),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                              )),
+                          ElevatedButton(
+                              onPressed: () {
+                                // Add button action
+                              },
+                              child: Text('Week 4',
+                                  style: TextStyle(fontSize: 18)),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                              )),
+                          ElevatedButton(
+                              onPressed: () {
+                                // Add button action
+                              },
+                              child: Text('Week 5',
+                                  style: TextStyle(fontSize: 18)),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                              )),
                         ])),
               )
             ],
