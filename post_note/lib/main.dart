@@ -1,52 +1,32 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
-      home: const MyHomePage(title: 'CSE XXX'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Align(
-        alignment: FractionalOffset.topLeft, // make box be on the left
-        child: Container(
-          margin: const EdgeInsets.all(10.0),
-          width: 300.0,
-          height: 1000.0,
-          color: Color.fromARGB(217, 217, 217, 255),
-          child: const Align(
-            alignment: Alignment(-0.85, -0.93),
-            child: Text("Study Groups",
-                style: TextStyle(color: Color(0xff023047), fontSize: 30.0)),
+      home: Scaffold(
+          appBar: AppBar(
+            // For text banner at the top
+            backgroundColor: Colors.green,
+            title: const Text("CSE XXX"),
           ),
-        ),
-      ),
+          body: Container(
+            child: const Text("Study Groups"),
+            margin: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
+            height: 300,
+            width: 300,
+            decoration: const BoxDecoration(
+              shape: BoxShape.rectangle,
+              color: Colors.green,
+            ),
+          )),
     );
   }
 }
