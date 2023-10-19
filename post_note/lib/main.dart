@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
                         left: 50, // horizontal
                         child: Container(
                           width: 200,
-                          height: 60,
+                          height: 200,
                           color: Colors.green,
                           child: Center(
                             child: Text(
@@ -63,11 +63,11 @@ class MyApp extends StatelessWidget {
                       ),
                       // "Request to join others:" box
                       Positioned(
-                        top: 470, // vertical
+                        top: 570, // vertical
                         left: 50, // horizontal
                         child: Container(
                           width: 200,
-                          height: 60,
+                          height: 200,
                           color: Colors.green,
                           child: Center(
                             child: Text(
@@ -81,6 +81,27 @@ class MyApp extends StatelessWidget {
                   ),
                 ],
               ),
+              // add right box for week layout
+              Container(
+                  width: 800,
+                  height: 800,
+                  color: Colors.grey,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        ElevatedButton(
+                          onPressed: () {
+                            // Add button action
+                          },
+                          child: Text('Week 1', style: TextStyle(fontSize: 18)),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            // Add button action
+                          },
+                          child: Text('Week 2', style: TextStyle(fontSize: 18)),
+                        ),
+                      ])),
             ],
           ),
         ),
