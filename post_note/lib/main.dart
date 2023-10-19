@@ -81,65 +81,121 @@ class MyApp extends StatelessWidget {
                   ),
                 ],
               ),
-              const Spacer(
-                flex: 3,
-              ),
+              // space between study groups box and weeks box
+              const Spacer(),
               // add right box for week layout
               Align(
                 alignment: FractionalOffset.topRight,
                 child: Container(
-                    width: 900,
-                    height: 800,
-                    color: Colors.grey,
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          ElevatedButton(
-                              onPressed: () {
-                                // Add button action
-                              },
-                              child: Text('Week 1',
-                                  style: TextStyle(fontSize: 18)),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                              )),
-                          ElevatedButton(
-                              onPressed: () {
-                                // Add button action
-                              },
-                              child: Text('Week 2',
-                                  style: TextStyle(fontSize: 18)),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                              )),
-                          ElevatedButton(
-                              onPressed: () {
-                                // Add button action
-                              },
-                              child: Text('Week 3',
-                                  style: TextStyle(fontSize: 18)),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                              )),
-                          ElevatedButton(
-                              onPressed: () {
-                                // Add button action
-                              },
-                              child: Text('Week 4',
-                                  style: TextStyle(fontSize: 18)),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                              )),
-                          ElevatedButton(
-                              onPressed: () {
-                                // Add button action
-                              },
-                              child: Text('Week 5',
-                                  style: TextStyle(fontSize: 18)),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                              )),
-                        ])),
+                  width: 900,
+                  height: 800,
+                  color: Colors.grey,
+                  child: Column(
+                      // column with 2 nested rows inside
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton(
+                                onPressed: () {
+                                  // Add button action
+                                },
+                                child: Text('Week 1',
+                                    style: TextStyle(fontSize: 18)),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.green,
+                                )),
+                            ElevatedButton(
+                                onPressed: () {
+                                  // Add button action
+                                },
+                                child: Text('Week 2',
+                                    style: TextStyle(fontSize: 18)),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.green,
+                                )),
+                            ElevatedButton(
+                                onPressed: () {
+                                  // Add button action
+                                },
+                                child: Text('Week 3',
+                                    style: TextStyle(fontSize: 18)),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.green,
+                                )),
+                            ElevatedButton(
+                                onPressed: () {
+                                  // Add button action
+                                },
+                                child: Text('Week 4',
+                                    style: TextStyle(fontSize: 18)),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.green,
+                                )),
+                            ElevatedButton(
+                                onPressed: () {
+                                  // Add button action
+                                },
+                                child: Text('Week 5',
+                                    style: TextStyle(fontSize: 18)),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.green,
+                                )),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton(
+                                onPressed: () {
+                                  // Add button action
+                                },
+                                child: Text('Week 6',
+                                    style: TextStyle(fontSize: 18)),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.green,
+                                )),
+                            ElevatedButton(
+                                onPressed: () {
+                                  // Add button action
+                                },
+                                child: Text('Week 7',
+                                    style: TextStyle(fontSize: 18)),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.green,
+                                )),
+                            ElevatedButton(
+                                onPressed: () {
+                                  // Add button action
+                                },
+                                child: Text('Week 8',
+                                    style: TextStyle(fontSize: 18)),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.green,
+                                )),
+                            ElevatedButton(
+                                onPressed: () {
+                                  // Add button action
+                                },
+                                child: Text('Week 9',
+                                    style: TextStyle(fontSize: 18)),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.green,
+                                )),
+                            ElevatedButton(
+                                onPressed: () {
+                                  // Add button action
+                                },
+                                child: Text('Week 10',
+                                    style: TextStyle(fontSize: 18)),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.green,
+                                )),
+                          ],
+                        )
+                      ]),
+                ),
               )
             ],
           ),
