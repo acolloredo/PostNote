@@ -81,27 +81,35 @@ class MyApp extends StatelessWidget {
                   ),
                 ],
               ),
+              const Spacer(
+                flex: 3,
+              ),
               // add right box for week layout
-              Container(
-                  width: 800,
-                  height: 800,
-                  color: Colors.grey,
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        ElevatedButton(
-                          onPressed: () {
-                            // Add button action
-                          },
-                          child: Text('Week 1', style: TextStyle(fontSize: 18)),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            // Add button action
-                          },
-                          child: Text('Week 2', style: TextStyle(fontSize: 18)),
-                        ),
-                      ])),
+              Align(
+                alignment: FractionalOffset.topRight,
+                child: Container(
+                    width: 900,
+                    height: 800,
+                    color: Colors.grey,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          ElevatedButton(
+                            onPressed: () {
+                              // Add button action
+                            },
+                            child:
+                                Text('Week 1', style: TextStyle(fontSize: 18)),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              // Add button action
+                            },
+                            child:
+                                Text('Week 2', style: TextStyle(fontSize: 18)),
+                          ),
+                        ])),
+              )
             ],
           ),
         ),
