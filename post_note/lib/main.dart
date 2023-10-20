@@ -103,14 +103,9 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: const EdgeInsets.all(6.0),
           child: IconButton(
             icon: const Icon(Icons.home),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const MyHomePage(),
-                ),
-              );
-            },
+            onPressed: () => {
+              Navigator.of(context).popUntil((route) => route.isFirst)
+            }, // I.e. go home
           ),
         ),
         actions: [
@@ -128,11 +123,11 @@ class _MyHomePageState extends State<MyHomePage> {
           Padding(
             padding: const EdgeInsets.all(6.0),
             child: IconButton(
-              onPressed: () => {
+              onPressed: () {
                 Navigator.push(
-                    context,
+                    (context),
                     MaterialPageRoute(
-                        builder: (context) => const ProfilePage()))
+                        builder: (context) => const ProfilePage()));
               },
               icon: const Icon(Icons.person),
             ),
