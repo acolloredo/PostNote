@@ -8,10 +8,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.green),
+      ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('CSE XXX'),
-        ),
+            toolbarHeight: 100,
+            title: Text(
+              'CSE XXX',
+              style: TextStyle(fontSize: 55),
+            )),
         body: Center(
           child: Row(
             children: <Widget>[
@@ -25,54 +31,59 @@ class MyApp extends StatelessWidget {
                     children: <Widget>[
                       // "Study Groups" box
                       Container(
-                        width: 500,
-                        height: 800,
+                        width: 700,
+                        height: 895,
                         color: Colors.grey,
                       ),
-                      // "Study Group:" box
+                      // "Study Groups:" box
                       Positioned(
-                        top: 100, // vertical
+                        top: 40, // vertical
                         left: 50, // horizontal
                         child: Container(
-                          width: 200,
-                          height: 60,
+                          width: 600,
+                          height: 110,
                           color: Colors.green,
                           child: Center(
                             child: Text(
-                              'Study Groups',
-                              style: TextStyle(color: Colors.white),
+                              'Study Groups:',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 45),
                             ),
                           ),
                         ),
                       ),
                       // "Currently in:" box
                       Positioned(
-                        top: 300, // vertical
+                        top: 200, // vertical
                         left: 50, // horizontal
                         child: Container(
-                          width: 200,
-                          height: 200,
+                          width: 600,
+                          height: 300,
                           color: Colors.green,
-                          child: Center(
+                          child: Align(
+                            alignment: Alignment(-0.9, -0.7),
                             child: Text(
                               'Currently in:',
-                              style: TextStyle(color: Colors.white),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 30),
                             ),
                           ),
                         ),
                       ),
                       // "Request to join others:" box
                       Positioned(
-                        top: 570, // vertical
+                        top: 550, // vertical
                         left: 50, // horizontal
                         child: Container(
-                          width: 200,
-                          height: 200,
+                          width: 600,
+                          height: 300,
                           color: Colors.green,
-                          child: Center(
+                          child: Align(
+                            alignment: Alignment(-0.9, -0.7),
                             child: Text(
                               'Request to join others:',
-                              style: TextStyle(color: Colors.white),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 30),
                             ),
                           ),
                         ),
@@ -81,19 +92,33 @@ class MyApp extends StatelessWidget {
                   ),
                 ],
               ),
+
               // space between study groups box and weeks box
               const Spacer(),
+
               // add right box for week layout
               Align(
                 alignment: FractionalOffset.topRight,
                 child: Container(
-                  width: 900,
-                  height: 800,
+                  width: 1000,
+                  height: 895,
                   color: Colors.grey,
                   child: Column(
                       // column with 2 nested rows inside
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
+                        Container(
+                          width: 600,
+                          height: 110,
+                          color: Colors.green,
+                          child: Center(
+                            child: Text(
+                              'Week Folders for Notes:',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 45),
+                            ),
+                          ),
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -102,45 +127,50 @@ class MyApp extends StatelessWidget {
                                   // Add button action
                                 },
                                 child: Text('Week 1',
-                                    style: TextStyle(fontSize: 18)),
+                                    style: TextStyle(fontSize: 30)),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.green,
+                                  fixedSize: Size(160, 90), // width, height
                                 )),
                             ElevatedButton(
                                 onPressed: () {
                                   // Add button action
                                 },
                                 child: Text('Week 2',
-                                    style: TextStyle(fontSize: 18)),
+                                    style: TextStyle(fontSize: 30)),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.green,
+                                  fixedSize: Size(160, 90), // width, height
                                 )),
                             ElevatedButton(
                                 onPressed: () {
                                   // Add button action
                                 },
                                 child: Text('Week 3',
-                                    style: TextStyle(fontSize: 18)),
+                                    style: TextStyle(fontSize: 30)),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.green,
+                                  fixedSize: Size(160, 90), // width, height
                                 )),
                             ElevatedButton(
                                 onPressed: () {
                                   // Add button action
                                 },
                                 child: Text('Week 4',
-                                    style: TextStyle(fontSize: 18)),
+                                    style: TextStyle(fontSize: 30)),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.green,
+                                  fixedSize: Size(160, 90), // width, height
                                 )),
                             ElevatedButton(
                                 onPressed: () {
                                   // Add button action
                                 },
                                 child: Text('Week 5',
-                                    style: TextStyle(fontSize: 18)),
+                                    style: TextStyle(fontSize: 30)),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.green,
+                                  fixedSize: Size(160, 90), // width, height
                                 )),
                           ],
                         ),
@@ -152,45 +182,50 @@ class MyApp extends StatelessWidget {
                                   // Add button action
                                 },
                                 child: Text('Week 6',
-                                    style: TextStyle(fontSize: 18)),
+                                    style: TextStyle(fontSize: 30)),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.green,
+                                  fixedSize: Size(160, 90), // width, height
                                 )),
                             ElevatedButton(
                                 onPressed: () {
                                   // Add button action
                                 },
                                 child: Text('Week 7',
-                                    style: TextStyle(fontSize: 18)),
+                                    style: TextStyle(fontSize: 30)),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.green,
+                                  fixedSize: Size(160, 90), // width, height
                                 )),
                             ElevatedButton(
                                 onPressed: () {
                                   // Add button action
                                 },
                                 child: Text('Week 8',
-                                    style: TextStyle(fontSize: 18)),
+                                    style: TextStyle(fontSize: 30)),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.green,
+                                  fixedSize: Size(160, 90), // width, height
                                 )),
                             ElevatedButton(
                                 onPressed: () {
                                   // Add button action
                                 },
                                 child: Text('Week 9',
-                                    style: TextStyle(fontSize: 18)),
+                                    style: TextStyle(fontSize: 30)),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.green,
+                                  fixedSize: Size(160, 90), // width, height
                                 )),
                             ElevatedButton(
                                 onPressed: () {
                                   // Add button action
                                 },
                                 child: Text('Week 10',
-                                    style: TextStyle(fontSize: 18)),
+                                    style: TextStyle(fontSize: 30)),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.green,
+                                  fixedSize: Size(160, 90), // width, height
                                 )),
                           ],
                         )
