@@ -1,30 +1,51 @@
 import requests
 import re
 from bs4 import BeautifulSoup
+from pathlib import Path
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
 
-bsoe_base_url = "https://courses.engineering.ucsc.edu/courses"
-bsoe_cse_url = "https://courses.engineering.ucsc.edu/courses/cse/2023"
 
-headers = {
-    'User-Agent': 
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
-}
+root_dir = Path(__file__).resolve().parent.parent
+credentials_path = str(root_dir) + "/keys/firebaseKey.json"
+cred = credentials.Certificate(credentials_path)
+firebase_admin.initialize_app(cred)
 
-r = requests.get(bsoe_cse_url)
-soup = BeautifulSoup(r.content, 'html.parser')
-table = soup.find("table")
-sections = table.find_all("li")
+db = firestore.client()
 
-for section in sections:
-    link = section.find("a")
-    class_url = link["href"]
-    class_res = re.search("\/[a-z]*\/([A-Z0-9]*)\/([A-Za-z0-9]*)\/", class_url)
-    class_name = class_res.group(1)
-    quarter = class_res.group(2)
-    full_prof = section.contents[3].strip()
-    prof_res = re.search("([ a-zA-Z]*) \(|(Staff)", full_prof)
-    professor_name = prof_res.group(1) or prof_res.group(2)
-    print()
-    print(quarter)
-    print(class_name)
-    print(professor_name)
+
+bsoe_base_url = "https://courses.engineering.ucsc.edu/"
+
+base = requests.get(bsoe_base_url)
+soup_base = BeautifulSoup(base.content, 'html.parser')
+department_menu = soup_base.find("ul", id="main-menu")
+
+department_links = []
+for department in department_menu:
+    if department != "\n":
+        if link := department.find("a"):
+            department_links.append((bsoe_base_url + link["href"][1:], link.text))
+
+department_links.pop()
+print(department_links)
+
+for link, name in department_links:
+    r = requests.get(link)
+    soup = BeautifulSoup(r.content, 'html.parser')
+    table = soup.find("table")
+    sections = table.find_all("li")
+
+    for section in sections:
+        link = section.find("a")
+        class_url = link["href"]
+        class_res = re.search("\/[a-z]*\/([A-Z0-9]*)\/([A-Za-z0-9]*)\/", class_url)
+        class_name = class_res.group(1)
+        quarter = class_res.group(2)
+        full_prof = section.contents[3].strip()
+        prof_res = re.search("([ a-zA-Z]*) \(|(Staff)", full_prof)
+        professor_name = prof_res.group(1) or prof_res.group(2)
+        data = {"class_name": class_name, "professor_name": professor_name}
+        print(data)
+        
+        db.collection(name).document(quarter).collection(quarter).document(class_name).set(data)
