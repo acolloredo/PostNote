@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         splashFactory: NoSplash.splashFactory,
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
-            foregroundColor: Colors.white,
+            foregroundColor: Palette.mintCream,
           ),
         ),
       ),
