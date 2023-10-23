@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:post_note/palette.dart';
+import 'home_page.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-=======
-import 'package:google_fonts/google_fonts.dart';
-import 'package:post_note/palette.dart';
-import 'home_page.dart';
->>>>>>> f27ab632f5489381e692cbc3d48cd36cd9746fcd
+
+
+
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(const MyApp());
 }
@@ -28,7 +33,6 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       home: const HomePage(),
       theme: ThemeData(
-<<<<<<< HEAD
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the
@@ -145,7 +149,6 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
-=======
         useMaterial3: true,
         textTheme: GoogleFonts.latoTextTheme(
           Theme.of(context).textTheme,
@@ -171,7 +174,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
->>>>>>> f27ab632f5489381e692cbc3d48cd36cd9746fcd
     );
   }
 }
