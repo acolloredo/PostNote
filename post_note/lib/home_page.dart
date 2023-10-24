@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:post_note/class_page.dart';
 import 'package:post_note/palette.dart';
 
 class HomePage extends StatefulWidget {
@@ -81,13 +82,29 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          debugPrint('');
-        },
-        tooltip: 'Add Notes',
-        child: const Icon(Icons.upload_file_outlined),
-      ),
+      floatingActionButton: Wrap(children: <Widget>[
+        Container(
+          margin: EdgeInsets.all(10),
+          child: FloatingActionButton(
+            onPressed: () {
+              debugPrint('');
+            },
+            tooltip: 'Add Notes',
+            child: const Icon(Icons.upload_file_outlined),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.all(10),
+          child: FloatingActionButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ClassPage()));
+            },
+            tooltip: 'Class Page',
+            child: const Icon(Icons.class_),
+          ),
+        ),
+      ]),
     );
   }
 }
