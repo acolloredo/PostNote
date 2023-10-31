@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:post_note/class_view.dart';
 import 'package:post_note/palette.dart';
 
 class HomePage extends StatefulWidget {
@@ -88,6 +89,7 @@ class _HomePageState extends State<HomePage> {
         tooltip: 'Add Notes',
         child: const Icon(Icons.upload_file_outlined),
       ),
+      body: const ClassView(),
     );
   }
 }

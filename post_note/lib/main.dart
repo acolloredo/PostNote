@@ -7,6 +7,7 @@ import 'package:post_note/palette.dart';
 import 'home_page.dart';
 
 Future main() async {
+  // GestureBinding.instance.resamplingEnabled = true;
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
