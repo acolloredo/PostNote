@@ -45,7 +45,13 @@ for link, name in department_links:
         full_prof = section.contents[3].strip()
         prof_res = re.search("([ a-zA-Z]*) \(|(Staff)", full_prof)
         professor_name = prof_res.group(1) or prof_res.group(2)
-        data = {"class_name": class_name, "professor_name": professor_name}
+        data = {
+            "department": name,
+            "quarter": quarter,
+            "class_name": class_name,
+            "professor_name": professor_name
+        }
         print(data)
         
-        db.collection(name).document(quarter).collection(quarter).document(class_name).set(data)
+        db.collection("classes").document(class_name).set(data)
+        # db.collection(name).document(quarter).collection(quarter).document(class_name).set(data)
