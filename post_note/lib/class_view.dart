@@ -7,75 +7,69 @@ class ClassView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(30.0),
-      child: SingleChildScrollView(
-        child: Center(
-          child: Wrap(
-            // physics: const BouncingScrollPhysics(),
-            // crossAxisSpacing: 30.0,
-            // mainAxisSpacing: 30.0,
-            // childAspectRatio: 1.55,
-            // crossAxisCount: 5,
-
-            // TODO: use a builder when fetching (to not load everything)
-            children: const [
-              ClassCard(),
-              ClassCard(),
-              ClassCard(),
-              ClassCard(),
-              ClassCard(),
-              ClassCard(),
-              ClassCard(),
-              ClassCard(),
-              ClassCard(),
-              ClassCard(),
-              ClassCard(),
-              ClassCard(),
-              ClassCard(),
-              ClassCard(),
-              ClassCard(),
-              ClassCard(),
-              ClassCard(),
-              ClassCard(),
-              ClassCard(),
-              ClassCard(),
-              ClassCard(),
-              ClassCard(),
-              ClassCard(),
-              ClassCard(),
-              ClassCard(),
-            ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return GridView.builder(
+          clipBehavior: Clip.hardEdge,
+          padding: const EdgeInsets.fromLTRB(
+            100.0,
+            25.0,
+            100.0,
+            25.0,
           ),
-        ),
-      ),
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 400.0,
+            mainAxisExtent: max(constraints.maxHeight / 3, 250.0),
+          ),
+          itemCount: 100,
+          itemBuilder: (BuildContext context, int index) {
+            return ClassCard(
+              constraints: constraints,
+              professorName: "Professor number $index",
+              courseID: "Course $index",
+            );
+          },
+        );
+      },
     );
   }
 }
 
 class ClassCard extends StatelessWidget {
+  final String professorName;
+  final String courseID;
+  final BoxConstraints constraints;
   const ClassCard({
     super.key,
+    required this.professorName,
+    required this.courseID,
+    required this.constraints,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        minHeight: 200.0,
-        minWidth: 300.0,
-        maxHeight: max(MediaQuery.of(context).size.height / 4, 200),
-        maxWidth: max(MediaQuery.of(context).size.width / 5, 300),
-      ),
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(5.0),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 50.0),
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: () {
+            // TODO: take to class-specific page
+          },
           child: Card(
-            color: Colors.white,
-            child: Column(children: const [
-              Text("Class Number"),
-              Text("Professor Name"),
-            ]),
+            child: Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: Card(
+                color: Colors.white,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(professorName),
+                    Text(courseID),
+                  ],
+                ),
+              ),
+            ),
           ),
         ),
       ),
