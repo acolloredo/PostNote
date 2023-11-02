@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:post_note/palette.dart';
 
 class ClassPage extends StatelessWidget {
   const ClassPage({
@@ -39,7 +40,7 @@ class ClassPage extends StatelessWidget {
                       child: Container(
                         width: 600,
                         height: 110,
-                        color: Colors.green,
+                        color: Palette.fernGreen,
                         child: const Center(
                           child: Text(
                             'Study Groups:',
@@ -55,7 +56,7 @@ class ClassPage extends StatelessWidget {
                       child: Container(
                         width: 600,
                         height: 300,
-                        color: Colors.green,
+                        color: Palette.fernGreen,
                         child: const Align(
                           alignment: Alignment(-0.85, -0.7),
                           child: Text(
@@ -72,7 +73,7 @@ class ClassPage extends StatelessWidget {
                       child: Container(
                         width: 600,
                         height: 300,
-                        color: Colors.green,
+                        color: Palette.fernGreen,
                         child: const Align(
                           alignment: Alignment(-0.75, -0.7),
                           child: Text(
@@ -104,7 +105,7 @@ class ClassPage extends StatelessWidget {
                       Container(
                         width: 600,
                         height: 110,
-                        color: Colors.green,
+                        color: Palette.fernGreen,
                         child: const Center(
                           child: Text(
                             'Week Folders for Notes:',
@@ -120,51 +121,56 @@ class ClassPage extends StatelessWidget {
                                 // Add button action
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                fixedSize: const Size(160, 90), // width, height
+                                //backgroundColor: Colors.green,
+                                fixedSize: const Size(170, 90), // width, height
                               ),
                               child: const Text('Week 1',
-                                  style: TextStyle(fontSize: 30))),
+                                  style: TextStyle(
+                                      fontSize: 30, color: Colors.white))),
                           ElevatedButton(
                               onPressed: () {
                                 // Add button action
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                fixedSize: const Size(160, 90), // width, height
+                                //backgroundColor: Colors.green,
+                                fixedSize: const Size(170, 90), // width, height
                               ),
                               child: const Text('Week 2',
-                                  style: TextStyle(fontSize: 30))),
+                                  style: TextStyle(
+                                      fontSize: 30, color: Colors.white))),
                           ElevatedButton(
                               onPressed: () {
                                 // Add button action
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                fixedSize: const Size(160, 90), // width, height
+                                //backgroundColor: Colors.green,
+                                fixedSize: const Size(170, 90), // width, height
                               ),
                               child: const Text('Week 3',
-                                  style: TextStyle(fontSize: 30))),
+                                  style: TextStyle(
+                                      fontSize: 30, color: Colors.white))),
                           ElevatedButton(
                               onPressed: () {
                                 // Add button action
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                fixedSize: const Size(160, 90), // width, height
+                                //backgroundColor: Colors.green,
+                                fixedSize: const Size(170, 90), // width, height
                               ),
                               child: const Text('Week 4',
-                                  style: TextStyle(fontSize: 30))),
+                                  style: TextStyle(
+                                      fontSize: 30, color: Colors.white))),
                           ElevatedButton(
                               onPressed: () {
                                 // Add button action
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                fixedSize: const Size(160, 90), // width, height
+                                //backgroundColor: Colors.green,
+                                fixedSize: const Size(170, 90), // width, height
                               ),
                               child: const Text('Week 5',
-                                  style: TextStyle(fontSize: 30))),
+                                  style: TextStyle(
+                                      fontSize: 30, color: Colors.white))),
                         ],
                       ),
                       Row(
@@ -175,51 +181,56 @@ class ClassPage extends StatelessWidget {
                                 // Add button action
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                fixedSize: const Size(160, 90), // width, height
+                                //backgroundColor: Colors.green,
+                                fixedSize: const Size(170, 90), // width, height
                               ),
                               child: const Text('Week 6',
-                                  style: TextStyle(fontSize: 30))),
+                                  style: TextStyle(
+                                      fontSize: 30, color: Colors.white))),
                           ElevatedButton(
                               onPressed: () {
                                 // Add button action
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                fixedSize: const Size(160, 90), // width, height
+                                //backgroundColor: Colors.green,
+                                fixedSize: const Size(170, 90), // width, height
                               ),
                               child: const Text('Week 7',
-                                  style: TextStyle(fontSize: 30))),
+                                  style: TextStyle(
+                                      fontSize: 30, color: Colors.white))),
                           ElevatedButton(
                               onPressed: () {
                                 // Add button action
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                fixedSize: const Size(160, 90), // width, height
+                                //backgroundColor: Colors.green,
+                                fixedSize: const Size(170, 90), // width, height
                               ),
                               child: const Text('Week 8',
-                                  style: TextStyle(fontSize: 30))),
+                                  style: TextStyle(
+                                      fontSize: 30, color: Colors.white))),
                           ElevatedButton(
                               onPressed: () {
                                 // Add button action
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                fixedSize: const Size(160, 90), // width, height
+                                //backgroundColor: Colors.green,
+                                fixedSize: const Size(170, 90), // width, height
                               ),
                               child: const Text('Week 9',
-                                  style: TextStyle(fontSize: 30))),
+                                  style: TextStyle(
+                                      fontSize: 30, color: Colors.white))),
                           ElevatedButton(
                               onPressed: () {
                                 // Add button action
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                fixedSize: const Size(160, 90), // width, height
+                                //backgroundColor: Colors.green,
+                                fixedSize: const Size(170, 90), // width, height
                               ),
                               child: const Text('Week 10',
-                                  style: TextStyle(fontSize: 30))),
+                                  style: TextStyle(
+                                      fontSize: 30, color: Colors.white))),
                         ],
                       )
                     ]),
