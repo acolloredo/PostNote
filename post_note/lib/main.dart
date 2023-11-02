@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:post_note/palette.dart';
-import 'home_page.dart';
+//import 'package:google_fonts/google_fonts.dart';
+//import 'package:post_note/palette.dart';
+//import 'home_page.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,9 +12,115 @@ Future main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const MyApp());
+  runApp(MaterialApp(home: MyApp()));
 }
 
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+      title: Text('Post Note Search', textDirection: TextDirection.ltr),
+      actions: [
+        IconButton(
+          onPressed: () {
+            showSearch(
+              context: context,
+              delegate: CustomSearchDelegate(),
+            );
+          },
+          icon: const Icon(Icons.search),
+        ),
+      ],
+    ));
+  }
+}
+
+@override
+class CustomSearchDelegate extends SearchDelegate {
+  List<String> searchTerms = [
+    'CSE 20',
+    'CSE 101',
+    'CSE 30',
+    'CSE 115A',
+    'CSE 103',
+    'CSE 102',
+    'CSE 13s',
+    'CSE Math 19A/B'
+  ];
+
+  //this section is to clear the query
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: const Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
+      )
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.arrow_back),
+      onPressed: () {
+        //leave and close the search bar
+        close(context, null);
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    List<String> matchQuery = [];
+    for (var classInfo in searchTerms) {
+      if (classInfo.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(classInfo);
+      }
+    }
+
+    return ListView.builder(
+        itemCount: matchQuery.length,
+        itemBuilder: (context, index) {
+          var result = matchQuery[index];
+          return ListTile(
+            //result is the name of the class
+            title: Text(result),
+          );
+        });
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<String> matchQuery = [];
+    for (var classInfo in searchTerms) {
+      if (classInfo.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(classInfo);
+      }
+    }
+
+    return ListView.builder(
+        itemCount: matchQuery.length,
+        itemBuilder: (context, index) {
+          var result = matchQuery[index];
+          return ListTile(
+            //result is the name of the class
+            title: Text(result),
+          );
+        });
+  }
+}
+
+
+/*
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -66,3 +172,6 @@ Future signInEmailPassword() async {
       password: "12345678" //passwordController.text
       );
 }
+*/
+
+
