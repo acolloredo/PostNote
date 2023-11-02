@@ -53,5 +53,5 @@ for link, name in department_links:
         }
         print(data)
         
-        db.collection("classes").document(class_name).set(data)
+        db.collection("classes").document().set(data)
         # db.collection(name).document(quarter).collection(quarter).document(class_name).set(data)
