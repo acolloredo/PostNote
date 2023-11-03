@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:post_note/palette.dart';
 
@@ -7,32 +8,56 @@ class ClassView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 50.0),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          // TODO: replace with some sort of sliver implementation when adding search bar?
-          return GridView.builder(
-            controller: ScrollController(
-              debugLabel: "ClassView_Scroll_Controller",
-            ),
-            clipBehavior: Clip.hardEdge,
-            padding: const EdgeInsets.symmetric(horizontal: 100.0),
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 400.0,
-              mainAxisExtent: max(constraints.maxHeight / 3, 250.0),
-            ),
-            itemCount: 100,
-            itemBuilder: (BuildContext context, int index) {
-              return ClassCard(
-                constraints: constraints,
-                professorName: "Professor number $index",
-                courseID: "Course $index",
-              );
-            },
+    final firestoreInstance = FirebaseFirestore.instance;
+
+    return StreamBuilder<QuerySnapshot>(
+      stream: firestoreInstance
+          .collection("classes")
+          .where('quarter', isEqualTo: "Fall23")
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(
+            child: Text("No Classes Available"),
           );
-        },
-      ),
+        } else {
+          return Padding(
+            padding: const EdgeInsets.only(top: 50.0),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                // TODO: replace with some sort of sliver implementation when adding search bar?
+                return GridView.builder(
+                  controller: ScrollController(
+                    debugLabel: "ClassView_Scroll_Controller",
+                  ),
+                  clipBehavior: Clip.hardEdge,
+                  padding: const EdgeInsets.symmetric(horizontal: 100.0),
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 400.0,
+                    mainAxisExtent: max(constraints.maxHeight / 3, 250.0),
+                  ),
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    DocumentSnapshot doc = snapshot.data!.docs[index];
+                    final className = doc["class_name"];
+                    final professorName = doc["professor_name"];
+                    debugPrint("INDEX: $index");
+                    debugPrint("CLASS NAME: $className");
+                    debugPrint("PROFESSOR NAME: $professorName");
+                    debugPrint("\n\n");
+
+                    return ClassCard(
+                      constraints: constraints,
+                      professorName: professorName,
+                      courseID: className,
+                    );
+                  },
+                );
+              },
+            ),
+          );
+        }
+      },
     );
   }
 }
