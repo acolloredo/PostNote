@@ -19,17 +19,12 @@ jobs:
         working-directory: ./post_note/
 
     steps:
-      # Flutter-specifc Checks:
-      - uses: actions/checkout@v3  
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-      - run: flutter pub get
-      - run: flutter build web
-
       # Dart Checks:
       - uses: actions/checkout@v3
       - uses: dart-lang/setup-dart@v1
+
+      - name: Get Dart dependencies
+        run: dart pub get
         
       - name: Analyze project source
         run: dart analyze
@@ -40,4 +35,10 @@ jobs:
       - name: See formatting changes
         run: dart fix --n 
         
-      
+      # Flutter-specifc Checks:
+      - uses: actions/checkout@v3  
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - run: flutter pub get
+      - run: flutter build web
