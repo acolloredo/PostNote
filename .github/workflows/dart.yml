@@ -14,6 +14,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./post_note/
 
     steps:
       # Flutter-specifc Checks:
