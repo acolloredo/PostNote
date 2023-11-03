@@ -22,7 +22,7 @@ jobs:
       # Dart Checks:
       - uses: actions/checkout@v3
       - uses: dart-lang/setup-dart@v1
-\
+      
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed .      
 
