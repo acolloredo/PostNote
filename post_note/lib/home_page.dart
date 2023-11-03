@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          debugPrint('');
+          debugPrint("$widget FAB pressed");
         },
         tooltip: 'Add Notes',
         child: const Icon(Icons.upload_file_outlined),
