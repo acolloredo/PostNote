@@ -5,14 +5,14 @@ import 'login_field.dart';
 import 'gradient_button.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: SingleChildScrollView(
         child: Center(
-          child: Column(children: const [
+          child: Column(children: [
             Image(
               image: AssetImage('assets/images/Post-Note-Logo.png'),
               width: 300,

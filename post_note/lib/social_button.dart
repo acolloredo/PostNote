@@ -7,11 +7,11 @@ class SocialButton extends StatelessWidget {
   final String label;
   final double horizontalPadding;
   const SocialButton({
-    Key? key,
+    super.key,
     required this.iconPath,
     required this.label,
     this.horizontalPadding = 100,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
