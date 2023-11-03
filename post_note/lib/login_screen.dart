@@ -5,7 +5,7 @@ import 'login_field.dart';
 import 'gradient_button.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
