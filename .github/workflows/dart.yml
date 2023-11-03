@@ -27,7 +27,7 @@ jobs:
         run: dart format --output=none --set-exit-if-changed .      
 
       - name: See formatting changes
-        run: dart fix --n 
+        run: dart fix --dry-run
         
       # Flutter-specifc Checks:
       - uses: actions/checkout@v3  

@@ -5,9 +5,9 @@ class LoginField extends StatelessWidget {
   final String hintText;
 
   const LoginField({
-    Key? key,
+    super.key,
     required this.hintText,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
