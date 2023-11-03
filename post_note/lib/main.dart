@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,10 +22,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scrollBehavior: const CupertinoScrollBehavior().copyWith(
+        dragDevices: {},
+        overscroll: true,
+        physics: const BouncingScrollPhysics(
+          parent: AlwaysScrollableScrollPhysics(),
+        ),
+      ),
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       home: const HomePage(),
       theme: ThemeData(
+        scrollbarTheme: ScrollbarThemeData(
+          thumbVisibility: MaterialStateProperty.all(true),
+        ),
         useMaterial3: true,
         textTheme: GoogleFonts.latoTextTheme(
           Theme.of(context).textTheme,
