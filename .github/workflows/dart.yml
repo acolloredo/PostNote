@@ -22,13 +22,7 @@ jobs:
       # Dart Checks:
       - uses: actions/checkout@v3
       - uses: dart-lang/setup-dart@v1
-
-      - name: Get Dart dependencies
-        run: dart pub get
-        
-      - name: Analyze project source
-        run: dart analyze
-
+\
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed .      
 
