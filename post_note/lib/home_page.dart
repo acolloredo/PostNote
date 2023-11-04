@@ -56,17 +56,26 @@ class _HomePageState extends State<HomePage> {
               ),
               alignmentOffset: const Offset(-35.0, 0.0),
               menuChildren: [
-                TextButton(
-                  onPressed: () {},
-                  child: const Text('Logout'),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: TextButton(
+                    onPressed: () {},
+                    child: const Text('Logout'),
+                  ),
                 ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text('About'),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: TextButton(
+                    onPressed: () {},
+                    child: const Text('About'),
+                  ),
                 ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text('Help'),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: TextButton(
+                    onPressed: () {},
+                    child: const Text('Help'),
+                  ),
                 ),
               ],
               builder: (context, controller, child) {

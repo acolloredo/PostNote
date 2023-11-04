@@ -40,24 +40,38 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.latoTextTheme(
           Theme.of(context).textTheme,
         ),
+        searchBarTheme: const SearchBarThemeData(
+          overlayColor: MaterialStatePropertyAll(Colors.transparent),
+          backgroundColor: MaterialStatePropertyAll(Colors.white),
+          textStyle: MaterialStatePropertyAll(
+            TextStyle(
+              color: Palette.outerSpace,
+              fontFamily: "Consolas",
+              letterSpacing: 0.0,
+            ),
+          ),
+          elevation: MaterialStatePropertyAll(
+            5.0,
+          ),
+        ),
         colorScheme: const ColorScheme(
           primary: Palette.fernGreen,
           brightness: Brightness.light,
-          onPrimary: Palette.mintCream,
+          onPrimary: Colors.white,
           secondary: Palette.celadon,
-          onSecondary: Palette.mintCream,
+          onSecondary: Colors.white,
           error: Colors.yellow,
           onError: Colors.red,
-          background: Palette.mintCream,
+          background: Colors.white,
           onBackground: Palette.outerSpace,
           surface: Palette.fernGreen,
-          onSurface: Palette.mintCream,
+          onSurface: Colors.white,
         ),
         primaryColor: Colors.green,
         splashFactory: NoSplash.splashFactory,
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
-            foregroundColor: Palette.mintCream,
+            foregroundColor: Colors.white,
           ),
         ),
       ),
