@@ -38,7 +38,6 @@ class ClassView extends StatelessWidget {
               }
               return LayoutBuilder(
                 builder: (context, constraints) {
-                  // TODO: replace with some sort of sliver implementation when adding search bar?
                   return GridView.builder(
                     controller: ScrollController(
                       debugLabel: "ClassView_Scroll_Controller",
