@@ -1,17 +1,9 @@
 # PostNote
-# post_note
 
-A new Flutter project.
+PostNote is a new web-app designed for sharing notes to your classmates. Initially, we plan to support UC Santa Cruz classes. Professors will be able to opt in, and students will be able share among study groups.
 
-## Getting Started
+## Technologies 
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Our app is mostly comprised of two technologies: 
+- A **flutter frontend**
+- And a **firebase backend**
