@@ -12,18 +12,6 @@ class ClassView extends StatelessWidget {
 
     return Column(
       children: [
-        const Padding(
-          padding: EdgeInsets.fromLTRB(100.0, 25.0, 100.0, 25.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: SearchBar(
-                  surfaceTintColor: MaterialStatePropertyAll(Palette.fernGreen),
-                ),
-              ),
-            ],
-          ),
-        ),
         Expanded(
           child: StreamBuilder<QuerySnapshot>(
             stream: firestoreInstance
@@ -42,8 +30,8 @@ class ClassView extends StatelessWidget {
                     controller: ScrollController(
                       debugLabel: "ClassView_Scroll_Controller",
                     ),
-                    clipBehavior: Clip.hardEdge,
-                    padding: const EdgeInsets.symmetric(horizontal: 100.0),
+                    clipBehavior: Clip.antiAlias,
+                    padding: const EdgeInsets.fromLTRB(100.0, 25.0, 100.0, 0.0),
                     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                       maxCrossAxisExtent: 400.0,
                       mainAxisExtent: max(constraints.maxHeight / 3, 250.0),
@@ -113,12 +101,16 @@ class _ClassCardState extends State<ClassCard> {
               child: Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: Card(
-                  color: Palette.mintCream,
+                  color: userInClass ? Palette.teaGreen : Palette.mintCream,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(widget.professorName),
-                      Text(widget.courseID),
+                      Text(
+                        widget.courseID,
+                        style: const TextStyle(fontSize: 30.0),
+                      ),
+                      Text(widget.professorName,
+                          style: const TextStyle(fontSize: 24.0)),
                     ],
                   ),
                 ),
