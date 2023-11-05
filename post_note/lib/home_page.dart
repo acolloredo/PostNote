@@ -25,21 +25,36 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          widget.title,
+        // TODO: add elevation?
+        toolbarHeight: 75.0,
+        title: Row(
+          children: [
+            Expanded(
+              child: Container(
+                margin: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: const SearchBar(
+                  elevation: MaterialStatePropertyAll(0.0),
+                  surfaceTintColor: MaterialStatePropertyAll(Palette.fernGreen),
+                ),
+              ),
+            ),
+          ],
         ),
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: NavBarButton(
-            tooltipMessage: 'Home',
-            onPressed: () {
-              Navigator.popUntil(
-                context,
-                (route) => route.isFirst,
-              );
-            },
-            icon: const Icon(
-              Icons.home,
+        leading: Container(
+          margin: const EdgeInsets.fromLTRB(8.0, 8.0, 0.0, 8.0),
+          child: Tooltip(
+            message: "Home",
+            child: InkWell(
+              borderRadius: BorderRadius.circular(5.0),
+              // tooltipMessage: 'Home',
+              onTap: () {
+                Navigator.popUntil(
+                  context,
+                  (route) => route.isFirst,
+                );
+              },
+              child: Image.asset('images/Post-Note-Logo.png'),
             ),
           ),
         ),
@@ -88,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             ),
-          )
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
