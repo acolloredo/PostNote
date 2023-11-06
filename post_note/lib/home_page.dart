@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:post_note/class_view.dart';
 import 'package:post_note/palette.dart';
