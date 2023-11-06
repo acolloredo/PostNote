@@ -33,9 +33,25 @@ class _HomePageState extends State<HomePage> {
               child: Container(
                 margin: const EdgeInsets.all(8.0),
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: const SearchBar(
-                  elevation: MaterialStatePropertyAll(0.0),
-                  surfaceTintColor: MaterialStatePropertyAll(Palette.fernGreen),
+                child: SearchAnchor(
+                  builder: (context, controller) {
+                    return const SearchBar(
+                      elevation: MaterialStatePropertyAll(0.0),
+                      surfaceTintColor: MaterialStatePropertyAll(Palette.fernGreen),
+                    );
+                  },
+                  suggestionsBuilder: (context, controller) {
+                    return List<ListTile>.generate(
+                      5,
+                      (int index) {
+                        final String item = 'item $index';
+                        return ListTile(
+                          title: Text(item),
+                          onTap: () {},
+                        );
+                      },
+                    );
+                  },
                 ),
               ),
             ),
