@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:post_note/class_view.dart';
@@ -78,7 +77,8 @@ class _HomePageState extends State<HomePage> {
                       ),
                       onTap: () => controller.openView(),
                       elevation: const MaterialStatePropertyAll(0.0),
-                      surfaceTintColor: const MaterialStatePropertyAll(Palette.fernGreen),
+                      surfaceTintColor:
+                          const MaterialStatePropertyAll(Palette.fernGreen),
                     );
                   },
                   suggestionsBuilder: (context, controller) {
