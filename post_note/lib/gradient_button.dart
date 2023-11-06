@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:post_note/palette.dart';
 
 class GradientButton extends StatelessWidget {
-  const GradientButton({Key? key}) : super(key: key);
+  const GradientButton({super.key});
 
   @override
   Widget build(BuildContext context) {
