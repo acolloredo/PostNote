@@ -78,7 +78,8 @@ class _HomePageState extends State<HomePage> {
                       ),
                       onTap: () => controller.openView(),
                       elevation: const MaterialStatePropertyAll(0.0),
-                      surfaceTintColor: const MaterialStatePropertyAll(Palette.fernGreen),
+                      surfaceTintColor:
+                          const MaterialStatePropertyAll(Palette.fernGreen),
                     );
                   },
                   suggestionsBuilder: (context, controller) {
