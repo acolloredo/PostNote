@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
@@ -25,6 +26,7 @@ class _UploadPageState extends State<UploadPage> {
   String? filePath;
   bool isLoading = false;
 
+  PlatformFile? _imagePicked;
   Future<void> pickFile() async {
     try {
       setState(() {
@@ -34,11 +36,16 @@ class _UploadPageState extends State<UploadPage> {
         type: FileType.any,
       );
 
+      // if user does not pick anything
+      if (result == null) return;
+
       setState(() {
         isLoading = false;
+        _imagePicked = result.files.first;
       });
     } catch (e) {
-      print(e);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.toString())));
     }
   }
 
@@ -52,6 +59,9 @@ class _UploadPageState extends State<UploadPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            if (_imagePicked != null)
+              Image.memory(Uint8List.fromList(_imagePicked!.bytes!),
+                  width: 300, height: 300),
             isLoading
                 ? CircularProgressIndicator()
                 : ElevatedButton(
