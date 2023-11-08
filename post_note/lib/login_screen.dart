@@ -14,9 +14,9 @@ class LoginScreen extends StatelessWidget {
         child: Center(
           child: Column(children: [
             Image(
-              image: AssetImage('assets/images/Post-Note-Logo.png'),
-              width: 300,
-              height: 300,
+              image: AssetImage('images/Post-Note-Logo.png'),
+              width: 200,
+              height: 200,
               fit: BoxFit.cover,
             ),
             Text(
@@ -24,7 +24,7 @@ class LoginScreen extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Palette.outerSpace,
-                fontSize: 90,
+                fontSize: 80,
               ),
             ),
             SizedBox(height: 50),
@@ -39,13 +39,12 @@ class LoginScreen extends StatelessWidget {
             ),
             SizedBox(height: 50),
             SocialButton(
-                iconPath: 'assets/svgs/g_logo.svg',
-                label: 'Continue with Google'),
+                iconPath: 'svgs/g_logo.svg', label: 'Continue with Google'),
             SizedBox(height: 15),
             Text(
               'or',
               style: TextStyle(
-                fontSize: 15,
+                fontSize: 20,
                 color: Palette.outerSpace,
               ),
             ),

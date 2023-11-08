@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:post_note/class_view.dart';
+import 'package:post_note/login_screen.dart';
 import 'package:post_note/palette.dart';
 
 class HomePage extends StatefulWidget {
@@ -37,7 +38,8 @@ class _HomePageState extends State<HomePage> {
                   builder: (context, controller) {
                     return const SearchBar(
                       elevation: MaterialStatePropertyAll(0.0),
-                      surfaceTintColor: MaterialStatePropertyAll(Palette.fernGreen),
+                      surfaceTintColor:
+                          MaterialStatePropertyAll(Palette.fernGreen),
                     );
                   },
                   suggestionsBuilder: (context, controller) {
@@ -129,7 +131,7 @@ class _HomePageState extends State<HomePage> {
         tooltip: 'Add Notes',
         child: const Icon(Icons.upload_file_outlined),
       ),
-      body: const ClassView(),
+      body: const LoginScreen(),
     );
   }
 }

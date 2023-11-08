@@ -12,7 +12,6 @@ class GradientButton extends StatelessWidget {
           colors: [
             Palette.celadon,
             Palette.outerSpace,
-            Palette.celadon,
           ],
           begin: Alignment.bottomLeft,
           end: Alignment.topRight,
@@ -31,7 +30,7 @@ class GradientButton extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 17,
-            color: Palette.outerSpace,
+            color: Color.fromARGB(255, 255, 255, 255),
           ),
         ),
       ),
