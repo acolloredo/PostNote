@@ -26,36 +26,21 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // TODO: add elevation?
-        toolbarHeight: 75.0,
-        title: Row(
-          children: [
-            Expanded(
-              child: Container(
-                margin: const EdgeInsets.all(8.0),
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: const SearchBar(
-                  elevation: MaterialStatePropertyAll(0.0),
-                  surfaceTintColor: MaterialStatePropertyAll(Palette.fernGreen),
-                ),
-              ),
-            ),
-          ],
+        title: Text(
+          widget.title,
         ),
-        leading: Container(
-          margin: const EdgeInsets.fromLTRB(8.0, 8.0, 0.0, 8.0),
-          child: Tooltip(
-            message: "Home",
-            child: InkWell(
-              borderRadius: BorderRadius.circular(5.0),
-              // tooltipMessage: 'Home',
-              onTap: () {
-                Navigator.popUntil(
-                  context,
-                  (route) => route.isFirst,
-                );
-              },
-              child: Image.asset('images/Post-Note-Logo.png'),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: NavBarButton(
+            tooltipMessage: 'Home',
+            onPressed: () {
+              Navigator.popUntil(
+                context,
+                (route) => route.isFirst,
+              );
+            },
+            icon: const Icon(
+              Icons.home,
             ),
           ),
         ),
@@ -72,26 +57,17 @@ class _HomePageState extends State<HomePage> {
               ),
               alignmentOffset: const Offset(-35.0, 0.0),
               menuChildren: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text('Logout'),
-                  ),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text('Logout'),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text('About'),
-                  ),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text('About'),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text('Help'),
-                  ),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text('Help'),
                 ),
               ],
               builder: (context, controller, child) {
@@ -104,17 +80,46 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             ),
-          ),
+          )
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          debugPrint('');
-        },
-        tooltip: 'Add Notes',
-        child: const Icon(Icons.upload_file_outlined),
-      ),
-      body: const ClassView(),
+      floatingActionButton: Wrap(children: <Widget>[
+        Container(
+          margin: EdgeInsets.all(10),
+          child: FloatingActionButton(
+            heroTag: "button0",
+            onPressed: () {
+              debugPrint('');
+            },
+            tooltip: 'Add Notes',
+            child: const Icon(Icons.upload_file_outlined),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.all(10),
+          child: FloatingActionButton(
+            heroTag: "button1",
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ClassPage()));
+            },
+            tooltip: 'Class Page',
+            child: const Icon(Icons.class_),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.all(10),
+          child: FloatingActionButton(
+            heroTag: "button2",
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => UploadPage()));
+            },
+            tooltip: 'Upload Page',
+            child: const Icon(Icons.note_add),
+          ),
+        ),
+      ]),
     );
   }
 }
