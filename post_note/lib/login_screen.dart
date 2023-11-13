@@ -58,6 +58,7 @@ class LoginScreen extends StatelessWidget {
               onSubmit: (value) {
                 email = value;
               },
+              obscured: false,
             ),
             const SizedBox(height: 15),
             LoginField(
@@ -65,9 +66,40 @@ class LoginScreen extends StatelessWidget {
               onSubmit: (value) {
                 password = value;
               },
+              obscured: true,
             ),
             const SizedBox(height: 25),
-            const GradientButton(textParameter: "Sign In"),
+            Container(
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [
+                    Palette.celadon,
+                    Palette.outerSpace,
+                  ],
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                ),
+                borderRadius: BorderRadius.circular(7),
+              ),
+              child: ElevatedButton(
+                onPressed: () async {
+                  await signInEmailPassword(email, password);
+                },
+                style: ElevatedButton.styleFrom(
+                  fixedSize: const Size(395, 55),
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                ),
+                child: const Text(
+                  "Sign In",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 17,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                  ),
+                ),
+              ),
+            ),
             const SizedBox(height: 15),
             const GradientButton(textParameter: "Create Account"),
             // SizedBox(height: 100)
@@ -79,8 +111,15 @@ class LoginScreen extends StatelessWidget {
 }
 
 Future signInEmailPassword(email, password) async {
-  await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: email, //emailController.text
-      password: password //passwordController.text
-      );
+  try {
+    UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: email, //emailController.text
+            password: password //passwordController.text
+            );
+    final user = userCredential.user;
+    debugPrint("Signed in user: $user");
+  } catch (e) {
+    debugPrint("Error: $e\n");
+  }
 }

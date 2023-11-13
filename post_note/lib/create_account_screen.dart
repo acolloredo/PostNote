@@ -36,6 +36,7 @@ class CreateAccountScreen extends StatelessWidget {
               onSubmit: (value) {
                 email = value;
               },
+              obscured: false,
             ),
             const SizedBox(height: 15),
             LoginField(
@@ -43,6 +44,7 @@ class CreateAccountScreen extends StatelessWidget {
               onSubmit: (value) {
                 password = value;
               },
+              obscured: true,
             ),
             const SizedBox(height: 25),
             const GradientButton(textParameter: "Create Account"),
