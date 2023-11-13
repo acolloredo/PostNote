@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:post_note/Palette.dart';
-import 'package:post_note/social_button.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'login_field.dart';
 import 'gradient_button.dart';
 
-class LoginScreen extends StatelessWidget {
+class CreateAccountScreen extends StatelessWidget {
   String? email;
   String? password;
-  LoginScreen({super.key});
+  CreateAccountScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,34 +22,14 @@ class LoginScreen extends StatelessWidget {
               fit: BoxFit.cover,
             ),
             const Text(
-              'Sign in.',
+              'Create a new Account.',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Palette.outerSpace,
                 fontSize: 50,
               ),
             ),
-            const SizedBox(height: 30),
-            const Text(
-              'A central hub to upload, view, and share your notes!',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Palette.outerSpace,
-                fontSize: 25,
-                fontStyle: FontStyle.italic,
-              ),
-            ),
-            const SizedBox(height: 50),
-            const SocialButton(
-                iconPath: 'svgs/g_logo.svg', label: 'Continue with Google'),
             const SizedBox(height: 15),
-            const Text(
-              'or',
-              style: TextStyle(
-                fontSize: 20,
-                color: Palette.outerSpace,
-              ),
-            ),
             const SizedBox(height: 15),
             LoginField(
               hintText: 'Email',
@@ -67,8 +45,6 @@ class LoginScreen extends StatelessWidget {
               },
             ),
             const SizedBox(height: 25),
-            const GradientButton(textParameter: "Sign In"),
-            const SizedBox(height: 15),
             const GradientButton(textParameter: "Create Account"),
             // SizedBox(height: 100)
           ]),
@@ -76,11 +52,4 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-Future signInEmailPassword(email, password) async {
-  await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: email, //emailController.text
-      password: password //passwordController.text
-      );
 }

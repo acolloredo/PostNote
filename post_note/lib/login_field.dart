@@ -3,11 +3,9 @@ import 'package:post_note/palette.dart';
 
 class LoginField extends StatelessWidget {
   final String hintText;
+  final Function(String) onSubmit;
 
-  const LoginField({
-    super.key,
-    required this.hintText,
-  });
+  const LoginField({super.key, required this.hintText, required this.onSubmit});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +14,7 @@ class LoginField extends StatelessWidget {
         maxWidth: 400,
       ),
       child: TextFormField(
+        onFieldSubmitted: onSubmit,
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(27),
           enabledBorder: OutlineInputBorder(

@@ -10,7 +10,7 @@ class SocialButton extends StatelessWidget {
     super.key,
     required this.iconPath,
     required this.label,
-    this.horizontalPadding = 100,
+    this.horizontalPadding = 65,
   });
 
   @override
@@ -31,7 +31,7 @@ class SocialButton extends StatelessWidget {
       ),
       style: TextButton.styleFrom(
         padding:
-            EdgeInsets.symmetric(vertical: 30, horizontal: horizontalPadding),
+            EdgeInsets.symmetric(vertical: 25, horizontal: horizontalPadding),
         shape: RoundedRectangleBorder(
           side: const BorderSide(
             color: Palette.outerSpace,

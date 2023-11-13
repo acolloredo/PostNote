@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:post_note/palette.dart';
 
 class GradientButton extends StatelessWidget {
-  const GradientButton({super.key});
+  final String textParameter;
+  final Function()? onPressedFunction;
+
+  const GradientButton(
+      {super.key, required this.textParameter, this.onPressedFunction});
 
   @override
   Widget build(BuildContext context) {
@@ -19,15 +23,15 @@ class GradientButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(7),
       ),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: onPressedFunction,
         style: ElevatedButton.styleFrom(
           fixedSize: const Size(395, 55),
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
         ),
-        child: const Text(
-          'Sign in',
-          style: TextStyle(
+        child: Text(
+          textParameter,
+          style: const TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 17,
             color: Color.fromARGB(255, 255, 255, 255),

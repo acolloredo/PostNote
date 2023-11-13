@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage> {
         tooltip: 'Add Notes',
         child: const Icon(Icons.upload_file_outlined),
       ),
-      body: const LoginScreen(),
+      body: LoginScreen(),
     );
   }
 }
