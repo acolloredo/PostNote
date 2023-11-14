@@ -18,7 +18,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   String? confirmPassword;
   final formKey = GlobalKey<FormState>();
 
-  Future createAccount(email, password, formKey) async {
+  Future createAccount(email, password) async {
     if (formKey.currentState!.validate()) {
       try {
         UserCredential userCredential = await FirebaseAuth.instance
@@ -116,7 +116,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
               GradientButton(
                 textParameter: "Create Account",
                 onPressedFunction: () async {
-                  await createAccount(email, password, formKey);
+                  await createAccount(email, password);
                 },
               ),
               // SizedBox(height: 100)

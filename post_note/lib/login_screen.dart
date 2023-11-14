@@ -19,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String? password;
   final formKey = GlobalKey<FormState>();
 
-  Future signInEmailPassword(email, password, formKey) async {
+  Future signInEmailPassword(email, password) async {
     if (formKey.currentState!.validate()) {
       try {
         UserCredential userCredential =
@@ -117,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
               GradientButton(
                   textParameter: "Sign In",
                   onPressedFunction: () async {
-                    await signInEmailPassword(email, password, formKey);
+                    await signInEmailPassword(email, password);
                   }),
               const SizedBox(height: 15),
               GradientButton(
