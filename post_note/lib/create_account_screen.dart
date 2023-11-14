@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:post_note/Palette.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'login_field.dart';
 import 'gradient_button.dart';
 
@@ -46,6 +47,14 @@ class CreateAccountScreen extends StatelessWidget {
               },
               obscured: true,
             ),
+            const SizedBox(height: 15),
+            LoginField(
+              hintText: 'Confirm Password',
+              onSubmit: (value) {
+                password = value;
+              },
+              obscured: true,
+            ),
             const SizedBox(height: 25),
             const GradientButton(textParameter: "Create Account"),
             // SizedBox(height: 100)
@@ -53,5 +62,20 @@ class CreateAccountScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+Future createAccount(email, password, passwordConfirm) async {
+  if (password != passwordConfirm) {
+    return null;
+  }
+
+  try {
+    UserCredential userCredential = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email, password: password);
+    final user = userCredential.user;
+    debugPrint("Created account for user: $user");
+  } catch (e) {
+    debugPrint("Error: $e\n");
   }
 }

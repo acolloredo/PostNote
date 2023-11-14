@@ -4,6 +4,7 @@ import 'package:post_note/social_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login_field.dart';
 import 'gradient_button.dart';
+import 'create_account_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   String? email;
@@ -69,39 +70,22 @@ class LoginScreen extends StatelessWidget {
               obscured: true,
             ),
             const SizedBox(height: 25),
-            Container(
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [
-                    Palette.celadon,
-                    Palette.outerSpace,
-                  ],
-                  begin: Alignment.bottomLeft,
-                  end: Alignment.topRight,
-                ),
-                borderRadius: BorderRadius.circular(7),
-              ),
-              child: ElevatedButton(
-                onPressed: () async {
-                  await signInEmailPassword(email, password);
-                },
-                style: ElevatedButton.styleFrom(
-                  fixedSize: const Size(395, 55),
-                  backgroundColor: Colors.transparent,
-                  shadowColor: Colors.transparent,
-                ),
-                child: const Text(
-                  "Sign In",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 17,
-                    color: Color.fromARGB(255, 255, 255, 255),
-                  ),
-                ),
-              ),
+            GradientButton(
+              textParameter: "Sign In",
+              onPressedFunction: () async {
+                await signInEmailPassword(email, password);
+              },
             ),
             const SizedBox(height: 15),
-            const GradientButton(textParameter: "Create Account"),
+            GradientButton(
+                textParameter: "Create Account",
+                onPressedFunction: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CreateAccountScreen()),
+                  );
+                }),
             // SizedBox(height: 100)
           ]),
         ),
