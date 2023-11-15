@@ -3,9 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:post_note/palette.dart';
 
-class ClassView extends StatelessWidget {
+class ClassView extends StatefulWidget {
   const ClassView({super.key});
 
+  @override
+  State<ClassView> createState() => _ClassViewState();
+}
+
+class _ClassViewState extends State<ClassView> {
   @override
   Widget build(BuildContext context) {
     final firestoreInstance = FirebaseFirestore.instance;
