@@ -1,14 +1,16 @@
-import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:post_note/palette.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,34 +20,91 @@ class MyApp extends StatelessWidget {
 }
 
 class UploadPage extends StatefulWidget {
+  const UploadPage({super.key});
+
   @override
   _UploadPageState createState() => _UploadPageState();
 }
 
 class _UploadPageState extends State<UploadPage> {
-  String? filePath;
-  bool isLoading = false;
+  Uint8List? _fileBytes;
+  String path = 'cse101/section1/'; // will change with custom path here
+  bool _fileUploaded = false;
 
-  PlatformFile? _imagePicked;
-  Future<void> pickFile() async {
+  Future<void> _pickAndUploadFile(BuildContext context) async {
     try {
-      setState(() {
-        isLoading = true;
-      });
       FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.any,
+        type: FileType.custom,
+        allowedExtensions: ['jpg', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt'],
       );
 
-      // if user does not pick anything
-      if (result == null) return;
+      if (result != null) {
+        setState(() {
+          _fileBytes = result.files.single.bytes;
+        });
 
+        await _uploadFileToFirebase(result.files.single.name);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('File uploaded successfully!'),
+            duration: Duration(seconds: 3),
+          ),
+        );
+      }
+    } catch (e) {
+      print("Error picking file: $e");
+    }
+  }
+
+  Future<void> _uploadFileToFirebase(String fileName) async {
+    if (_fileBytes == null) {
+      print("No file selected");
+      return;
+    }
+
+    try {
+      Reference storageRef =
+          FirebaseStorage.instance.ref().child('$path$fileName');
+
+      await storageRef.putData(_fileBytes!);
+
+      String downloadUrl = await storageRef.getDownloadURL();
+
+      print("File uploaded successfully. Download URL: $downloadUrl");
       setState(() {
-        isLoading = false;
-        _imagePicked = result.files.first;
+        _fileUploaded = true;
       });
     } catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.toString())));
+      print("Error uploading file: $e");
+    } finally {
+      setState(() {
+        _fileBytes = null;
+      });
+    }
+  }
+
+  void _checkFileUpload(BuildContext context) {
+    if (_fileUploaded) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('File Uploaded'),
+            content: Text('The file was uploaded successfully!'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK', style: TextStyle(color: Colors.black)),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      print('File was not uploaded yet.');
     }
   }
 
@@ -53,24 +112,32 @@ class _UploadPageState extends State<UploadPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('File Upload Example'),
+        title: const Text('File Upload to Firebase'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            if (_imagePicked != null)
-              Image.memory(Uint8List.fromList(_imagePicked!.bytes!),
-                  width: 300, height: 300),
-            isLoading
-                ? CircularProgressIndicator()
-                : ElevatedButton(
-                    onPressed: pickFile,
-                    style: ElevatedButton.styleFrom(
-                      fixedSize: const Size(350, 90), // width, height
-                    ),
-                    child: const Text('Select a file to upload',
-                        style: TextStyle(color: Colors.white, fontSize: 30))),
+          children: [
+            ElevatedButton(
+              onPressed: () => _pickAndUploadFile(context),
+              style:
+                  ElevatedButton.styleFrom(backgroundColor: Palette.fernGreen),
+              child: const Text(
+                'Upload',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            const SizedBox(height: 20),
+            if (_fileUploaded)
+              ElevatedButton(
+                onPressed: () => _checkFileUpload(context),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Palette.fernGreen),
+                child: const Text(
+                  'Upload success!',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
           ],
         ),
       ),

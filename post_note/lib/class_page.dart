@@ -8,234 +8,113 @@ class ClassPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget buildWeekButton(int week) {
+      return ElevatedButton(
+        onPressed: () {
+          // Add button action
+        },
+        style: ElevatedButton.styleFrom(
+            //backgroundColor: Colors.green,
+            ),
+        child: Text(
+          'Week $week',
+          style: TextStyle(fontSize: 30, color: Colors.white),
+        ),
+      );
+    }
+
+    List<Widget> generateWeekButtons() {
+      List<Widget> buttons = [];
+      for (int week = 1; week <= 10; week++) {
+        buttons.add(buildWeekButton(week));
+      }
+      return buttons;
+    }
+
     return Scaffold(
       appBar: AppBar(
-          toolbarHeight: 100,
-          title: const Text(
-            'CSE XXX',
-            style: TextStyle(fontSize: 55),
-          )),
+        toolbarHeight: 100,
+        title: const Text(
+          'CSE XXX',
+          style: TextStyle(fontSize: 55),
+        ),
+      ),
       body: Center(
         child: Row(
-          // a row for two big containers
           children: <Widget>[
-            // Left column with 3 text boxes
-            Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start, // Align column to the left
-              children: <Widget>[
-                // Stack for overlay effect
-                Stack(
-                  children: <Widget>[
-                    // "Study Groups" box
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.1,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.4,
+              color: Colors.grey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.1,
+                    color: Palette.fernGreen,
+                    child: const Center(
+                      child: Text(
+                        'Study Groups:',
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 16), // Add space here
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    color: Palette.fernGreen,
+                    child: const Align(
+                      alignment: Alignment(-0.85, -0.7),
+                      child: Text(
+                        'Currently in:',
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 16), // Add space here
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    color: Palette.fernGreen,
+                    child: const Align(
+                      alignment: Alignment(-0.75, -0.7),
+                      child: Text(
+                        'Request to join others:',
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Flexible(
+              flex: 2,
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.4,
+                color: Colors.grey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
                     Container(
-                      width: 700,
-                      height: 895,
-                      color: Colors.grey,
-                    ),
-                    // "Study Groups:" box
-                    Positioned(
-                      top: 40, // vertical
-                      left: 50, // horizontal
-                      child: Container(
-                        width: 600,
-                        height: 110,
-                        color: Palette.fernGreen,
-                        child: const Center(
-                          child: Text(
-                            'Study Groups:',
-                            style: TextStyle(color: Colors.white, fontSize: 45),
-                          ),
+                      height: MediaQuery.of(context).size.height * 0.1,
+                      color: Palette.fernGreen,
+                      child: const Center(
+                        child: Text(
+                          'Week Folders for Notes:',
+                          style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ),
                     ),
-                    // "Currently in:" box
-                    Positioned(
-                      top: 200, // vertical
-                      left: 50, // horizontal
-                      child: Container(
-                        width: 600,
-                        height: 300,
-                        color: Palette.fernGreen,
-                        child: const Align(
-                          alignment: Alignment(-0.85, -0.7),
-                          child: Text(
-                            'Currently in:',
-                            style: TextStyle(color: Colors.white, fontSize: 30),
-                          ),
-                        ),
-                      ),
-                    ),
-                    // "Request to join others:" box
-                    Positioned(
-                      top: 550, // vertical
-                      left: 50, // horizontal
-                      child: Container(
-                        width: 600,
-                        height: 300,
-                        color: Palette.fernGreen,
-                        child: const Align(
-                          alignment: Alignment(-0.75, -0.7),
-                          child: Text(
-                            'Request to join others:',
-                            style: TextStyle(color: Colors.white, fontSize: 30),
-                          ),
-                        ),
-                      ),
+                    SizedBox(height: 16), // Add space here
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: generateWeekButtons(),
                     ),
                   ],
                 ),
-              ],
-            ),
-
-            // space between study groups box and weeks box
-            const Spacer(),
-
-            // add right box for week layout
-            Align(
-              alignment: FractionalOffset.topRight,
-              child: Container(
-                width: 1000,
-                height: 895,
-                color: Colors.grey,
-                child: Column(
-                    // column with 2 nested rows inside
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                        width: 600,
-                        height: 110,
-                        color: Palette.fernGreen,
-                        child: const Center(
-                          child: Text(
-                            'Week Folders for Notes:',
-                            style: TextStyle(color: Colors.white, fontSize: 45),
-                          ),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ElevatedButton(
-                              onPressed: () {
-                                // Add button action
-                              },
-                              style: ElevatedButton.styleFrom(
-                                //backgroundColor: Colors.green,
-                                fixedSize: const Size(170, 90), // width, height
-                              ),
-                              child: const Text('Week 1',
-                                  style: TextStyle(
-                                      fontSize: 30, color: Colors.white))),
-                          ElevatedButton(
-                              onPressed: () {
-                                // Add button action
-                              },
-                              style: ElevatedButton.styleFrom(
-                                //backgroundColor: Colors.green,
-                                fixedSize: const Size(170, 90), // width, height
-                              ),
-                              child: const Text('Week 2',
-                                  style: TextStyle(
-                                      fontSize: 30, color: Colors.white))),
-                          ElevatedButton(
-                              onPressed: () {
-                                // Add button action
-                              },
-                              style: ElevatedButton.styleFrom(
-                                //backgroundColor: Colors.green,
-                                fixedSize: const Size(170, 90), // width, height
-                              ),
-                              child: const Text('Week 3',
-                                  style: TextStyle(
-                                      fontSize: 30, color: Colors.white))),
-                          ElevatedButton(
-                              onPressed: () {
-                                // Add button action
-                              },
-                              style: ElevatedButton.styleFrom(
-                                //backgroundColor: Colors.green,
-                                fixedSize: const Size(170, 90), // width, height
-                              ),
-                              child: const Text('Week 4',
-                                  style: TextStyle(
-                                      fontSize: 30, color: Colors.white))),
-                          ElevatedButton(
-                              onPressed: () {
-                                // Add button action
-                              },
-                              style: ElevatedButton.styleFrom(
-                                //backgroundColor: Colors.green,
-                                fixedSize: const Size(170, 90), // width, height
-                              ),
-                              child: const Text('Week 5',
-                                  style: TextStyle(
-                                      fontSize: 30, color: Colors.white))),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ElevatedButton(
-                              onPressed: () {
-                                // Add button action
-                              },
-                              style: ElevatedButton.styleFrom(
-                                //backgroundColor: Colors.green,
-                                fixedSize: const Size(170, 90), // width, height
-                              ),
-                              child: const Text('Week 6',
-                                  style: TextStyle(
-                                      fontSize: 30, color: Colors.white))),
-                          ElevatedButton(
-                              onPressed: () {
-                                // Add button action
-                              },
-                              style: ElevatedButton.styleFrom(
-                                //backgroundColor: Colors.green,
-                                fixedSize: const Size(170, 90), // width, height
-                              ),
-                              child: const Text('Week 7',
-                                  style: TextStyle(
-                                      fontSize: 30, color: Colors.white))),
-                          ElevatedButton(
-                              onPressed: () {
-                                // Add button action
-                              },
-                              style: ElevatedButton.styleFrom(
-                                //backgroundColor: Colors.green,
-                                fixedSize: const Size(170, 90), // width, height
-                              ),
-                              child: const Text('Week 8',
-                                  style: TextStyle(
-                                      fontSize: 30, color: Colors.white))),
-                          ElevatedButton(
-                              onPressed: () {
-                                // Add button action
-                              },
-                              style: ElevatedButton.styleFrom(
-                                //backgroundColor: Colors.green,
-                                fixedSize: const Size(170, 90), // width, height
-                              ),
-                              child: const Text('Week 9',
-                                  style: TextStyle(
-                                      fontSize: 30, color: Colors.white))),
-                          ElevatedButton(
-                              onPressed: () {
-                                // Add button action
-                              },
-                              style: ElevatedButton.styleFrom(
-                                //backgroundColor: Colors.green,
-                                fixedSize: const Size(170, 90), // width, height
-                              ),
-                              child: const Text('Week 10',
-                                  style: TextStyle(
-                                      fontSize: 30, color: Colors.white))),
-                        ],
-                      )
-                    ]),
               ),
-            )
+            ),
           ],
         ),
       ),
