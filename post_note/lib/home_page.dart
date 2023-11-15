@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:post_note/login_screen.dart';
 import 'package:post_note/palette.dart';
@@ -21,6 +23,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  SearchController myController = SearchController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,27 +35,55 @@ class _HomePageState extends State<HomePage> {
           children: [
             Expanded(
               child: Container(
-                margin: const EdgeInsets.all(8.0),
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                margin: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: SearchAnchor(
+                  searchController: myController,
+                  viewLeading: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_back),
+                      color: Palette.outerSpace,
+                      onPressed: () {
+                        // TODO: pass value?
+                        myController.closeView(null);
+                      },
+                    ),
+                  ),
+                  viewTrailing: [
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: IconButton(
+                        icon: const Icon(Icons.close),
+                        color: Palette.outerSpace,
+                        onPressed: () {
+                          myController.clear();
+                        },
+                      ),
+                    )
+                  ],
+                  headerTextStyle: const TextStyle(
+                    backgroundColor: Colors.transparent,
+                    color: Palette.outerSpace,
+                  ),
+                  dividerColor: Palette.outerSpace,
                   builder: (context, controller) {
-                    return const SearchBar(
-                      elevation: MaterialStatePropertyAll(0.0),
+                    return SearchBar(
+                      leading: const Padding(
+                        padding: EdgeInsets.only(left: 8.0),
+                        child: Icon(
+                          Icons.search,
+                          color: Palette.outerSpace,
+                        ),
+                      ),
+                      onTap: () => controller.openView(),
+                      elevation: const MaterialStatePropertyAll(0.0),
                       surfaceTintColor:
-                          MaterialStatePropertyAll(Palette.fernGreen),
+                          const MaterialStatePropertyAll(Palette.fernGreen),
                     );
                   },
                   suggestionsBuilder: (context, controller) {
-                    return List<ListTile>.generate(
-                      5,
-                      (int index) {
-                        final String item = 'item $index';
-                        return ListTile(
-                          title: Text(item),
-                          onTap: () {},
-                        );
-                      },
-                    );
+                    return [];
                   },
                 ),
               ),
