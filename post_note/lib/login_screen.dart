@@ -22,11 +22,10 @@ class _LoginScreenState extends State<LoginScreen> {
   Future signInEmailPassword(email, password) async {
     if (formKey.currentState!.validate()) {
       try {
-        UserCredential userCredential =
-            await FirebaseAuth.instance.signInWithEmailAndPassword(
-                email: email, //emailController.text
-                password: password //passwordController.text
-                );
+        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: email, //emailController.text
+            password: password //passwordController.text
+            );
         final user = userCredential.user;
         debugPrint("Signed in user: $user");
         if (!mounted) return;
@@ -46,90 +45,105 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Center(
+          heightFactor: 1.2,
           child: Form(
             key: formKey,
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              const SizedBox(height: 20),
-              const Image(
-                image: AssetImage('images/Post-Note-Logo.png'),
-                width: 150,
-                height: 150,
-                fit: BoxFit.cover,
-              ),
-              const Text(
-                'Sign in.',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Palette.outerSpace,
-                  fontSize: 50,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Tooltip(
+                  waitDuration: Duration(seconds: 1),
+                  verticalOffset: 80.0,
+                  message: "share, manage, and view notes!",
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Image(
+                      image: AssetImage('images/Post-Note-Logo.png'),
+                      width: 150,
+                      height: 150,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 30),
-              const Text(
-                'A central hub to upload, view, and share your notes!',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Palette.outerSpace,
-                  fontSize: 25,
-                  fontStyle: FontStyle.italic,
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(8.0, 40.0, 8.0, 4.0),
+                  child: Text(
+                    'Sign in',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Palette.outerSpace,
+                      fontSize: 50,
+                    ),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 50),
-              const SocialButton(
-                  iconPath: 'svgs/g_logo.svg', label: 'Continue with Google'),
-              const SizedBox(height: 15),
-              const Text(
-                'or',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Palette.outerSpace,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: LoginField(
+                    hintText: 'Email',
+                    onSubmit: (value) {
+                      email = value;
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Please Enter an Email Address";
+                      }
+                      return null;
+                    },
+                  ),
                 ),
-              ),
-              const SizedBox(height: 15),
-              LoginField(
-                hintText: 'Email',
-                onSubmit: (value) {
-                  email = value;
-                },
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please Enter an Email Address";
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 15),
-              LoginField(
-                hintText: 'Password',
-                onSubmit: (value) {
-                  password = value;
-                },
-                obscured: true,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please Enter a Password";
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 25),
-              GradientButton(
-                  textParameter: "Sign In",
-                  onPressedFunction: () async {
-                    await signInEmailPassword(email, password);
-                  }),
-              const SizedBox(height: 15),
-              GradientButton(
-                  textParameter: "Create Account",
-                  onPressedFunction: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CreateAccountScreen()),
-                    );
-                  }),
-            ]),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: LoginField(
+                    hintText: 'Password',
+                    onSubmit: (value) {
+                      password = value;
+                    },
+                    obscured: true,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Please Enter a Password";
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8.0, 24.0, 8.0, 8.0),
+                  child: GradientButton(
+                      textParameter: "Sign in",
+                      onPressedFunction: () async {
+                        await signInEmailPassword(email, password);
+                      }),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GradientButton(
+                    textParameter: "Create account",
+                    onPressedFunction: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const CreateAccountScreen()),
+                      );
+                    },
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(4.0),
+                  child: Text(
+                    'or',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Palette.outerSpace,
+                    ),
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: SocialButton(iconPath: 'svgs/g_logo.svg', label: 'Continue with Google'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

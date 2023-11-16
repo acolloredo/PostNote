@@ -42,85 +42,120 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Center(
+          heightFactor: 1.2,
           child: Form(
             key: formKey,
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              const SizedBox(height: 20),
-              const Image(
-                image: AssetImage('images/Post-Note-Logo.png'),
-                width: 150,
-                height: 150,
-                fit: BoxFit.cover,
-              ),
-              const Text(
-                'Create a new Account.',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Palette.outerSpace,
-                  fontSize: 50,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Tooltip(
+                  waitDuration: Duration(seconds: 1),
+                  verticalOffset: 80.0,
+                  message: "share, manage, and view notes!",
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Image(
+                      image: AssetImage('images/Post-Note-Logo.png'),
+                      width: 150,
+                      height: 150,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 15),
-              const SizedBox(height: 15),
-              LoginField(
-                hintText: 'Email',
-                onSubmit: (value) {
-                  email = value;
-                },
-                validator: (String? value) {
-                  if (value!.isEmpty) {
-                    return "Please Enter New Password";
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 15),
-              LoginField(
-                hintText: 'Password',
-                onSubmit: (value) {
-                  password = value;
-                },
-                obscured: true,
-                validator: (String? value) {
-                  confirmPassword = value!;
-                  if (value.isEmpty) {
-                    return "Please Enter New Password";
-                  } else if (value.length < 8) {
-                    return "Password must be atleast 8 characters long";
-                  } else {
-                    return null;
-                  }
-                },
-              ),
-              const SizedBox(height: 15),
-              LoginField(
-                hintText: 'Confirm Password',
-                onSubmit: (value) {
-                  password = value;
-                },
-                obscured: true,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please Re-Enter New Password";
-                  } else if (value.length < 8) {
-                    return "Password must be at least 8 characters long";
-                  } else if (value != confirmPassword) {
-                    return "Password must be same as above";
-                  } else {
-                    return null;
-                  }
-                },
-              ),
-              const SizedBox(height: 25),
-              GradientButton(
-                textParameter: "Create Account",
-                onPressedFunction: () async {
-                  await createAccount(email, password);
-                },
-              ),
-              // SizedBox(height: 100)
-            ]),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(8.0, 40.0, 8.0, 4.0),
+                  child: Text(
+                    'Create an account',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Palette.outerSpace,
+                      fontSize: 50,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: LoginField(
+                    hintText: 'Email',
+                    onSubmit: (value) {
+                      email = value;
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Please Enter an Email Address";
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: LoginField(
+                    hintText: 'Password',
+                    onSubmit: (value) {
+                      password = value;
+                    },
+                    obscured: true,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Please Enter a Password";
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: LoginField(
+                    hintText: 'Confirm Password',
+                    onSubmit: (value) {
+                      password = value;
+                    },
+                    obscured: true,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Please Re-Enter New Password";
+                      } else if (value.length < 8) {
+                        return "Password must be at least 8 characters long";
+                      } else if (value != confirmPassword) {
+                        return "Please enter the same password as above";
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GradientButton(
+                    textParameter: "Create Account",
+                    onPressedFunction: () async {
+                      await createAccount(email, password);
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: SizedBox(
+                    height: 50,
+                    width: 100,
+                    child: TextButton.icon(
+                      label: const Text("Back"),
+                      icon: const Icon(Icons.arrow_back),
+                      style: const ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(
+                          Palette.mint,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
