@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:post_note/login_screen.dart';
 import 'package:post_note/palette.dart';
@@ -79,7 +78,8 @@ class _HomePageState extends State<HomePage> {
                             ),
                             onTap: () => controller.openView(),
                             elevation: const MaterialStatePropertyAll(0.0),
-                            surfaceTintColor: const MaterialStatePropertyAll(Palette.fernGreen),
+                            surfaceTintColor: const MaterialStatePropertyAll(
+                                Palette.fernGreen),
                           );
                         },
                         suggestionsBuilder: (context, controller) {
@@ -115,7 +115,8 @@ class _HomePageState extends State<HomePage> {
                       padding: MaterialStateProperty.all(
                         const EdgeInsets.all(8.0),
                       ),
-                      backgroundColor: MaterialStateProperty.all(Palette.fernGreen),
+                      backgroundColor:
+                          MaterialStateProperty.all(Palette.fernGreen),
                       elevation: MaterialStateProperty.all(10.0),
                     ),
                     alignmentOffset: const Offset(-35.0, 0.0),
@@ -146,7 +147,9 @@ class _HomePageState extends State<HomePage> {
                       return NavBarButton(
                         tooltipMessage: 'More',
                         onPressed: () {
-                          controller.isOpen ? controller.close() : controller.open();
+                          controller.isOpen
+                              ? controller.close()
+                              : controller.open();
                         },
                         icon: const Icon(Icons.more_vert_sharp),
                       );

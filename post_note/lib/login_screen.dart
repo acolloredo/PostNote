@@ -21,10 +21,11 @@ class _LoginScreenState extends State<LoginScreen> {
   Future signInEmailPassword(email, password) async {
     if (formKey.currentState!.validate()) {
       try {
-        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: email, //emailController.text
-            password: password //passwordController.text
-            );
+        UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithEmailAndPassword(
+                email: email, //emailController.text
+                password: password //passwordController.text
+                );
         final user = userCredential.user;
         debugPrint("Signed in user: $user");
         if (!mounted) return;
@@ -144,7 +145,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: SocialButton(iconPath: 'svgs/g_logo.svg', label: 'Continue with Google'),
+                  child: SocialButton(
+                      iconPath: 'svgs/g_logo.svg',
+                      label: 'Continue with Google'),
                 ),
               ],
             ),
