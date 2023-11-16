@@ -6,7 +6,9 @@ import 'gradient_button.dart';
 import 'class_view.dart';
 
 class CreateAccountScreen extends StatefulWidget {
-  const CreateAccountScreen({super.key});
+  const CreateAccountScreen({
+    super.key,
+  });
 
   @override
   State<CreateAccountScreen> createState() => _CreateAccountScreenState();
@@ -39,32 +41,36 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
     return Scaffold(
       body: SingleChildScrollView(
         child: Center(
-          heightFactor: 1.2,
+          heightFactor: 1.3,
           child: Form(
             key: formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Tooltip(
-                  waitDuration: Duration(seconds: 1),
-                  verticalOffset: 80.0,
-                  message: "share, manage, and view notes!",
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Image(
-                      image: AssetImage('images/Post-Note-Logo.png'),
-                      width: 150,
-                      height: 150,
-                      fit: BoxFit.cover,
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 50.0),
+                  child: Tooltip(
+                    waitDuration: Duration(seconds: 1),
+                    verticalOffset: 80.0,
+                    message: "share, manage, and view notes!",
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Image(
+                        image: AssetImage('images/Post-Note-Logo.png'),
+                        width: 150,
+                        height: 150,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
                 const Padding(
-                  padding: EdgeInsets.fromLTRB(8.0, 40.0, 8.0, 4.0),
+                  padding: EdgeInsets.fromLTRB(8.0, 40.0, 8.0, 8.0),
                   child: Text(
                     'Create an account',
                     style: TextStyle(
@@ -77,6 +83,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: LoginField(
+                    initialText: arguments['email'],
                     hintText: 'Email',
                     onSubmit: (value) {
                       email = value;
@@ -141,7 +148,10 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     height: 50,
                     width: 100,
                     child: TextButton.icon(
-                      label: const Text("Back"),
+                      label: const Text(
+                        "Back",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       icon: const Icon(Icons.arrow_back),
                       style: const ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(

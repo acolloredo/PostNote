@@ -2,13 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:post_note/palette.dart';
 
 class LoginField extends StatelessWidget {
-  final String hintText;
   final Function(String)? onSubmit;
   final bool obscured;
+  final String? hintText;
+  final String? initialText;
   final String? Function(String?)? validator;
 
-  const LoginField(
-      {super.key, required this.hintText, this.onSubmit, this.obscured = false, this.validator});
+  const LoginField({
+    super.key,
+    this.initialText,
+    this.hintText,
+    this.onSubmit,
+    this.obscured = false,
+    this.validator,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +24,7 @@ class LoginField extends StatelessWidget {
         maxWidth: 400,
       ),
       child: TextFormField(
+        initialValue: initialText,
         onChanged: onSubmit,
         obscureText: obscured,
         validator: validator,

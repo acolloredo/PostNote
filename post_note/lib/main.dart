@@ -2,10 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:post_note/create_account_screen.dart';
+import 'package:post_note/login_screen.dart';
 import 'firebase_options.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:post_note/palette.dart';
-import 'home_page.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +23,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        '/': (context) => const LoginScreen(),
+        '/login': (context) => const LoginScreen(),
+        '/createAccount': (context) => const CreateAccountScreen(),
+      },
       scrollBehavior: const CupertinoScrollBehavior().copyWith(
         dragDevices: {},
         overscroll: true,
@@ -31,7 +37,6 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: const HomePage(),
       theme: ThemeData(
         scrollbarTheme: ScrollbarThemeData(
           thumbVisibility: MaterialStateProperty.all(true),
@@ -40,8 +45,8 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.latoTextTheme(
           Theme.of(context).textTheme,
         ),
-        searchViewTheme: const SearchViewThemeData().copyWith(
-            backgroundColor: Colors.white, surfaceTintColor: Colors.white),
+        searchViewTheme: const SearchViewThemeData()
+            .copyWith(backgroundColor: Colors.white, surfaceTintColor: Colors.white),
         searchBarTheme: const SearchBarThemeData(
           overlayColor: MaterialStatePropertyAll(Colors.transparent),
           backgroundColor: MaterialStatePropertyAll(Colors.white),

@@ -4,7 +4,6 @@ import 'package:post_note/social_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login_field.dart';
 import 'gradient_button.dart';
-import 'create_account_screen.dart';
 import 'class_view.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -45,29 +44,32 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Center(
-          heightFactor: 1.2,
+          heightFactor: 1.3,
           child: Form(
             key: formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Tooltip(
-                  waitDuration: Duration(seconds: 1),
-                  verticalOffset: 80.0,
-                  message: "share, manage, and view notes!",
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Image(
-                      image: AssetImage('images/Post-Note-Logo.png'),
-                      width: 150,
-                      height: 150,
-                      fit: BoxFit.cover,
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 50.0),
+                  child: Tooltip(
+                    waitDuration: Duration(seconds: 1),
+                    verticalOffset: 80.0,
+                    message: "share, manage, and view notes!",
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Image(
+                        image: AssetImage('images/Post-Note-Logo.png'),
+                        width: 150,
+                        height: 150,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
                 const Padding(
-                  padding: EdgeInsets.fromLTRB(8.0, 40.0, 8.0, 4.0),
+                  padding: EdgeInsets.fromLTRB(8.0, 40.0, 8.0, 8.0),
                   child: Text(
                     'Sign in',
                     style: TextStyle(
@@ -121,9 +123,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: GradientButton(
                     textParameter: "Create account",
                     onPressedFunction: () {
-                      Navigator.push(
+                      debugPrint(email);
+                      Navigator.pushNamed(
                         context,
-                        MaterialPageRoute(builder: (context) => const CreateAccountScreen()),
+                        "/createAccount",
+                        arguments: {'email': email},
                       );
                     },
                   ),
