@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'Palette.dart';
+import 'package:post_note/palette.dart';
 
 class SocialButton extends StatelessWidget {
   final String iconPath;
@@ -30,8 +30,7 @@ class SocialButton extends StatelessWidget {
         ),
       ),
       style: TextButton.styleFrom(
-        padding:
-            EdgeInsets.symmetric(vertical: 25, horizontal: horizontalPadding),
+        padding: EdgeInsets.symmetric(vertical: 25, horizontal: horizontalPadding),
         shape: RoundedRectangleBorder(
           side: const BorderSide(
             color: Palette.outerSpace,
