@@ -1,33 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:post_note/Palette.dart';
-import 'package:post_note/social_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login_field.dart';
 import 'gradient_button.dart';
 import 'class_view.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class CreateAccountScreen extends StatefulWidget {
+  const CreateAccountScreen({
+    super.key,
+  });
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<CreateAccountScreen> createState() => _CreateAccountScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _CreateAccountScreenState extends State<CreateAccountScreen> {
   String? email;
   String? password;
+  String? confirmPassword;
   final formKey = GlobalKey<FormState>();
 
-  Future signInEmailPassword(email, password) async {
+  Future createAccount(email, password) async {
     if (formKey.currentState!.validate()) {
       try {
-        UserCredential userCredential =
-            await FirebaseAuth.instance.signInWithEmailAndPassword(
-                email: email, //emailController.text
-                password: password //passwordController.text
-                );
+        UserCredential userCredential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password);
         final user = userCredential.user;
-        debugPrint("Signed in user: $user");
+        debugPrint("Created account for user: $user");
         if (!mounted) return;
         Navigator.push(
           context,
@@ -42,6 +41,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
     return Scaffold(
       body: SingleChildScrollView(
         child: Center(
@@ -72,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const Padding(
                   padding: EdgeInsets.fromLTRB(8.0, 40.0, 8.0, 8.0),
                   child: Text(
-                    'Sign in',
+                    'Create an account',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Palette.outerSpace,
@@ -83,6 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: LoginField(
+                    initialText: arguments['email'],
                     hintText: 'Email',
                     onSubmit: (value) {
                       email = value;
@@ -112,42 +114,56 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(8.0, 24.0, 8.0, 8.0),
-                  child: GradientButton(
-                      textParameter: "Sign in",
-                      onPressedFunction: () async {
-                        await signInEmailPassword(email, password);
-                      }),
+                  padding: const EdgeInsets.all(8.0),
+                  child: LoginField(
+                    hintText: 'Confirm Password',
+                    onSubmit: (value) {
+                      password = value;
+                    },
+                    obscured: true,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Please Re-Enter New Password";
+                      } else if (value.length < 8) {
+                        return "Password must be at least 8 characters long";
+                      } else if (value != confirmPassword) {
+                        return "Please enter the same password as above";
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GradientButton(
-                    textParameter: "Create account",
-                    onPressedFunction: () {
-                      debugPrint(email);
-                      Navigator.pushNamed(
-                        context,
-                        "/createAccount",
-                        arguments: {'email': email},
-                      );
+                    textParameter: "Create Account",
+                    onPressedFunction: () async {
+                      await createAccount(email, password);
                     },
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(4.0),
-                  child: Text(
-                    'or',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Palette.outerSpace,
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: SizedBox(
+                    height: 50,
+                    width: 100,
+                    child: TextButton.icon(
+                      label: const Text(
+                        "Back",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      icon: const Icon(Icons.arrow_back),
+                      style: const ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(
+                          Palette.mint,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                     ),
                   ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: SocialButton(
-                      iconPath: 'svgs/g_logo.svg',
-                      label: 'Continue with Google'),
                 ),
               ],
             ),
