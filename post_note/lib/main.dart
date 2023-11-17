@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:post_note/create_account_screen.dart';
+import 'package:post_note/home_page.dart';
 import 'package:post_note/login_screen.dart';
 import 'firebase_options.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const LoginScreen(),
         '/login': (context) => const LoginScreen(),
-        '/createAccount': (context) => const CreateAccountScreen(),
+        '/create-account': (context) => const CreateAccountScreen(),
+        '/home': (context) => const HomePage(),
       },
       scrollBehavior: const CupertinoScrollBehavior().copyWith(
         dragDevices: {},

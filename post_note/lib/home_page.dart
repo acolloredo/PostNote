@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:post_note/login_screen.dart';
+import 'package:post_note/class_view.dart';
 import 'package:post_note/palette.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: !Navigator.canPop(context)
+      appBar: ModalRoute.of(context)?.settings.name != '/home'
           ? null
           : AppBar(
               // TODO: add elevation?
@@ -158,7 +158,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-      floatingActionButton: !Navigator.canPop(context)
+      floatingActionButton: ModalRoute.of(context)?.settings.name != '/home'
           ? null
           : FloatingActionButton(
               onPressed: () {
@@ -167,7 +167,7 @@ class _HomePageState extends State<HomePage> {
               tooltip: 'Add Notes',
               child: const Icon(Icons.upload_file_outlined),
             ),
-      body: const LoginScreen(),
+      body: const ClassView(),
     );
   }
 }

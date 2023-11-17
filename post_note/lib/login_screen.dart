@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:post_note/Palette.dart';
-import 'package:post_note/social_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:post_note/splash_logo.dart';
 import 'login_field.dart';
 import 'gradient_button.dart';
-import 'class_view.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -21,16 +21,17 @@ class _LoginScreenState extends State<LoginScreen> {
   Future signInEmailPassword(email, password) async {
     if (formKey.currentState!.validate()) {
       try {
-        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: email, //emailController.text
-            password: password //passwordController.text
-            );
+        UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithEmailAndPassword(
+                email: email, //emailController.text
+                password: password //passwordController.text
+                );
         final user = userCredential.user;
         debugPrint("Signed in user: $user");
         if (!mounted) return;
-        Navigator.push(
+        Navigator.pushNamed(
           context,
-          MaterialPageRoute(builder: (context) => const ClassView()),
+          '/home',
         );
       } catch (e) {
         // TODO: add error handling
@@ -53,20 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 const Padding(
                   padding: EdgeInsets.only(bottom: 50.0),
-                  child: Tooltip(
-                    waitDuration: Duration(seconds: 1),
-                    verticalOffset: 80.0,
-                    message: "share, manage, and view notes!",
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Image(
-                        image: AssetImage('images/Post-Note-Logo.png'),
-                        width: 225,
-                        height: 225,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
+                  child: SplashLogo(),
                 ),
                 const Padding(
                   padding: EdgeInsets.fromLTRB(8.0, 40.0, 8.0, 8.0),
@@ -126,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       debugPrint(email);
                       Navigator.pushNamed(
                         context,
-                        "/createAccount",
+                        '/create-account',
                         arguments: {'email': email},
                       );
                     },
@@ -142,9 +130,25 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: SocialButton(iconPath: 'svgs/g_logo.svg', label: 'Continue with Google'),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      // HACK: change shape to remove background
+                      backgroundColor: Colors.transparent,
+                      maximumSize: const Size(400.0, double.infinity),
+                      minimumSize: const Size(400.0, 0.0),
+                      padding: const EdgeInsets.all(0.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    child: SvgPicture.asset(
+                      "svgs/web_neutral_sq_ctn.svg",
+                      width: 400.0,
+                    ),
+                  ),
                 ),
               ],
             ),
