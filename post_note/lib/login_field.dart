@@ -39,7 +39,7 @@ class LoginField extends StatelessWidget {
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(
-              color: Palette.outerSpace,
+              color: Palette.mint,
               width: 3,
             ),
             borderRadius: BorderRadius.circular(10),

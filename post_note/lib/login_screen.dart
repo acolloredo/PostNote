@@ -16,6 +16,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   String? email;
   String? password;
+  bool invalidCredentials = false;
   final formKey = GlobalKey<FormState>();
 
   Future signInEmailPassword(email, password) async {
@@ -33,9 +34,13 @@ class _LoginScreenState extends State<LoginScreen> {
           context,
           '/home',
         );
-      } catch (e) {
-        // TODO: add error handling
-        debugPrint("Error: $e\n");
+      } on FirebaseAuthException catch (e) {
+        // TODO: Check specific codes; extend to create acct for credentials that are taken or invalid (too long?)
+        if (e.code != "") {
+          setState(() {
+            invalidCredentials = true;
+          });
+        }
       }
     }
   }
@@ -47,6 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Center(
           heightFactor: 1.3,
           child: Form(
+            autovalidateMode: AutovalidateMode.always,
             key: formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -78,6 +84,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (value!.isEmpty) {
                         return "Please Enter an Email Address";
                       }
+                      if (invalidCredentials) {
+                        return "Invalid Login Credentials";
+                      }
                       return null;
                     },
                   ),
@@ -93,6 +102,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "Please Enter a Password";
+                      }
+                      if (invalidCredentials) {
+                        return "Invalid Login Credentials";
                       }
                       return null;
                     },

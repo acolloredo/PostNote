@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class SplashLogo extends StatelessWidget {
   const SplashLogo({
@@ -7,15 +8,15 @@ class SplashLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Tooltip(
+    return Tooltip(
       preferBelow: true,
       verticalOffset: 110.0,
-      waitDuration: Duration(seconds: 1),
+      waitDuration: const Duration(seconds: 1),
       message: "share, manage, and view notes!",
       child: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Image(
-          image: AssetImage('images/Post-Note-Logo.png'),
+        padding: const EdgeInsets.all(8.0),
+        child: SvgPicture.asset(
+          'svgs/Post-Note-Logo-Filled.svg',
           width: 225,
           height: 225,
           fit: BoxFit.cover,

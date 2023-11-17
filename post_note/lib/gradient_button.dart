@@ -17,7 +17,7 @@ class GradientButton extends StatelessWidget {
         width: 400.0,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Palette.fernGreen, Palette.celadon],
+            colors: [Palette.fernGreen, Palette.mint],
           ),
         ),
         child: MaterialButton(

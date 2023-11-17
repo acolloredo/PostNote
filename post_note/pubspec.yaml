@@ -99,5 +99,4 @@ flutter:
     # see https://flutter.dev/custom-fonts/#from-packages
     # To add assets to your application, add an assets section, like this:
 assets:
-    - assets/images/Post-Note-Logo.png
     - assets/svgs/

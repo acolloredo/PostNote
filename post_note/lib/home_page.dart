@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:post_note/class_view.dart';
 import 'package:post_note/palette.dart';
 
@@ -103,7 +104,9 @@ class _HomePageState extends State<HomePage> {
                         (route) => route.isFirst,
                       );
                     },
-                    child: Image.asset('images/Post-Note-Logo.png'),
+                    child: SvgPicture.asset(
+                      'svgs/Post-Note-Logo-Filled.svg',
+                    ),
                   ),
                 ),
               ),
