@@ -3,6 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:post_note/palette.dart';
 
+final ScrollController classViewScrollController = ScrollController(
+  debugLabel: "classViewScrollController",
+);
+
 class ClassView extends StatefulWidget {
   const ClassView({super.key});
 
@@ -26,15 +30,13 @@ class _ClassViewState extends State<ClassView> {
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return const Center(
-                  child: Text("No Classes Available"),
+                  child: CircularProgressIndicator(),
                 );
               }
               return LayoutBuilder(
                 builder: (context, constraints) {
                   return GridView.builder(
-                    controller: ScrollController(
-                      debugLabel: "ClassView_Scroll_Controller",
-                    ),
+                    controller: classViewScrollController,
                     clipBehavior: Clip.antiAlias,
                     padding: const EdgeInsets.fromLTRB(100.0, 25.0, 100.0, 0.0),
                     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -114,8 +116,7 @@ class _ClassCardState extends State<ClassCard> {
                         widget.courseID,
                         style: const TextStyle(fontSize: 30.0),
                       ),
-                      Text(widget.professorName,
-                          style: const TextStyle(fontSize: 24.0)),
+                      Text(widget.professorName, style: const TextStyle(fontSize: 24.0)),
                     ],
                   ),
                 ),

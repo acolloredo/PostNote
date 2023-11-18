@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:post_note/class_view.dart';
@@ -79,8 +80,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             onTap: () => controller.openView(),
                             elevation: const MaterialStatePropertyAll(0.0),
-                            surfaceTintColor: const MaterialStatePropertyAll(
-                                Palette.fernGreen),
+                            surfaceTintColor: const MaterialStatePropertyAll(Palette.fernGreen),
                           );
                         },
                         suggestionsBuilder: (context, controller) {
@@ -99,9 +99,10 @@ class _HomePageState extends State<HomePage> {
                     borderRadius: BorderRadius.circular(5.0),
                     // tooltipMessage: 'Home',
                     onTap: () {
-                      Navigator.popUntil(
-                        context,
-                        (route) => route.isFirst,
+                      classViewScrollController.animateTo(
+                        classViewScrollController.position.minScrollExtent,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.fastOutSlowIn,
                       );
                     },
                     child: SvgPicture.asset(
@@ -118,8 +119,7 @@ class _HomePageState extends State<HomePage> {
                       padding: MaterialStateProperty.all(
                         const EdgeInsets.all(8.0),
                       ),
-                      backgroundColor:
-                          MaterialStateProperty.all(Palette.fernGreen),
+                      backgroundColor: MaterialStateProperty.all(Palette.mint),
                       elevation: MaterialStateProperty.all(10.0),
                     ),
                     alignmentOffset: const Offset(-35.0, 0.0),
@@ -127,21 +127,32 @@ class _HomePageState extends State<HomePage> {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            debugPrint("I am signing out");
+                            FirebaseAuth.instance.signOut();
+                            Navigator.popUntil(
+                              context,
+                              (route) => route.isFirst,
+                            );
+                          },
                           child: const Text('Logout'),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            debugPrint("About appbar button pushed");
+                          },
                           child: const Text('About'),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            debugPrint("Help appbar button pushed");
+                          },
                           child: const Text('Help'),
                         ),
                       ),
@@ -150,9 +161,7 @@ class _HomePageState extends State<HomePage> {
                       return NavBarButton(
                         tooltipMessage: 'More',
                         onPressed: () {
-                          controller.isOpen
-                              ? controller.close()
-                              : controller.open();
+                          controller.isOpen ? controller.close() : controller.open();
                         },
                         icon: const Icon(Icons.more_vert_sharp),
                       );

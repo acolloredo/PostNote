@@ -4,7 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:post_note/create_account_screen.dart';
 import 'package:post_note/home_page.dart';
-import 'package:post_note/login_screen.dart';
+import 'package:post_note/login_page.dart';
 import 'firebase_options.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:post_note/palette.dart';
@@ -25,8 +25,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        '/': (context) => const LoginScreen(),
-        '/login': (context) => const LoginScreen(),
+        '/': (context) => const LoginPage(),
+        '/login': (context) => const LoginPage(),
         '/create-account': (context) => const CreateAccountScreen(),
         '/home': (context) => const HomePage(),
       },
@@ -47,8 +47,8 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.latoTextTheme(
           Theme.of(context).textTheme,
         ),
-        searchViewTheme: const SearchViewThemeData().copyWith(
-            backgroundColor: Colors.white, surfaceTintColor: Colors.white),
+        searchViewTheme: const SearchViewThemeData()
+            .copyWith(backgroundColor: Colors.white, surfaceTintColor: Colors.white),
         searchBarTheme: const SearchBarThemeData(
           overlayColor: MaterialStatePropertyAll(Colors.transparent),
           backgroundColor: MaterialStatePropertyAll(Colors.white),

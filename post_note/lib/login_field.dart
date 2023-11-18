@@ -7,6 +7,7 @@ class LoginField extends StatelessWidget {
   final String? hintText;
   final String? initialText;
   final String? Function(String?)? validator;
+  final List<String>? autofillHints;
 
   const LoginField({
     super.key,
@@ -15,6 +16,7 @@ class LoginField extends StatelessWidget {
     this.onSubmit,
     this.obscured = false,
     this.validator,
+    this.autofillHints,
   });
 
   @override
@@ -24,6 +26,7 @@ class LoginField extends StatelessWidget {
         maxWidth: 400,
       ),
       child: TextFormField(
+        autofillHints: autofillHints,
         initialValue: initialText,
         onChanged: onSubmit,
         obscureText: obscured,

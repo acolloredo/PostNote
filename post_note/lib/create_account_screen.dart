@@ -42,8 +42,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final arguments = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
+    final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
     return Scaffold(
       body: SingleChildScrollView(
         child: Center(
@@ -126,7 +125,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: GradientButton(
                     textParameter: "Create Account",
-                    onPressedFunction: () async {
+                    onPressed: () async {
                       await createAccount(email, password);
                     },
                   ),
