@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:post_note/Palette.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:post_note/home_page.dart';
 import 'package:post_note/splash_logo.dart';
 import 'login_field.dart';
 import 'gradient_button.dart';
@@ -18,17 +17,9 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String? email;
   String? password;
-  bool invalidCredentials = false;
   final formKey = GlobalKey<FormState>();
 
   Future signInEmailPassword(email, password) async {
-    FirebaseAuth.instance.authStateChanges().listen((user) {
-      if (user != null) {
-        Navigator.pushNamed(context, "/home");
-      } else {
-        Navigator.pushNamed(context, "/login");
-      }
-    });
     if (formKey.currentState!.validate()) {
       try {
         UserCredential userCredential = await FirebaseAuth.instance
@@ -55,11 +46,9 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) => SingleChildScrollView(
+      body: Center(
+        child: SingleChildScrollView(
           child: Center(
-            heightFactor: 1.3,
             child: Form(
               autovalidateMode: AutovalidateMode.disabled,
               key: formKey,
@@ -69,11 +58,11 @@ class _LoginPageState extends State<LoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Padding(
-                      padding: EdgeInsets.only(bottom: 50.0),
+                      padding: EdgeInsets.only(bottom: 40.0),
                       child: SplashLogo(),
                     ),
                     const Padding(
-                      padding: EdgeInsets.fromLTRB(8.0, 40.0, 8.0, 8.0),
+                      padding: EdgeInsets.only(bottom: 8.0),
                       child: Text(
                         'Sign in',
                         style: TextStyle(

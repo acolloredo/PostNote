@@ -1,32 +1,53 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:post_note/create_account_screen.dart';
 import 'package:post_note/home_page.dart';
+import 'package:post_note/loading_page.dart';
 import 'package:post_note/login_page.dart';
 import 'firebase_options.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:post_note/palette.dart';
 
-Future main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  runApp(const MyApp());
+  runApp(const PostNote());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class PostNote extends StatefulWidget {
+  const PostNote({super.key});
+
+  @override
+  State<PostNote> createState() => _PostNoteState();
+}
+
+class _PostNoteState extends State<PostNote> {
+  final Future<FirebaseApp> initFirebaseApp = Firebase.initializeApp(
+    options: DefaultFirebaseOptions.web,
+  );
+  final navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       routes: {
-        '/': (context) => const LoginPage(),
-        '/login': (context) => const LoginPage(),
+        '/': (context) => FutureBuilder(
+              future: initFirebaseApp,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  FirebaseAuth.instance.authStateChanges().listen(
+                    (user) {
+                      if (user != null) {
+                        navigatorKey.currentState!.pushNamed('/home');
+                      }
+                    },
+                  );
+                }
+                return const LoginPage();
+              },
+            ),
         '/create-account': (context) => const CreateAccountScreen(),
         '/home': (context) => const HomePage(),
       },
@@ -86,17 +107,4 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
-}
-
-// TO BE MOVED TO LOGIN WIDGET DART FILE
-// Will take input from text controllers in the Flutter UI
-// We have one registered user with:
-// email: acollore@ucsc.edu
-// password: 12345678
-
-Future signInEmailPassword() async {
-  await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: "acollore@ucsc.edu", //emailController.text
-      password: "12345678" //passwordController.text
-      );
 }
