@@ -2,9 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:post_note/create_account_screen.dart';
+import 'package:post_note/create_account_page.dart';
 import 'package:post_note/home_page.dart';
-import 'package:post_note/loading_page.dart';
 import 'package:post_note/login_page.dart';
 import 'firebase_options.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -48,7 +47,7 @@ class _PostNoteState extends State<PostNote> {
                 return const LoginPage();
               },
             ),
-        '/create-account': (context) => const CreateAccountScreen(),
+        '/create-account': (context) => const CreateAccountPage(),
         '/home': (context) => const HomePage(),
       },
       scrollBehavior: const CupertinoScrollBehavior().copyWith(

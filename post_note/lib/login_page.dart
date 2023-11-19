@@ -17,6 +17,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String? email;
   String? password;
+  bool invalidLoginCredentials = false;
   final formKey = GlobalKey<FormState>();
 
   Future signInEmailPassword(email, password) async {
@@ -32,13 +33,13 @@ class _LoginPageState extends State<LoginPage> {
         final user = userCredential.user;
         debugPrint("Signed in user: $user");
       } on FirebaseAuthException catch (e) {
-        // TODO: Check specific codes; extend to create acct for credentials that are taken or invalid (too long?)
-        debugPrint(e.toString());
-        if (e.code == "invalid-email" || e.code == "wrong-password") {
-          debugPrint("Auth error code: $e.code");
+        if (e.code == "invalid-login-credentials") {
+          setState(() {
+            invalidLoginCredentials = true;
+          });
         }
       } catch (e) {
-        debugPrint(e.toString());
+        invalidLoginCredentials = false;
       }
     }
   }
@@ -50,7 +51,12 @@ class _LoginPageState extends State<LoginPage> {
         child: SingleChildScrollView(
           child: Center(
             child: Form(
-              autovalidateMode: AutovalidateMode.disabled,
+              onChanged: () {
+                invalidLoginCredentials = false;
+              },
+              autovalidateMode: invalidLoginCredentials
+                  ? AutovalidateMode.onUserInteraction
+                  : AutovalidateMode.disabled,
               key: formKey,
               child: AutofillGroup(
                 child: Column(
@@ -84,9 +90,9 @@ class _LoginPageState extends State<LoginPage> {
                           if (value!.isEmpty) {
                             return "Please Enter an Email Address";
                           }
-                          // if (FirebaseAuth.instance.currentUser == null) {
-                          //   return "Invalid login credentials";
-                          // }
+                          if (invalidLoginCredentials) {
+                            return "Invalid Login Credentials";
+                          }
                           return null;
                         },
                       ),
@@ -104,9 +110,9 @@ class _LoginPageState extends State<LoginPage> {
                           if (value!.isEmpty) {
                             return "Please Enter a Password";
                           }
-                          // if (FirebaseAuth.instance.currentUser == null) {
-                          //   return "Invalid login credentials";
-                          // }
+                          if (invalidLoginCredentials) {
+                            return "Invalid Login Credentials";
+                          }
                           return null;
                         },
                       ),

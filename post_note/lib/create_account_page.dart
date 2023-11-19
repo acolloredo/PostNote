@@ -6,16 +6,16 @@ import 'login_field.dart';
 import 'gradient_button.dart';
 import 'class_view.dart';
 
-class CreateAccountScreen extends StatefulWidget {
-  const CreateAccountScreen({
+class CreateAccountPage extends StatefulWidget {
+  const CreateAccountPage({
     super.key,
   });
 
   @override
-  State<CreateAccountScreen> createState() => _CreateAccountScreenState();
+  State<CreateAccountPage> createState() => _CreateAccountPageState();
 }
 
-class _CreateAccountScreenState extends State<CreateAccountScreen> {
+class _CreateAccountPageState extends State<CreateAccountPage> {
   String? email;
   String? password;
   String? confirmPassword;
