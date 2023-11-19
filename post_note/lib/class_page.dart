@@ -172,7 +172,7 @@ class ClassPage extends StatelessWidget {
                                     MaterialPageRoute(
                                         builder: (context) => UploadPage(
                                               className: className,
-                                              weekNumber: index + 1,
+                                              weekNumber: index + 6,
                                             )));
                               },
                               style: ElevatedButton.styleFrom(

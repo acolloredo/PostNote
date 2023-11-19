@@ -115,7 +115,7 @@ class _UploadPageState extends State<UploadPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            'File Upload Example for ${widget.className} - Week${widget.weekNumber}'),
+            'File Upload for ${widget.className} - Week ${widget.weekNumber}'),
       ),
       body: Center(
         child: Column(
