@@ -124,8 +124,8 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () {
                           debugPrint("Sign in button pressed");
                           TextInput.finishAutofillContext();
-                          signInEmailPassword(email, password).timeout(const Duration(seconds: 4),
-                              onTimeout: () {
+                          signInEmailPassword(email, password).timeout(
+                              const Duration(seconds: 4), onTimeout: () {
                             debugPrint("Sign in timed out");
                           });
                         },

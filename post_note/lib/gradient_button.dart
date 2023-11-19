@@ -5,7 +5,8 @@ class GradientButton extends StatelessWidget {
   final String textParameter;
   final Function()? onPressed;
 
-  const GradientButton({super.key, required this.textParameter, this.onPressed});
+  const GradientButton(
+      {super.key, required this.textParameter, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +22,14 @@ class GradientButton extends StatelessWidget {
         ),
         child: MaterialButton(
           onPressed: onPressed,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
           child: Text(
             textParameter,
-            style:
-                const TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0, color: Colors.white),
+            style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 17.0,
+                color: Colors.white),
           ),
         ),
       ),

@@ -80,7 +80,8 @@ class _HomePageState extends State<HomePage> {
                             ),
                             onTap: () => controller.openView(),
                             elevation: const MaterialStatePropertyAll(0.0),
-                            surfaceTintColor: const MaterialStatePropertyAll(Palette.fernGreen),
+                            surfaceTintColor: const MaterialStatePropertyAll(
+                                Palette.fernGreen),
                           );
                         },
                         suggestionsBuilder: (context, controller) {
@@ -161,7 +162,9 @@ class _HomePageState extends State<HomePage> {
                       return NavBarButton(
                         tooltipMessage: 'More',
                         onPressed: () {
-                          controller.isOpen ? controller.close() : controller.open();
+                          controller.isOpen
+                              ? controller.close()
+                              : controller.open();
                         },
                         icon: const Icon(Icons.more_vert_sharp),
                       );
