@@ -145,13 +145,33 @@ class _LoginPageState extends State<LoginPage> {
                         },
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.all(4.0),
-                      child: Text(
-                        'or',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Palette.outerSpace,
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: SizedBox(
+                        width: 350,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Divider(
+                                color: Palette.outerSpace.withAlpha(200),
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Text(
+                                "Or",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Palette.outerSpace.withAlpha(200)),
+                              ),
+                            ),
+                            Expanded(
+                              child: Divider(
+                                color: Palette.outerSpace.withAlpha(200),
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     ),
