@@ -3,10 +3,10 @@ import 'package:post_note/palette.dart';
 
 class GradientButton extends StatelessWidget {
   final String textParameter;
-  final Function()? onPressedFunction;
+  final Function()? onPressed;
 
   const GradientButton(
-      {super.key, required this.textParameter, this.onPressedFunction});
+      {super.key, required this.textParameter, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +17,11 @@ class GradientButton extends StatelessWidget {
         width: 400.0,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Palette.fernGreen, Palette.celadon],
+            colors: [Palette.fernGreen, Palette.mint],
           ),
         ),
         child: MaterialButton(
-          onPressed: onPressedFunction,
+          onPressed: onPressed,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
           child: Text(

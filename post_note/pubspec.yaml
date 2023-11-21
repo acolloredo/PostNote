@@ -38,6 +38,7 @@ dependencies:
 
     # The following adds the Cupertino Icons font to your application.
     # Use with the CupertinoIcons class for iOS style icons.
+    google_sign_in: ^6.1.6
     cupertino_icons: ^1.0.2
     firebase_auth: ^4.11.0
     firebase_core: ^2.0.0
@@ -103,5 +104,4 @@ flutter:
     # see https://flutter.dev/custom-fonts/#from-packages
     # To add assets to your application, add an assets section, like this:
 assets:
-    - assets/images/Post-Note-Logo.png
     - assets/svgs/
