@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:post_note/palette.dart';
+import 'package:post_note/class_page.dart';
 
 final ScrollController classViewScrollController = ScrollController(
   debugLabel: "classViewScrollController",
@@ -99,7 +100,13 @@ class _ClassCardState extends State<ClassCard> {
             color: userInClass ? Palette.outerSpace : Palette.fernGreen,
             child: InkWell(
               onTap: () {
-                // TODO: take to class-specific page
+                // takes to class-specific page
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ClassPage(className: widget.courseID)));
+
                 setState(() {
                   // TODO: remove (only here to demo class membership styling)
                   userInClass = !userInClass;

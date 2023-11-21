@@ -1,231 +1,199 @@
 import 'package:flutter/material.dart';
+import 'package:post_note/palette.dart';
+import 'package:post_note/upload_page.dart';
 
 class ClassPage extends StatelessWidget {
+  final String className;
+
   const ClassPage({
-    super.key,
-  });
+    Key? key,
+    required this.className,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
-          toolbarHeight: 100,
-          title: const Text(
-            'CSE XXX',
-            style: TextStyle(fontSize: 55),
-          )),
-      body: Center(
-        child: Row(
-          // a row for two big containers
-          children: <Widget>[
-            // Left column with 3 text boxes
-            Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start, // Align column to the left
-              children: <Widget>[
-                // Stack for overlay effect
-                Stack(
-                  children: <Widget>[
-                    // "Study Groups" box
-                    Container(
-                      width: 700,
-                      height: 895,
-                      color: Colors.grey,
-                    ),
-                    // "Study Groups:" box
-                    Positioned(
-                      top: 40, // vertical
-                      left: 50, // horizontal
-                      child: Container(
-                        width: 600,
-                        height: 110,
-                        color: Colors.green,
-                        child: const Center(
-                          child: Text(
-                            'Study Groups:',
-                            style: TextStyle(color: Colors.white, fontSize: 45),
+        toolbarHeight: 100,
+        title: Text(
+          className,
+          style: TextStyle(fontSize: 55),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Row(
+            children: <Widget>[
+              // Left column with 3 text boxes
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  // Stack for overlay effect
+                  Stack(
+                    children: <Widget>[
+                      // "Study Groups" box
+                      Container(
+                        width: screenWidth * 0.5,
+                        height: screenWidth * 0.5,
+                        color: Colors.grey,
+                      ),
+                      // "Study Groups:" box
+                      Positioned(
+                        top: 20,
+                        left: 85,
+                        child: Container(
+                          width: screenWidth * 0.35,
+                          height: screenWidth * 0.1,
+                          color: Palette.fernGreen,
+                          child: const Center(
+                            child: Text(
+                              'Study Groups:',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 30,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    // "Currently in:" box
-                    Positioned(
-                      top: 200, // vertical
-                      left: 50, // horizontal
-                      child: Container(
-                        width: 600,
-                        height: 300,
-                        color: Colors.green,
-                        child: const Align(
-                          alignment: Alignment(-0.85, -0.7),
-                          child: Text(
-                            'Currently in:',
-                            style: TextStyle(color: Colors.white, fontSize: 30),
+                      // "Currently in:" box
+                      Positioned(
+                        top: 120,
+                        left: 85,
+                        child: Container(
+                          width: screenWidth * 0.35,
+                          height: screenWidth * 0.2,
+                          color: Palette.fernGreen,
+                          child: const Align(
+                            alignment: Alignment(-0.85, -0.7),
+                            child: Text(
+                              'Currently in:',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 25,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    // "Request to join others:" box
-                    Positioned(
-                      top: 550, // vertical
-                      left: 50, // horizontal
-                      child: Container(
-                        width: 600,
-                        height: 300,
-                        color: Colors.green,
-                        child: const Align(
-                          alignment: Alignment(-0.75, -0.7),
-                          child: Text(
-                            'Request to join others:',
-                            style: TextStyle(color: Colors.white, fontSize: 30),
+                      // "Request to join others:" box
+                      Positioned(
+                        top: 320,
+                        left: 85,
+                        child: Container(
+                          width: screenWidth * 0.35,
+                          height: screenWidth * 0.2,
+                          color: Palette.fernGreen,
+                          child: const Align(
+                            alignment: Alignment(-0.85, -0.7),
+                            child: Text(
+                              'Request to join others:',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 25,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                    ],
+                  ),
+                ],
+              ),
 
-            // space between study groups box and weeks box
-            const Spacer(),
+              // space between study groups box and weeks box
+              const Spacer(),
 
-            // add right box for week layout
-            Align(
-              alignment: FractionalOffset.topRight,
-              child: Container(
-                width: 1000,
-                height: 895,
-                color: Colors.grey,
-                child: Column(
-                    // column with 2 nested rows inside
+              // add right box for week layout
+              Align(
+                alignment: Alignment.topRight,
+                child: Container(
+                  width: screenWidth * 0.5,
+                  height: screenWidth * 0.5,
+                  color: Colors.grey,
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
-                        width: 600,
-                        height: 110,
-                        color: Colors.green,
+                        width: screenWidth * 0.25,
+                        height: screenWidth * 0.1,
+                        color: Palette.fernGreen,
                         child: const Center(
                           child: Text(
                             'Week Folders for Notes:',
-                            style: TextStyle(color: Colors.white, fontSize: 45),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                            ),
                           ),
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ElevatedButton(
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: List.generate(
+                            5,
+                            (index) => ElevatedButton(
                               onPressed: () {
-                                // Add button action
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => UploadPage(
+                                              className: className,
+                                              weekNumber: index + 1,
+                                            )));
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                fixedSize: const Size(160, 90), // width, height
+                                fixedSize: Size(
+                                    screenWidth * 0.09, screenWidth * 0.05),
                               ),
-                              child: const Text('Week 1',
-                                  style: TextStyle(fontSize: 30))),
-                          ElevatedButton(
-                              onPressed: () {
-                                // Add button action
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                fixedSize: const Size(160, 90), // width, height
+                              child: Text(
+                                'Week ${index + 1}',
+                                style: TextStyle(
+                                    fontSize: 25, color: Colors.white),
                               ),
-                              child: const Text('Week 2',
-                                  style: TextStyle(fontSize: 30))),
-                          ElevatedButton(
-                              onPressed: () {
-                                // Add button action
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                fixedSize: const Size(160, 90), // width, height
-                              ),
-                              child: const Text('Week 3',
-                                  style: TextStyle(fontSize: 30))),
-                          ElevatedButton(
-                              onPressed: () {
-                                // Add button action
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                fixedSize: const Size(160, 90), // width, height
-                              ),
-                              child: const Text('Week 4',
-                                  style: TextStyle(fontSize: 30))),
-                          ElevatedButton(
-                              onPressed: () {
-                                // Add button action
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                fixedSize: const Size(160, 90), // width, height
-                              ),
-                              child: const Text('Week 5',
-                                  style: TextStyle(fontSize: 30))),
-                        ],
+                            ),
+                          ),
+                        ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ElevatedButton(
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: List.generate(
+                            5,
+                            (index) => ElevatedButton(
                               onPressed: () {
-                                // Add button action
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => UploadPage(
+                                              className: className,
+                                              weekNumber: index + 6,
+                                            )));
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                fixedSize: const Size(160, 90), // width, height
+                                fixedSize: Size(
+                                    screenWidth * 0.09, screenWidth * 0.05),
                               ),
-                              child: const Text('Week 6',
-                                  style: TextStyle(fontSize: 30))),
-                          ElevatedButton(
-                              onPressed: () {
-                                // Add button action
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                fixedSize: const Size(160, 90), // width, height
+                              child: Text(
+                                'Week ${index + 6}',
+                                style: TextStyle(
+                                    fontSize: 25, color: Colors.white),
                               ),
-                              child: const Text('Week 7',
-                                  style: TextStyle(fontSize: 30))),
-                          ElevatedButton(
-                              onPressed: () {
-                                // Add button action
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                fixedSize: const Size(160, 90), // width, height
-                              ),
-                              child: const Text('Week 8',
-                                  style: TextStyle(fontSize: 30))),
-                          ElevatedButton(
-                              onPressed: () {
-                                // Add button action
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                fixedSize: const Size(160, 90), // width, height
-                              ),
-                              child: const Text('Week 9',
-                                  style: TextStyle(fontSize: 30))),
-                          ElevatedButton(
-                              onPressed: () {
-                                // Add button action
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                fixedSize: const Size(160, 90), // width, height
-                              ),
-                              child: const Text('Week 10',
-                                  style: TextStyle(fontSize: 30))),
-                        ],
-                      )
-                    ]),
-              ),
-            )
-          ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
