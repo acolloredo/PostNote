@@ -88,6 +88,25 @@ class ClassCard extends StatefulWidget {
 
 class _ClassCardState extends State<ClassCard> {
   bool userInClass = false;
+  final firestoreInstance = FirebaseFirestore.instance;
+
+  Future<void> enrollUserInClass(uid, classId) async {
+    await firestoreInstance.collection("users").doc(uid).update({
+      "enrolled_classes": FieldValue.arrayUnion([classId])
+    });
+
+    setState(() {
+      userInClass = true;
+    });
+  }
+
+  void sendToClassPage() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ClassPage(className: widget.courseID)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -100,17 +119,18 @@ class _ClassCardState extends State<ClassCard> {
             color: userInClass ? Palette.outerSpace : Palette.fernGreen,
             child: InkWell(
               onTap: () {
-                // takes to class-specific page
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            ClassPage(className: widget.courseID)));
+                _enrollDialogBuilder(context, widget.courseID);
+                // // takes to class-specific page
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) =>
+                //             ClassPage(className: widget.courseID)));
 
-                setState(() {
-                  // TODO: remove (only here to demo class membership styling)
-                  userInClass = !userInClass;
-                });
+                // setState(() {
+                //   // TODO: remove (only here to demo class membership styling)
+                //   userInClass = !userInClass;
+                // });
               },
               child: Padding(
                 padding: const EdgeInsets.all(4.0),
@@ -134,5 +154,30 @@ class _ClassCardState extends State<ClassCard> {
         ),
       ),
     );
+  }
+
+  Future<void> _enrollDialogBuilder(BuildContext context, String courseID) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(courseID),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text('Would you like to enroll in $courseID?'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Enroll'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
   }
 }
