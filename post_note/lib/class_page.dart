@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:post_note/palette.dart';
 import 'package:post_note/upload_page.dart';
 
+// add a button to unenroll from selected class
+
 class ClassPage extends StatelessWidget {
   final String className;
 
@@ -104,7 +106,7 @@ class ClassPage extends StatelessWidget {
               ),
 
               // space between study groups box and weeks box
-              const Spacer(),
+              //const Spacer(),
 
               // add right box for week layout
               Align(
@@ -130,68 +132,70 @@ class ClassPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: List.generate(
-                            5,
-                            (index) => ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => UploadPage(
-                                              className: className,
-                                              weekNumber: index + 1,
-                                            )));
-                              },
-                              style: ElevatedButton.styleFrom(
-                                fixedSize: Size(
-                                    screenWidth * 0.09, screenWidth * 0.05),
-                              ),
-                              child: SingleChildScrollView(
-                                child: Text(
-                                  'Week ${index + 1}',
-                                  style: TextStyle(
-                                      fontSize: 25, color: Colors.white),
-                                ),
+                      //SingleChildScrollView(
+                      //scrollDirection: Axis.horizontal,
+                      //child: Row(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: List.generate(
+                          5,
+                          (index) => ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => UploadPage(
+                                            className: className,
+                                            weekNumber: index + 1,
+                                          )));
+                            },
+                            style: ElevatedButton.styleFrom(
+                              fixedSize:
+                                  Size(screenWidth * 0.09, screenWidth * 0.05),
+                            ),
+                            child: SingleChildScrollView(
+                              child: Text(
+                                'Week ${index + 1}',
+                                style: TextStyle(
+                                    fontSize: 25, color: Colors.white),
                               ),
                             ),
                           ),
                         ),
                       ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: List.generate(
-                            5,
-                            (index) => ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => UploadPage(
-                                              className: className,
-                                              weekNumber: index + 6,
-                                            )));
-                              },
-                              style: ElevatedButton.styleFrom(
-                                fixedSize: Size(
-                                    screenWidth * 0.09, screenWidth * 0.05),
-                              ),
-                              child: SingleChildScrollView(
-                                child: Text(
-                                  'Week ${index + 6}',
-                                  style: TextStyle(
-                                      fontSize: 25, color: Colors.white),
-                                ),
+                      //),
+                      //SingleChildScrollView(
+                      //scrollDirection: Axis.horizontal,
+                      //child: Row(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: List.generate(
+                          5,
+                          (index) => ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => UploadPage(
+                                            className: className,
+                                            weekNumber: index + 6,
+                                          )));
+                            },
+                            style: ElevatedButton.styleFrom(
+                              fixedSize:
+                                  Size(screenWidth * 0.09, screenWidth * 0.05),
+                            ),
+                            child: SingleChildScrollView(
+                              child: Text(
+                                'Week ${index + 6}',
+                                style: TextStyle(
+                                    fontSize: 25, color: Colors.white),
                               ),
                             ),
                           ),
                         ),
                       ),
+                      //),
                     ],
                   ),
                 ),
