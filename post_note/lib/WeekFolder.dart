@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:post_note/palette.dart';
 
 class WeekFolder extends StatelessWidget {
+  final int weekNumber;
+
+  const WeekFolder({
+    Key? key,
+    required this.weekNumber,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -27,7 +34,7 @@ class WeekFolder extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       child: Text(
-                        "Week X",
+                        'Week ${weekNumber + 1}',
                         style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
