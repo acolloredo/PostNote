@@ -92,14 +92,16 @@ class _UploadPageState extends State<UploadPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('File Uploaded'),
-            content: Text('Name of Uploaded File: ${_file!.name}'),
+            title: Text('File Uploaded!', style: TextStyle(fontSize: 25)),
+            content: Text('Name of Uploaded File: ${_file!.name}',
+                style: TextStyle(fontSize: 22)),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text('OK', style: TextStyle(color: Colors.black)),
+                child: const Text('OK',
+                    style: TextStyle(color: Colors.black, fontSize: 22)),
               ),
             ],
           );
@@ -113,56 +115,60 @@ class _UploadPageState extends State<UploadPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-            'File Upload for ${widget.className} - Week ${widget.weekNumber}'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            isLoading
-                ? CircularProgressIndicator()
-                : ElevatedButton(
-                    onPressed: pickFile,
-                    style: ElevatedButton.styleFrom(
-                      fixedSize: const Size(350, 90),
-                    ),
-                    child: const Text('Select a file to upload',
-                        style: TextStyle(color: Colors.white, fontSize: 30))),
-            SizedBox(height: 20),
-            if (_file != null)
-              Column(
-                children: [
-                  if (isImage)
-                    Image.memory(Uint8List.fromList(_file!.bytes!),
-                        width: 300, height: 300),
-                  SizedBox(height: 10),
-                  //Text(
-                  //  'Uploaded File Name: ${_file!.name}',
-                  //  style: TextStyle(fontSize: 20),
-                  //),
-                ],
-              ),
-            SizedBox(height: 20),
-            if (fileUploaded)
-              Column(
-                children: [
-                  ElevatedButton(
-                    onPressed: () => _checkFileUpload(context),
-                    style: ElevatedButton.styleFrom(
-                        fixedSize: const Size(350, 90),
-                        backgroundColor: Palette.fernGreen),
-                    child: const Text(
-                      'Upload Success!',
-                      style: TextStyle(color: Colors.white, fontSize: 30),
-                    ),
-                  ),
-                ],
-              ),
-          ],
+        appBar: AppBar(
+          title: Text(
+              'File Upload for ${widget.className} - Week ${widget.weekNumber}'),
         ),
-      ),
-    );
+        body: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(height: 150),
+                isLoading
+                    ? CircularProgressIndicator()
+                    : ElevatedButton(
+                        onPressed: pickFile,
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: const Size(350, 90),
+                        ),
+                        child: const Text('Select a file to upload',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 30))),
+                //SizedBox(height: 20),
+                if (_file != null)
+                  Column(
+                    children: [
+                      if (isImage)
+                        Image.memory(Uint8List.fromList(_file!.bytes!),
+                            width: 600, height: 600),
+                      SizedBox(height: 10),
+                      //Text(
+                      //  'Uploaded File Name: ${_file!.name}',
+                      //  style: TextStyle(fontSize: 20),
+                      //),
+                    ],
+                  ),
+                //SizedBox(height: 150),
+                if (fileUploaded)
+                  Column(
+                    children: <Widget>[
+                      ElevatedButton(
+                        onPressed: () => _checkFileUpload(context),
+                        style: ElevatedButton.styleFrom(
+                            fixedSize: const Size(350, 90),
+                            backgroundColor: Palette.fernGreen),
+                        child: const Text(
+                          'Upload Success!',
+                          style: TextStyle(color: Colors.white, fontSize: 30),
+                        ),
+                      ),
+                      SizedBox(height: 150),
+                    ],
+                  ),
+              ],
+            ),
+          ),
+        ));
   }
 }

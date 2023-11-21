@@ -150,10 +150,12 @@ class ClassPage extends StatelessWidget {
                                 fixedSize: Size(
                                     screenWidth * 0.09, screenWidth * 0.05),
                               ),
-                              child: Text(
-                                'Week ${index + 1}',
-                                style: TextStyle(
-                                    fontSize: 25, color: Colors.white),
+                              child: SingleChildScrollView(
+                                child: Text(
+                                  'Week ${index + 1}',
+                                  style: TextStyle(
+                                      fontSize: 25, color: Colors.white),
+                                ),
                               ),
                             ),
                           ),
@@ -179,10 +181,12 @@ class ClassPage extends StatelessWidget {
                                 fixedSize: Size(
                                     screenWidth * 0.09, screenWidth * 0.05),
                               ),
-                              child: Text(
-                                'Week ${index + 6}',
-                                style: TextStyle(
-                                    fontSize: 25, color: Colors.white),
+                              child: SingleChildScrollView(
+                                child: Text(
+                                  'Week ${index + 6}',
+                                  style: TextStyle(
+                                      fontSize: 25, color: Colors.white),
+                                ),
                               ),
                             ),
                           ),
