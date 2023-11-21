@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:post_note/Palette.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:post_note/splash_logo.dart';
 import 'login_field.dart';
 import 'gradient_button.dart';
@@ -20,6 +21,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   String? password;
   String? confirmPassword;
   final formKey = GlobalKey<FormState>();
+  final firestoreInstance = FirebaseFirestore.instance;
 
   Future createAccount(email, password) async {
     if (formKey.currentState!.validate()) {
@@ -27,6 +29,12 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         UserCredential userCredential = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password);
         final user = userCredential.user;
+        var userData = {
+          "uid": user!.uid,
+          "email": user.email,
+          "enrolled_classes": [],
+        };
+        firestoreInstance.collection("users").doc(user.uid).set(userData);
         debugPrint("Created account for user: $user");
         if (!mounted) return;
         Navigator.push(
@@ -106,7 +114,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   child: LoginField(
                     hintText: 'Confirm Password',
                     onSubmit: (value) {
-                      password = value;
+                      confirmPassword = value;
                     },
                     obscured: true,
                     validator: (value) {
