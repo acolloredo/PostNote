@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:post_note/palette.dart';
 import 'package:post_note/class_page.dart';
 
+final ScrollController classViewScrollController = ScrollController(
+  debugLabel: "classViewScrollController",
+);
+
 class ClassView extends StatefulWidget {
   const ClassView({super.key});
 
@@ -27,15 +31,13 @@ class _ClassViewState extends State<ClassView> {
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return const Center(
-                  child: Text("No Classes Available"),
+                  child: CircularProgressIndicator(),
                 );
               }
               return LayoutBuilder(
                 builder: (context, constraints) {
                   return GridView.builder(
-                    controller: ScrollController(
-                      debugLabel: "ClassView_Scroll_Controller",
-                    ),
+                    controller: classViewScrollController,
                     clipBehavior: Clip.antiAlias,
                     padding: const EdgeInsets.fromLTRB(100.0, 25.0, 100.0, 0.0),
                     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
