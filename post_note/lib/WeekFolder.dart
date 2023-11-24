@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:post_note/palette.dart';
 
 class WeekFolder extends StatelessWidget {
   final int weekNumber;
 
   const WeekFolder({
-    Key? key,
+    super.key,
     required this.weekNumber,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +27,13 @@ class WeekFolder extends StatelessWidget {
                       alignment: Alignment.center,
                       width: 200,
                       height: 75,
-                      margin: EdgeInsets.all(15.0),
+                      margin: const EdgeInsets.all(15.0),
                       decoration: BoxDecoration(
                         color: Palette.outerSpace,
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       child: Text(
-                        'Week ${weekNumber}',
+                        'Week $weekNumber',
                         style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -52,7 +51,7 @@ class WeekFolder extends StatelessWidget {
                       alignment: Alignment.bottomCenter,
                       width: width,
                       height: height,
-                      margin: EdgeInsets.all(15.0),
+                      margin: const EdgeInsets.all(15.0),
                       decoration: BoxDecoration(
                         color: Palette.outerSpace,
                         borderRadius: BorderRadius.circular(10.0),

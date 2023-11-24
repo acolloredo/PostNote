@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:post_note/class_view.dart';
-import 'package:post_note/palette.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

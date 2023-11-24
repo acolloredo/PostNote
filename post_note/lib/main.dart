@@ -7,7 +7,6 @@ import 'package:post_note/home_page.dart';
 import 'package:post_note/login_page.dart';
 import 'firebase_options.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:post_note/palette.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

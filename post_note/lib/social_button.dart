@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:post_note/palette.dart';
 
 class SocialButton extends StatelessWidget {
   final String iconPath;

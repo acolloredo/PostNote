@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:post_note/palette.dart';
 
 class LoginField extends StatelessWidget {
   final Function(String)? onSubmit;

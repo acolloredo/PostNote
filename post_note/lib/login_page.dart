@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:post_note/palette.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:post_note/splash_logo.dart';
 import 'login_field.dart';

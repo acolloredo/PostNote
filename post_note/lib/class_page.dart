@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:post_note/WeekFolder.dart';
-import 'package:post_note/palette.dart';
 import 'package:post_note/upload_page.dart';
 
 class ClassPage extends StatelessWidget {
   final String className;
 
   const ClassPage({
-    Key? key,
+    super.key,
     required this.className,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +19,7 @@ class ClassPage extends StatelessWidget {
         toolbarHeight: 100,
         title: Text(
           className,
-          style: TextStyle(fontSize: 55),
+          style: const TextStyle(fontSize: 55),
         ),
       ),
       body: SingleChildScrollView(
@@ -155,7 +154,7 @@ class ClassPage extends StatelessWidget {
                                 scrollDirection: Axis.horizontal,
                                 child: Text(
                                   'Week ${index + 1}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 25,
                                     color: Colors.white,
                                   ),
@@ -192,7 +191,7 @@ class ClassPage extends StatelessWidget {
                                 scrollDirection: Axis.horizontal,
                                 child: Text(
                                   'Week ${index + 6}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 25,
                                     color: Colors.white,
                                   ),
