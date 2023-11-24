@@ -148,7 +148,7 @@ class ClassPage extends StatelessWidget {
                               },
                               style: ElevatedButton.styleFrom(
                                 fixedSize: Size(
-                                  screenWidth * 0.25,
+                                  screenWidth * 0.35,
                                   screenWidth * 0.05,
                                 ),
                               ),
@@ -157,7 +157,7 @@ class ClassPage extends StatelessWidget {
                                 child: Text(
                                   'Week ${index + 1}',
                                   style: TextStyle(
-                                    fontSize: 25,
+                                    fontSize: 22,
                                     color: Colors.white,
                                   ),
                                 ),
@@ -187,7 +187,7 @@ class ClassPage extends StatelessWidget {
                               },
                               style: ElevatedButton.styleFrom(
                                 fixedSize: Size(
-                                  screenWidth * 0.25,
+                                  screenWidth * 0.35,
                                   screenWidth * 0.05,
                                 ),
                               ),
@@ -196,7 +196,7 @@ class ClassPage extends StatelessWidget {
                                 child: Text(
                                   'Week ${index + 6}',
                                   style: TextStyle(
-                                    fontSize: 25,
+                                    fontSize: 22,
                                     color: Colors.white,
                                   ),
                                 ),
