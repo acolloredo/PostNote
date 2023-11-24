@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:post_note/WeekFolder.dart';
 import 'package:post_note/palette.dart';
+import 'package:post_note/upload_page.dart';
 
 class ClassPage extends StatelessWidget {
   final String className;
