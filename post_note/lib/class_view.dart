@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:post_note/palette.dart';
 import 'package:post_note/class_page.dart';
@@ -107,6 +108,13 @@ class _ClassCardState extends State<ClassCard> {
             builder: (context) => ClassPage(className: widget.courseID)));
   }
 
+  String getCurrentUID() {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    final String uid = user!.uid;
+    return uid;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -119,19 +127,17 @@ class _ClassCardState extends State<ClassCard> {
             color: userInClass ? Palette.outerSpace : Palette.fernGreen,
             child: InkWell(
               onTap: () {
-                _enrollDialogBuilder(
-                    context, widget.courseID, widget.professorName);
-                // // takes to class-specific page
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (context) =>
-                //             ClassPage(className: widget.courseID)));
-
-                // setState(() {
-                //   // TODO: remove (only here to demo class membership styling)
-                //   userInClass = !userInClass;
-                // });
+                if (userInClass) {
+                  // takes to class-specific page
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ClassPage(className: widget.courseID)));
+                } else {
+                  _enrollDialogBuilder(
+                      context, widget.courseID, widget.professorName);
+                }
               },
               child: Padding(
                 padding: const EdgeInsets.all(4.0),
@@ -193,6 +199,8 @@ class _ClassCardState extends State<ClassCard> {
                   ),
                 ),
                 onPressed: () {
+                  String uid = getCurrentUID();
+                  enrollUserInClass(uid, courseID);
                   Navigator.of(context).pop();
                 },
               ),
