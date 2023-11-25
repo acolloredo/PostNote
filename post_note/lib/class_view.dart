@@ -119,7 +119,8 @@ class _ClassCardState extends State<ClassCard> {
             color: userInClass ? Palette.outerSpace : Palette.fernGreen,
             child: InkWell(
               onTap: () {
-                _enrollDialogBuilder(context, widget.courseID);
+                _enrollDialogBuilder(
+                    context, widget.courseID, widget.professorName);
                 // // takes to class-specific page
                 // Navigator.push(
                 //     context,
@@ -156,22 +157,58 @@ class _ClassCardState extends State<ClassCard> {
     );
   }
 
-  Future<void> _enrollDialogBuilder(BuildContext context, String courseID) {
+  Future<void> _enrollDialogBuilder(
+      BuildContext context, String courseID, String professor) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(courseID),
+            backgroundColor: Palette.mintCream,
+            title: Center(
+                child: Text(
+              courseID,
+              style: const TextStyle(fontSize: 40),
+            )),
             content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Text('Would you like to enroll in $courseID?'),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  'Would you like to enroll in $courseID with $professor?',
+                  style: const TextStyle(fontSize: 28),
+                ),
               ),
             ),
             actions: <Widget>[
               TextButton(
-                child: const Text('Enroll'),
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Palette.outerSpace)),
+                child: const Padding(
+                  padding:
+                      EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+                  child: Text(
+                    'Enroll',
+                    textAlign: TextAlign.end,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Palette.errorColor)),
+                child: const Padding(
+                  padding:
+                      EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+                  child: Text(
+                    'Cancel',
+                    textAlign: TextAlign.end,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

@@ -25,7 +25,8 @@ department_links = []
 for department in department_menu:
     if department != "\n":
         if link := department.find("a"):
-            department_links.append((bsoe_base_url + link["href"][1:], link.text))
+            department_links.append(
+                (bsoe_base_url + link["href"][1:], link.text))
 
 department_links.pop()
 print(department_links)
@@ -38,8 +39,10 @@ for link, name in department_links:
 
     for section in sections:
         link = section.find("a")
+        section_num = link.text
         class_url = link["href"]
-        class_res = re.search("\/[a-z]*\/([A-Z0-9]*)\/([A-Za-z0-9]*)\/", class_url)
+        class_res = re.search(
+            "\/[a-z]*\/([A-Z0-9]*)\/([A-Za-z0-9]*)\/", class_url)
         class_name = class_res.group(1)
         quarter = class_res.group(2)
         full_prof = section.contents[3].strip()
@@ -49,8 +52,9 @@ for link, name in department_links:
             "department": name,
             "quarter": quarter,
             "class_name": class_name,
-            "professor_name": professor_name
+            "professor_name": professor_name,
+            "section": section_num
         }
         print(data)
-        
+
         db.collection("classes").document().set(data)
