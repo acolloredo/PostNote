@@ -16,11 +16,14 @@ class ClassCard extends StatefulWidget {
   final String professorName;
   final String courseID;
   final BoxConstraints constraints;
+  final bool userInClass;
+
   const ClassCard({
     super.key,
     required this.professorName,
     required this.courseID,
     required this.constraints,
+    required this.userInClass,
   });
 
   @override

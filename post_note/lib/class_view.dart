@@ -27,7 +27,6 @@ class ClassView extends StatefulWidget {
 
 class _ClassViewState extends State<ClassView> {
   Iterable enrolledClassesArr = [];
-  int numEnrolledClasses = 0;
   final firestoreInstance = FirebaseFirestore.instance;
   StreamController<QuerySnapshot<Object?>> classViewStreamController =
       BehaviorSubject();
@@ -41,7 +40,6 @@ class _ClassViewState extends State<ClassView> {
       setState(() {
         print("SET STATE IN getEnrolledClassesArray");
         enrolledClassesArr = value.data()?["enrolled_classes"];
-        numEnrolledClasses = enrolledClassesArr.length;
         print(enrolledClassesArr);
       });
     });
@@ -52,28 +50,16 @@ class _ClassViewState extends State<ClassView> {
     super.initState();
     getEnrolledClassesArray().whenComplete(() async {
       if (enrolledClassesArr.isNotEmpty) {
-        numEnrolledClasses = enrolledClassesArr.length;
-        debugPrint("$numEnrolledClasses ENROLLED CLASSES");
-
-        Stream<QuerySnapshot<Object?>> enrolledClassesStream = firestoreInstance
-            .collection("classes")
-            .where('class_name', whereIn: enrolledClassesArr)
-            .where('quarter', isEqualTo: "Fall23")
-            .snapshots();
-
-        Stream<QuerySnapshot<Object?>> restClassesStream = firestoreInstance
-            .collection("classes")
-            .where('class_name', whereNotIn: enrolledClassesArr)
-            .where('quarter', isEqualTo: "Fall23")
-            .snapshots();
-
-        var combinedStream =
-            enrolledClassesStream.concatWith([restClassesStream]);
+        Stream<QuerySnapshot<Object?>> unenrolledClassesStream =
+            firestoreInstance
+                .collection("classes")
+                .where('class_name', whereNotIn: enrolledClassesArr)
+                .where('quarter', isEqualTo: "Fall23")
+                .snapshots();
 
         setState(() {
           print("SET STATE IN enrolledClassesArr.isNotEmpty");
-          classViewStreamController.addStream(combinedStream);
-          // classViewStreamController.addStream(enrolledClassesStream);
+          classViewStreamController.addStream(unenrolledClassesStream);
         });
       } else {
         debugPrint("NO ENROLLED CLASSES");
@@ -127,6 +113,7 @@ class _ClassViewState extends State<ClassView> {
                         constraints: constraints,
                         professorName: professorName,
                         courseID: className,
+                        userInClass: false,
                       );
                     },
                   );
