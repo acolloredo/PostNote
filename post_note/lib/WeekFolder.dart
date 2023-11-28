@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:post_note/download_page.dart';
 import 'package:post_note/palette.dart';
+
+import 'upload_page.dart';
 
 class WeekFolder extends StatelessWidget {
   final int weekNumber;
+  final String className;
 
   const WeekFolder({
     Key? key,
     required this.weekNumber,
+    required this.className,
   }) : super(key: key);
 
   @override
@@ -14,7 +19,46 @@ class WeekFolder extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Material(
-      child: SingleChildScrollView(
+        child: Scaffold(
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            heroTag: 'uploading',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UploadPage(
+                    className: className,
+                    weekNumber: weekNumber,
+                  ),
+                ),
+              );
+            },
+            child: Icon(Icons.upload),
+            backgroundColor: Palette.outerSpace,
+          ),
+          SizedBox(height: 16),
+          FloatingActionButton(
+            heroTag: 'downloading',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DownloadPage(
+                    className: className,
+                    weekNumber: weekNumber,
+                  ),
+                ),
+              );
+            },
+            child: Icon(Icons.download),
+            backgroundColor: Palette.outerSpace,
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
         child: Wrap(
           spacing: 8.0,
           runSpacing: 4.0,
@@ -63,6 +107,6 @@ class WeekFolder extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ));
   }
 }

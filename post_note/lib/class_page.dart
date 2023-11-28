@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:post_note/WeekFolder.dart';
 import 'package:post_note/palette.dart';
+import 'package:post_note/upload_page.dart';
 
 class ClassPage extends StatelessWidget {
   final String className;
@@ -137,18 +138,13 @@ class ClassPage extends StatelessWidget {
                             child: ElevatedButton(
                               onPressed: () {
                                 Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => UploadPage(
-                                      className: className,
-                                      weekNumber: index + 1,
-                                    ),
-                                  ),
-                                );
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            WeekFolder(weekNumber: index + 1)));
+                                      builder: (context) => WeekFolder(
+                                        weekNumber: index + 1,
+                                        className: className,
+                                      ),
+                                    ));
                               },
                               style: ElevatedButton.styleFrom(
                                 fixedSize: Size(
@@ -180,18 +176,11 @@ class ClassPage extends StatelessWidget {
                             child: ElevatedButton(
                               onPressed: () {
                                 Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => UploadPage(
-                                      className: className,
-                                      weekNumber: index + 6,
-                                    ),
-                                  ),
-                                );
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => WeekFolder(
                                               weekNumber: index + 6,
+                                              className: className,
                                             )));
                               },
                               style: ElevatedButton.styleFrom(

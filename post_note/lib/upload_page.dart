@@ -5,8 +5,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:post_note/palette.dart';
 
 class UploadPage extends StatefulWidget {
-  final String className; // Add className parameter
   final int weekNumber;
+  final String className; // Add className parameter
 
   UploadPage({required this.className, required this.weekNumber});
 

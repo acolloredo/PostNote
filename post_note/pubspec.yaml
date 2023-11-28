@@ -49,6 +49,8 @@ dependencies:
         # Use with the CupertinoIcons class for iOS style icons.
     flutter_svg: any
     cloud_firestore: ^4.12.2
+    url_launcher: ^6.2.1
+
 
 dev_dependencies:
     flutter_test:
