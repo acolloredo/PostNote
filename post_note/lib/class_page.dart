@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:post_note/WeekFolder.dart';
 import 'package:post_note/palette.dart';
-import 'package:post_note/upload_page.dart';
+
+// add an unenroll button
 
 class ClassPage extends StatelessWidget {
   final String className;
@@ -21,6 +22,19 @@ class ClassPage extends StatelessWidget {
         title: Text(
           className,
           style: TextStyle(fontSize: 55),
+        ),
+      ),
+      floatingActionButton: SizedBox(
+        height: 100,
+        width: 200,
+        child: FittedBox(
+          child: FloatingActionButton(
+            onPressed: () {
+              // allow student to unenroll from class
+            },
+            child: Text('Unenroll'),
+            backgroundColor: Palette.fernGreen,
+          ),
         ),
       ),
       body: SingleChildScrollView(
