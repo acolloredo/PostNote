@@ -17,12 +17,11 @@ class WeekFolder extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Navigate to UploadPage
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => UploadPage(
-                className: "YourClassName", // Provide the actual class name
+                className: "YourClassName",
                 weekNumber: weekNumber,
               ),
             ),
