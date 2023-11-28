@@ -8,6 +8,8 @@ import 'package:post_note/login_page.dart';
 import 'firebase_options.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:post_note/palette.dart';
+import 'package:post_note/class_view.dart';
+import 'package:post_note/enrolled_classes.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +41,8 @@ class _PostNoteState extends State<PostNote> {
                   FirebaseAuth.instance.authStateChanges().listen(
                     (user) {
                       if (user != null) {
-                        navigatorKey.currentState!.pushNamed('/home');
+                        navigatorKey.currentState!
+                            .pushNamed('/enrolled-classes');
                       }
                     },
                   );
@@ -48,7 +51,12 @@ class _PostNoteState extends State<PostNote> {
               },
             ),
         '/create-account': (context) => const CreateAccountPage(),
-        '/home': (context) => const HomePage(),
+        '/enrolled-classes': (context) => const HomePage(
+              bodyContent: EnrolledClassView(),
+            ),
+        '/class-search': (context) => const HomePage(
+              bodyContent: ClassView(),
+            ),
       },
       scrollBehavior: const CupertinoScrollBehavior().copyWith(
         dragDevices: {},
