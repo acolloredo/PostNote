@@ -1,12 +1,22 @@
+// ignore_for_file: avoid_print
 import 'dart:math';
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:post_note/palette.dart';
-import 'package:post_note/class_page.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:post_note/class_card.dart';
 
 final ScrollController classViewScrollController = ScrollController(
   debugLabel: "classViewScrollController",
 );
+
+String _getCurrentUID() {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final User? user = auth.currentUser;
+  final String uid = user!.uid;
+  return uid;
+}
 
 class ClassView extends StatefulWidget {
   const ClassView({super.key});
@@ -16,20 +26,65 @@ class ClassView extends StatefulWidget {
 }
 
 class _ClassViewState extends State<ClassView> {
+  Iterable enrolledClassesArr = [];
+  final firestoreInstance = FirebaseFirestore.instance;
+  StreamController<QuerySnapshot<Object?>> classViewStreamController =
+      BehaviorSubject();
+
+  Future<void> getEnrolledClassesArray() async {
+    await firestoreInstance
+        .collection("users")
+        .doc(_getCurrentUID())
+        .get()
+        .then((value) {
+      setState(() {
+        print("SET STATE IN getEnrolledClassesArray");
+        enrolledClassesArr = value.data()?["enrolled_classes"];
+        print(enrolledClassesArr);
+      });
+    });
+  }
+
+  @override
+  initState() {
+    super.initState();
+    getEnrolledClassesArray().whenComplete(() async {
+      if (enrolledClassesArr.isNotEmpty) {
+        Stream<QuerySnapshot<Object?>> unenrolledClassesStream =
+            firestoreInstance
+                .collection("classes")
+                .where('class_name', whereNotIn: enrolledClassesArr)
+                .where('quarter', isEqualTo: "Fall23")
+                .snapshots();
+
+        setState(() {
+          print("SET STATE IN enrolledClassesArr.isNotEmpty");
+          classViewStreamController.addStream(unenrolledClassesStream);
+        });
+      } else {
+        debugPrint("NO ENROLLED CLASSES");
+        setState(() {
+          print("SET STATE IN else");
+          classViewStreamController.addStream(firestoreInstance
+              .collection("classes")
+              .where('quarter', isEqualTo: "Fall23")
+              .snapshots());
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final firestoreInstance = FirebaseFirestore.instance;
-
+    print("build!");
     return Column(
       children: [
         Expanded(
           child: StreamBuilder<QuerySnapshot>(
-            stream: firestoreInstance
-                .collection("classes")
-                .where('quarter', isEqualTo: "Fall23")
-                .snapshots(),
+            stream: classViewStreamController.stream,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
+                print("no data");
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
@@ -58,6 +113,7 @@ class _ClassViewState extends State<ClassView> {
                         constraints: constraints,
                         professorName: professorName,
                         courseID: className,
+                        userInClass: false,
                       );
                     },
                   );
@@ -67,72 +123,6 @@ class _ClassViewState extends State<ClassView> {
           ),
         ),
       ],
-    );
-  }
-}
-
-class ClassCard extends StatefulWidget {
-  final String professorName;
-  final String courseID;
-  final BoxConstraints constraints;
-  const ClassCard({
-    super.key,
-    required this.professorName,
-    required this.courseID,
-    required this.constraints,
-  });
-
-  @override
-  State<ClassCard> createState() => _ClassCardState();
-}
-
-class _ClassCardState extends State<ClassCard> {
-  bool userInClass = false;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 50.0),
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(25.0)),
-          child: Card(
-            color: userInClass ? Palette.outerSpace : Palette.fernGreen,
-            child: InkWell(
-              onTap: () {
-                // takes to class-specific page
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            ClassPage(className: widget.courseID)));
-
-                setState(() {
-                  // TODO: remove (only here to demo class membership styling)
-                  userInClass = !userInClass;
-                });
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Card(
-                  color: userInClass ? Palette.teaGreen : Palette.mintCream,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        widget.courseID,
-                        style: const TextStyle(fontSize: 30.0),
-                      ),
-                      Text(widget.professorName,
-                          style: const TextStyle(fontSize: 24.0)),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }
