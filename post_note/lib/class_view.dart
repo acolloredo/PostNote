@@ -30,7 +30,8 @@ class _ClassViewState extends State<ClassView> {
   Iterable enrolledClassesArr = [];
   int numEnrolledClasses = 0;
   final firestoreInstance = FirebaseFirestore.instance;
-  var classViewStream;
+  StreamController<QuerySnapshot<Object?>> classViewStreamController =
+      BehaviorSubject();
 
   Future<void> getEnrolledClassesArray() async {
     await firestoreInstance
@@ -50,7 +51,7 @@ class _ClassViewState extends State<ClassView> {
   @override
   initState() {
     super.initState();
-    getEnrolledClassesArray().whenComplete(() {
+    getEnrolledClassesArray().whenComplete(() async {
       if (enrolledClassesArr.isNotEmpty) {
         numEnrolledClasses = enrolledClassesArr.length;
         debugPrint("$numEnrolledClasses ENROLLED CLASSES");
@@ -67,26 +68,22 @@ class _ClassViewState extends State<ClassView> {
             .where('quarter', isEqualTo: "Fall23")
             .snapshots();
 
+        var combinedStream =
+            enrolledClassesStream.concatWith([restClassesStream]);
+
         setState(() {
           print("SET STATE IN enrolledClassesArr.isNotEmpty");
-          classViewStream = restClassesStream;
+          classViewStreamController.addStream(combinedStream);
+          // classViewStreamController.addStream(enrolledClassesStream);
         });
-
-        // setState(() {
-        //   print("SET STATE IN enrolledClassesArr.isNotEmpty");
-        //   classViewStream =
-        //       ConcatStream([enrolledClassesStream, restClassesStream]);
-        // });
-
-        print(classViewStream.first);
       } else {
         debugPrint("NO ENROLLED CLASSES");
         setState(() {
           print("SET STATE IN else");
-          classViewStream = firestoreInstance
+          classViewStreamController.addStream(firestoreInstance
               .collection("classes")
               .where('quarter', isEqualTo: "Fall23")
-              .snapshots();
+              .snapshots());
         });
       }
     });
@@ -99,7 +96,7 @@ class _ClassViewState extends State<ClassView> {
       children: [
         Expanded(
           child: StreamBuilder<QuerySnapshot>(
-            stream: classViewStream,
+            stream: classViewStreamController.stream,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 print("no data");
