@@ -24,9 +24,10 @@ class ClassPage extends StatelessWidget {
           style: TextStyle(fontSize: 55),
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
       floatingActionButton: SizedBox(
         height: 100,
-        width: 200,
+        width: 100,
         child: FittedBox(
           child: FloatingActionButton(
             onPressed: () {
