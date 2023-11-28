@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:post_note/WeekFolder.dart';
 import 'package:post_note/palette.dart';
 
+// add an unenroll button
+
 class ClassPage extends StatelessWidget {
   final String className;
 
@@ -20,6 +22,20 @@ class ClassPage extends StatelessWidget {
         title: Text(
           className,
           style: TextStyle(fontSize: 55),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
+      floatingActionButton: SizedBox(
+        height: 100,
+        width: 100,
+        child: FittedBox(
+          child: FloatingActionButton(
+            onPressed: () {
+              // allow student to unenroll from class
+            },
+            child: Text('Unenroll'),
+            backgroundColor: Palette.fernGreen,
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -103,9 +119,6 @@ class ClassPage extends StatelessWidget {
                 ],
               ),
 
-              // space between study groups box and weeks box
-              const Spacer(),
-
               // add right box for week layout
               Align(
                 alignment: Alignment.topRight,
@@ -130,56 +143,76 @@ class ClassPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: List.generate(
-                            5,
-                            (index) => ElevatedButton(
+                      // Week buttons using Flexible
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: List.generate(
+                          5,
+                          (index) => Flexible(
+                            flex: 1,
+                            child: ElevatedButton(
                               onPressed: () {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            WeekFolder(weekNumber: index + 1)));
+                                      builder: (context) => WeekFolder(
+                                        weekNumber: index + 1,
+                                        className: className,
+                                      ),
+                                    ));
                               },
                               style: ElevatedButton.styleFrom(
                                 fixedSize: Size(
-                                    screenWidth * 0.09, screenWidth * 0.05),
+                                  screenWidth * 0.35,
+                                  screenWidth * 0.05,
+                                ),
                               ),
-                              child: Text(
-                                'Week ${index + 1}',
-                                style: TextStyle(
-                                    fontSize: 25, color: Colors.white),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Text(
+                                  'Week ${index + 1}',
+                                  style: TextStyle(
+                                    fontSize: 22,
+                                    color: Colors.white,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: List.generate(
-                            5,
-                            (index) => ElevatedButton(
+                      // Week buttons for the second set
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: List.generate(
+                          5,
+                          (index) => Flexible(
+                            flex: 1,
+                            child: ElevatedButton(
                               onPressed: () {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => WeekFolder(
                                               weekNumber: index + 6,
+                                              className: className,
                                             )));
                               },
                               style: ElevatedButton.styleFrom(
                                 fixedSize: Size(
-                                    screenWidth * 0.09, screenWidth * 0.05),
+                                  screenWidth * 0.35,
+                                  screenWidth * 0.05,
+                                ),
                               ),
-                              child: Text(
-                                'Week ${index + 6}',
-                                style: TextStyle(
-                                    fontSize: 25, color: Colors.white),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Text(
+                                  'Week ${index + 6}',
+                                  style: TextStyle(
+                                    fontSize: 22,
+                                    color: Colors.white,
+                                  ),
+                                ),
                               ),
                             ),
                           ),

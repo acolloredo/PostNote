@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:post_note/palette.dart';
 import 'package:post_note/upload_page.dart';
+import 'package:post_note/download_page.dart';
 
 class WeekFolder extends StatelessWidget {
   final int weekNumber;
+  final String className;
 
   const WeekFolder({
     Key? key,
     required this.weekNumber,
+    required this.className,
   }) : super(key: key);
 
   @override
