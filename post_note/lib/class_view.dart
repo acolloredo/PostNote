@@ -1,13 +1,23 @@
+// ignore_for_file: avoid_print
 import 'dart:math';
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:post_note/palette.dart';
 import 'package:post_note/class_page.dart';
+import 'package:rxdart/rxdart.dart';
 
 final ScrollController classViewScrollController = ScrollController(
   debugLabel: "classViewScrollController",
 );
+
+String _getCurrentUID() {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final User? user = auth.currentUser;
+  final String uid = user!.uid;
+  return uid;
+}
 
 class ClassView extends StatefulWidget {
   const ClassView({super.key});
@@ -17,20 +27,82 @@ class ClassView extends StatefulWidget {
 }
 
 class _ClassViewState extends State<ClassView> {
+  Iterable enrolledClassesArr = [];
+  int numEnrolledClasses = 0;
+  final firestoreInstance = FirebaseFirestore.instance;
+  var classViewStream;
+
+  Future<void> getEnrolledClassesArray() async {
+    await firestoreInstance
+        .collection("users")
+        .doc(_getCurrentUID())
+        .get()
+        .then((value) {
+      setState(() {
+        print("SET STATE IN getEnrolledClassesArray");
+        enrolledClassesArr = value.data()?["enrolled_classes"];
+        numEnrolledClasses = enrolledClassesArr.length;
+        print(enrolledClassesArr);
+      });
+    });
+  }
+
+  @override
+  initState() {
+    super.initState();
+    getEnrolledClassesArray().whenComplete(() {
+      if (enrolledClassesArr.isNotEmpty) {
+        numEnrolledClasses = enrolledClassesArr.length;
+        debugPrint("$numEnrolledClasses ENROLLED CLASSES");
+
+        Stream<QuerySnapshot<Object?>> enrolledClassesStream = firestoreInstance
+            .collection("classes")
+            .where('class_name', whereIn: enrolledClassesArr)
+            .where('quarter', isEqualTo: "Fall23")
+            .snapshots();
+
+        Stream<QuerySnapshot<Object?>> restClassesStream = firestoreInstance
+            .collection("classes")
+            .where('class_name', whereNotIn: enrolledClassesArr)
+            .where('quarter', isEqualTo: "Fall23")
+            .snapshots();
+
+        setState(() {
+          print("SET STATE IN enrolledClassesArr.isNotEmpty");
+          classViewStream = restClassesStream;
+        });
+
+        // setState(() {
+        //   print("SET STATE IN enrolledClassesArr.isNotEmpty");
+        //   classViewStream =
+        //       ConcatStream([enrolledClassesStream, restClassesStream]);
+        // });
+
+        print(classViewStream.first);
+      } else {
+        debugPrint("NO ENROLLED CLASSES");
+        setState(() {
+          print("SET STATE IN else");
+          classViewStream = firestoreInstance
+              .collection("classes")
+              .where('quarter', isEqualTo: "Fall23")
+              .snapshots();
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final firestoreInstance = FirebaseFirestore.instance;
-
+    print("build!");
     return Column(
       children: [
         Expanded(
           child: StreamBuilder<QuerySnapshot>(
-            stream: firestoreInstance
-                .collection("classes")
-                .where('quarter', isEqualTo: "Fall23")
-                .snapshots(),
+            stream: classViewStream,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
+                print("no data");
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
@@ -106,13 +178,6 @@ class _ClassCardState extends State<ClassCard> {
         context,
         MaterialPageRoute(
             builder: (context) => ClassPage(className: widget.courseID)));
-  }
-
-  String getCurrentUID() {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final User? user = auth.currentUser;
-    final String uid = user!.uid;
-    return uid;
   }
 
   @override
@@ -199,7 +264,7 @@ class _ClassCardState extends State<ClassCard> {
                   ),
                 ),
                 onPressed: () {
-                  String uid = getCurrentUID();
+                  String uid = _getCurrentUID();
                   enrollUserInClass(uid, courseID);
                   Navigator.of(context).pop();
                 },
