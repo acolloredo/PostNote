@@ -31,16 +31,11 @@ class ClassCard extends StatefulWidget {
 }
 
 class _ClassCardState extends State<ClassCard> {
-  bool userInClass = false;
   final firestoreInstance = FirebaseFirestore.instance;
 
   Future<void> enrollUserInClass(uid, classId) async {
     await firestoreInstance.collection("users").doc(uid).update({
       "enrolled_classes": FieldValue.arrayUnion([classId])
-    });
-
-    setState(() {
-      userInClass = true;
     });
   }
 
@@ -60,10 +55,10 @@ class _ClassCardState extends State<ClassCard> {
         child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(25.0)),
           child: Card(
-            color: userInClass ? Palette.outerSpace : Palette.fernGreen,
+            color: widget.userInClass ? Palette.outerSpace : Palette.fernGreen,
             child: InkWell(
               onTap: () {
-                if (userInClass) {
+                if (widget.userInClass) {
                   // takes to class-specific page
                   Navigator.push(
                       context,
@@ -78,7 +73,8 @@ class _ClassCardState extends State<ClassCard> {
               child: Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: Card(
-                  color: userInClass ? Palette.teaGreen : Palette.mintCream,
+                  color:
+                      widget.userInClass ? Palette.teaGreen : Palette.mintCream,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -136,8 +132,11 @@ class _ClassCardState extends State<ClassCard> {
                 ),
                 onPressed: () {
                   String uid = _getCurrentUID();
-                  enrollUserInClass(uid, courseID);
-                  Navigator.of(context).pop();
+                  enrollUserInClass(uid, courseID).whenComplete(() {
+                    Navigator.of(context).pop();
+                    Navigator.of(context, rootNavigator: true)
+                        .popAndPushNamed("/enrolled-classes");
+                  });
                 },
               ),
               TextButton(

@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:post_note/class_view.dart';
-import 'package:post_note/enrolled_classes.dart';
 import 'package:post_note/palette.dart';
 
 class HomePage extends StatefulWidget {
@@ -175,7 +174,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       floatingActionButton:
-          ModalRoute.of(context)?.settings.name == '/enrolled-clases'
+          ModalRoute.of(context)?.settings.name != '/enrolled-classes'
               ? null
               : FloatingActionButton(
                   onPressed: () {

@@ -42,7 +42,7 @@ class _PostNoteState extends State<PostNote> {
                     (user) {
                       if (user != null) {
                         navigatorKey.currentState!
-                            .pushNamed('/enrolled-clases');
+                            .pushNamed('/enrolled-classes');
                       }
                     },
                   );
@@ -51,7 +51,7 @@ class _PostNoteState extends State<PostNote> {
               },
             ),
         '/create-account': (context) => const CreateAccountPage(),
-        '/enrolled-clases': (context) => const HomePage(
+        '/enrolled-classes': (context) => const HomePage(
               bodyContent: EnrolledClassView(),
             ),
         '/class-search': (context) => const HomePage(
