@@ -48,13 +48,17 @@ for link, name in department_links:
         full_prof = section.contents[3].strip()
         prof_res = re.search("([ a-zA-ZÀ-ž-.]*) \(|(Staff)", full_prof)
         professor_name = prof_res.group(1) or prof_res.group(2)
+        docref = db.collection("classes").document()
+        class_uid = docref.id
+
         data = {
             "department": name,
             "quarter": quarter,
             "class_name": class_name,
             "professor_name": professor_name,
-            "section": section_num
+            "section": section_num,
+            "class_uid": class_uid
         }
         print(data)
 
-        db.collection("classes").document().set(data)
+        docref.set(data)

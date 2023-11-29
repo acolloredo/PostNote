@@ -14,16 +14,18 @@ String _getCurrentUID() {
 
 class ClassCard extends StatefulWidget {
   final String professorName;
-  final String courseID;
+  final String className;
   final BoxConstraints constraints;
   final bool userInClass;
+  final String classUid;
 
   const ClassCard({
     super.key,
     required this.professorName,
-    required this.courseID,
+    required this.className,
     required this.constraints,
     required this.userInClass,
+    required this.classUid,
   });
 
   @override
@@ -33,9 +35,9 @@ class ClassCard extends StatefulWidget {
 class _ClassCardState extends State<ClassCard> {
   final firestoreInstance = FirebaseFirestore.instance;
 
-  Future<void> enrollUserInClass(uid, classId) async {
+  Future<void> enrollUserInClass(uid, classUid) async {
     await firestoreInstance.collection("users").doc(uid).update({
-      "enrolled_classes": FieldValue.arrayUnion([classId])
+      "enrolled_classes": FieldValue.arrayUnion([classUid])
     });
   }
 
@@ -43,7 +45,7 @@ class _ClassCardState extends State<ClassCard> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ClassPage(className: widget.courseID)));
+            builder: (context) => ClassPage(className: widget.className)));
   }
 
   @override
@@ -64,10 +66,10 @@ class _ClassCardState extends State<ClassCard> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              ClassPage(className: widget.courseID)));
+                              ClassPage(className: widget.className)));
                 } else {
                   _enrollDialogBuilder(
-                      context, widget.courseID, widget.professorName);
+                      context, widget.className, widget.professorName);
                 }
               },
               child: Padding(
@@ -79,7 +81,7 @@ class _ClassCardState extends State<ClassCard> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        widget.courseID,
+                        widget.className,
                         style: const TextStyle(fontSize: 30.0),
                       ),
                       Text(widget.professorName,
@@ -96,7 +98,7 @@ class _ClassCardState extends State<ClassCard> {
   }
 
   Future<void> _enrollDialogBuilder(
-      BuildContext context, String courseID, String professor) {
+      BuildContext context, String className, String professor) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -104,14 +106,14 @@ class _ClassCardState extends State<ClassCard> {
             backgroundColor: Palette.mintCream,
             title: Center(
                 child: Text(
-              courseID,
+              className,
               style: const TextStyle(fontSize: 40),
             )),
             content: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Text(
-                  'Would you like to enroll in $courseID with $professor?',
+                  'Would you like to enroll in $className with $professor?',
                   style: const TextStyle(fontSize: 28),
                 ),
               ),
@@ -132,7 +134,7 @@ class _ClassCardState extends State<ClassCard> {
                 ),
                 onPressed: () {
                   String uid = _getCurrentUID();
-                  enrollUserInClass(uid, courseID).whenComplete(() {
+                  enrollUserInClass(uid, widget.classUid).whenComplete(() {
                     Navigator.of(context).pop();
                     Navigator.of(context, rootNavigator: true)
                         .popAndPushNamed("/enrolled-classes");
