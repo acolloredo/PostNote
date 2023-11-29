@@ -58,7 +58,7 @@ class _EnrolledClassViewState extends State<EnrolledClassView> {
 
         Stream<QuerySnapshot<Object?>> enrolledClassesStream = firestoreInstance
             .collection("classes")
-            .where('class_name', whereIn: enrolledClassesArr)
+            .where('class_uid', whereIn: enrolledClassesArr)
             .where('quarter', isEqualTo: "Fall23")
             .snapshots();
 
@@ -126,6 +126,7 @@ class _EnrolledClassViewState extends State<EnrolledClassView> {
                       DocumentSnapshot doc = snapshot.data!.docs[index];
                       final className = doc["class_name"];
                       final professorName = doc["professor_name"];
+                      final classUid = doc["class_uid"];
                       debugPrint("INDEX: $index");
                       debugPrint("CLASS NAME: $className");
                       debugPrint("PROFESSOR NAME: $professorName");
@@ -134,7 +135,8 @@ class _EnrolledClassViewState extends State<EnrolledClassView> {
                       return ClassCard(
                         constraints: constraints,
                         professorName: professorName,
-                        courseID: className,
+                        className: className,
+                        classUid: classUid,
                         userInClass: true,
                       );
                     },
