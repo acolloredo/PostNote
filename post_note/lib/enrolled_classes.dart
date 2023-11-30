@@ -6,9 +6,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:post_note/class_card.dart';
+import 'package:post_note/palette.dart';
 
-final ScrollController classViewScrollController = ScrollController(
-  debugLabel: "classViewScrollController",
+final ScrollController enrolledClassViewScrollController = ScrollController(
+  debugLabel: "enrolledClassViewScrollController",
 );
 
 String _getCurrentUID() {
@@ -18,17 +19,18 @@ String _getCurrentUID() {
   return uid;
 }
 
-class ClassView extends StatefulWidget {
-  const ClassView({super.key});
+class EnrolledClassView extends StatefulWidget {
+  const EnrolledClassView({super.key});
 
   @override
-  State<ClassView> createState() => _ClassViewState();
+  State<EnrolledClassView> createState() => _EnrolledClassViewState();
 }
 
-class _ClassViewState extends State<ClassView> {
+class _EnrolledClassViewState extends State<EnrolledClassView> {
   Iterable enrolledClassesArr = [];
+  int numEnrolledClasses = 0;
   final firestoreInstance = FirebaseFirestore.instance;
-  StreamController<QuerySnapshot<Object?>> classViewStreamController =
+  StreamController<QuerySnapshot<Object?>> enrolledClassViewStreamController =
       BehaviorSubject();
 
   Future<void> getEnrolledClassesArray() async {
@@ -40,6 +42,7 @@ class _ClassViewState extends State<ClassView> {
       setState(() {
         print("SET STATE IN getEnrolledClassesArray");
         enrolledClassesArr = value.data()?["enrolled_classes"];
+        numEnrolledClasses = enrolledClassesArr.length;
         print(enrolledClassesArr);
       });
     });
@@ -48,32 +51,19 @@ class _ClassViewState extends State<ClassView> {
   @override
   initState() {
     super.initState();
-    getEnrolledClassesArray().whenComplete(() async {
+    getEnrolledClassesArray().whenComplete(() {
       if (enrolledClassesArr.isNotEmpty) {
-        var query = firestoreInstance
+        numEnrolledClasses = enrolledClassesArr.length;
+        debugPrint("$numEnrolledClasses ENROLLED CLASSES");
+
+        Stream<QuerySnapshot<Object?>> enrolledClassesStream = firestoreInstance
             .collection("classes")
-            .where('class_uid', whereNotIn: enrolledClassesArr)
-            .where('quarter', isEqualTo: "Fall23");
-        print(query);
-        Stream<QuerySnapshot<Object?>> unenrolledClassesStream =
-            firestoreInstance
-                .collection("classes")
-                .where('class_uid', whereNotIn: enrolledClassesArr)
-                .where('quarter', isEqualTo: "Fall23")
-                .snapshots();
+            .where('class_uid', whereIn: enrolledClassesArr)
+            .where('quarter', isEqualTo: "Fall23")
+            .snapshots();
 
         setState(() {
-          print("SET STATE IN enrolledClassesArr.isNotEmpty");
-          classViewStreamController.addStream(unenrolledClassesStream);
-        });
-      } else {
-        debugPrint("NO ENROLLED CLASSES");
-        setState(() {
-          print("SET STATE IN else");
-          classViewStreamController.addStream(firestoreInstance
-              .collection("classes")
-              .where('quarter', isEqualTo: "Fall23")
-              .snapshots());
+          enrolledClassViewStreamController.addStream(enrolledClassesStream);
         });
       }
     });
@@ -86,18 +76,45 @@ class _ClassViewState extends State<ClassView> {
       children: [
         Expanded(
           child: StreamBuilder<QuerySnapshot>(
-            stream: classViewStreamController.stream,
+            stream: enrolledClassViewStreamController.stream,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 print("no data");
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
+                        child: Text(
+                          "You are not enrolled in any classes yet!",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Palette.outerSpace,
+                            fontSize: 30,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
+                        child: Text(
+                          "Click the button below to enroll in one.",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Palette.outerSpace,
+                            fontSize: 30,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               }
               return LayoutBuilder(
                 builder: (context, constraints) {
                   return GridView.builder(
-                    controller: classViewScrollController,
+                    controller: enrolledClassViewScrollController,
                     clipBehavior: Clip.antiAlias,
                     padding: const EdgeInsets.fromLTRB(100.0, 25.0, 100.0, 0.0),
                     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -120,7 +137,7 @@ class _ClassViewState extends State<ClassView> {
                         professorName: professorName,
                         className: className,
                         classUid: classUid,
-                        userInClass: false,
+                        userInClass: true,
                       );
                     },
                   );
