@@ -74,13 +74,19 @@ class WeekFolder extends StatelessWidget {
                       color: Palette.outerSpace,
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    child: Text(
-                      'Week ${weekNumber}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 40,
-                      ),
+                    child: Column(
+                      children: [
+                        Text(
+                          'Week ${weekNumber}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 40,
+                          ),
+                        ),
+                        // below Week #, put the download links
+                        // get from WeekFolder.dart file
+                      ],
                     ),
                   ),
                 ),
