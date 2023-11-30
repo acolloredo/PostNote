@@ -23,7 +23,7 @@ class LoginField extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: const BoxConstraints(
-        maxWidth: 400,
+        maxWidth: 384.0,
       ),
       child: TextFormField(
         autofillHints: autofillHints,
@@ -62,7 +62,9 @@ class LoginField extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           hintText: hintText,
-          hintStyle: const TextStyle(color: Palette.outerSpace),
+          hintStyle: const TextStyle(
+            color: Palette.outerSpace,
+          ),
           errorStyle: const TextStyle(color: Palette.errorColor),
         ),
       ),
