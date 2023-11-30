@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:post_note/palette.dart';
 import 'package:post_note/class_page.dart';
+import 'search_bar.dart';
 
 final ScrollController classViewScrollController = ScrollController(
   debugLabel: "classViewScrollController",
@@ -16,10 +17,30 @@ class ClassView extends StatefulWidget {
 }
 
 class _ClassViewState extends State<ClassView> {
+  final firestoreInstance = FirebaseFirestore.instance;
+  List<DocumentSnapshot> allClasses = [];
+  List<DocumentSnapshot> filteredClasses = [];
+  String searchQuery = "";
+
+  void filterClasses(String query) {
+    setState(() {
+      searchQuery = query;
+      filteredClasses = allClasses
+          .where((doc) =>
+              doc['class_name']
+                  .toString()
+                  .toLowerCase()
+                  .contains(query.toLowerCase()) ||
+              doc['professor_name']
+                  .toString()
+                  .toLowerCase()
+                  .contains(query.toLowerCase()))
+          .toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final firestoreInstance = FirebaseFirestore.instance;
-
     return Column(
       children: [
         Expanded(
@@ -34,35 +55,8 @@ class _ClassViewState extends State<ClassView> {
                   child: CircularProgressIndicator(),
                 );
               }
-              return LayoutBuilder(
-                builder: (context, constraints) {
-                  return GridView.builder(
-                    controller: classViewScrollController,
-                    clipBehavior: Clip.antiAlias,
-                    padding: const EdgeInsets.fromLTRB(100.0, 25.0, 100.0, 0.0),
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 400.0,
-                      mainAxisExtent: max(constraints.maxHeight / 3, 250.0),
-                    ),
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      DocumentSnapshot doc = snapshot.data!.docs[index];
-                      final className = doc["class_name"];
-                      final professorName = doc["professor_name"];
-                      debugPrint("INDEX: $index");
-                      debugPrint("CLASS NAME: $className");
-                      debugPrint("PROFESSOR NAME: $professorName");
-                      debugPrint("\n\n");
 
-                      return ClassCard(
-                        constraints: constraints,
-                        professorName: professorName,
-                        courseID: className,
-                      );
-                    },
-                  );
-                },
-              );
+              return LayoutBuilder();
             },
           ),
         ),
