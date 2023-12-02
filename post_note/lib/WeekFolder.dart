@@ -18,20 +18,44 @@ class WeekFolder extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => UploadPage(
-                className: "YourClassName",
-                weekNumber: weekNumber,
-              ),
-            ),
-          );
-        },
-        child: Text('Upload'),
-        backgroundColor: Palette.fernGreen,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton(
+            heroTag: "upload",
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UploadPage(
+                    className: className,
+                    weekNumber: weekNumber,
+                  ),
+                ),
+              );
+            },
+            child: Icon(Icons.upload),
+            backgroundColor: Palette.fernGreen,
+          ),
+          SizedBox(height: 16), // Add some spacing between the buttons
+          FloatingActionButton(
+            heroTag: "download",
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DownloadPage(
+                    className: className,
+                    weekNumber: weekNumber,
+                  ),
+                ),
+              );
+            },
+            child: Icon(Icons.download),
+            backgroundColor: Palette.fernGreen,
+          ),
+        ],
       ),
       persistentFooterButtons: <Widget>[
         // Place any additional persistent footer buttons here if needed
@@ -84,8 +108,6 @@ class WeekFolder extends StatelessWidget {
                             fontSize: 40,
                           ),
                         ),
-                        // below Week #, put the download links
-                        // get from WeekFolder.dart file
                       ],
                     ),
                   ),
