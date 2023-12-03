@@ -57,8 +57,6 @@ class _WeekFolderState extends State<WeekFolder> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 100,
@@ -67,107 +65,29 @@ class _WeekFolderState extends State<WeekFolder> {
           style: TextStyle(fontSize: 55),
         ),
       ),
-      body: Stack(
-        children: <Widget>[
-          // Bottom ClipRRect
-          ClipRRect(
-            borderRadius: BorderRadius.circular(30.0),
-            child: Center(
-              child: Align(
-                alignment: Alignment.center,
-                child: Container(
-                  width: width,
-                  height: height,
-                  margin: EdgeInsets.all(15.0),
-                  decoration: BoxDecoration(
-                    color: Palette.outerSpace,
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      for (String url in downloadUrls)
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextButton(
-                            onPressed: () => _openURLInWebView(url),
-                            style: TextButton.styleFrom(
-                              backgroundColor: Palette.mint,
-                            ),
-                            child: FutureBuilder(
-                              future: _getFileName(url),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  return Text(
-                                    snapshot.data.toString(),
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  );
-                                } else {
-                                  return CircularProgressIndicator();
-                                }
-                              },
-                            ),
-                          ),
-                        ),
-                      SizedBox(height: 10),
-                      ElevatedButton(
-                        onPressed: () {
-                          _getDownloadUrls();
-                        },
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text('Reload',
-                                style: TextStyle(
-                                    fontSize: 18, color: Colors.white)),
-                            SizedBox(width: 5),
-                            if (DateTime.now()
-                                    .difference(lastReloadTimestamp)
-                                    .inSeconds <=
-                                5)
-                              Icon(
-                                Icons.cached,
-                                color: Colors.white,
-                              ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        'Last Reloaded: ${_formatTimestamp(lastReloadTimestamp)}',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            // Top ClipRRect
+            ClipRRect(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30.0),
+                topRight: Radius.circular(30.0),
               ),
-            ),
-          ),
-
-          // Top ClipRRect
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(30.0),
               child: Container(
                 alignment: Alignment.center,
-                width: width,
-                height: 75,
-                margin: EdgeInsets.all(15.0),
+                width: double.infinity,
+                height: 50,
+                margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
                 decoration: BoxDecoration(
                   color: Palette.outerSpace,
-                  borderRadius: BorderRadius.circular(10.0),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30.0),
+                    topRight: Radius.circular(30.0),
+                  ),
                 ),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       'Week ${widget.weekNumber}',
@@ -181,8 +101,117 @@ class _WeekFolderState extends State<WeekFolder> {
                 ),
               ),
             ),
-          ),
-        ],
+
+            // Bottom ClipRRect
+            ClipRRect(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(30.0),
+                bottomRight: Radius.circular(30.0),
+              ),
+              child: Container(
+                width: double.infinity,
+                margin: EdgeInsets.fromLTRB(15.0, 0, 15.0, 0),
+                decoration: BoxDecoration(
+                  color: Palette.outerSpace,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30.0),
+                    bottomRight: Radius.circular(30.0),
+                  ),
+                ),
+                child: ListView(
+                  shrinkWrap: true,
+                  children: <Widget>[
+                    for (String url in downloadUrls)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ElevatedButton(
+                          onPressed: () => _openURLInWebView(url),
+                          style: ElevatedButton.styleFrom(
+                            primary: Palette.mint,
+                            padding: EdgeInsets.all(20),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            minimumSize: Size(double.infinity, 80),
+                          ),
+                          child: FutureBuilder(
+                            future: _getFileName(url),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                final fileName = snapshot.data.toString();
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      fileName,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              } else {
+                                return CircularProgressIndicator();
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                    Container(
+                      width: 30,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _getDownloadUrls();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Palette.outerSpace,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 15),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          minimumSize: Size(double.infinity, 50),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Reload',
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.white),
+                            ),
+                            SizedBox(width: 5),
+                            if (DateTime.now()
+                                    .difference(lastReloadTimestamp)
+                                    .inSeconds <=
+                                5)
+                              Icon(
+                                Icons.cached,
+                                color: Colors.white,
+                              ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Last Reloaded: ${_formatTimestamp(lastReloadTimestamp)}',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -214,7 +243,16 @@ class _WeekFolderState extends State<WeekFolder> {
   Future<String> _getFileName(String url) async {
     try {
       final Uri uri = Uri.parse(url);
-      return uri.pathSegments.last;
+      final List<String> pathSegments = uri.pathSegments;
+
+      // classname/week#/filename
+      if (pathSegments.length >= 2) {
+        final String fileNameWithExt = pathSegments.last;
+        final List<String> fileNameParts = fileNameWithExt.split('/');
+        return fileNameParts.isNotEmpty ? fileNameParts.last : "Unknown File";
+      } else {
+        return "Unknown File";
+      }
     } catch (e) {
       print("Error extracting filename: $e");
       return "Unknown File";
