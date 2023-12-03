@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:post_note/palette.dart';
 import 'package:post_note/class_page.dart';
+import 'package:post_note/class_page_prime.dart';
 
 String _getCurrentUID() {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -45,7 +46,7 @@ class _ClassCardState extends State<ClassCard> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ClassPage(className: widget.className)));
+            builder: (context) => ClassPagePrime(className: widget.className)));
   }
 
   @override
@@ -62,11 +63,7 @@ class _ClassCardState extends State<ClassCard> {
               onTap: () {
                 if (widget.userInClass) {
                   // takes to class-specific page
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              ClassPage(className: widget.className)));
+                  sendToClassPage();
                 } else {
                   _enrollDialogBuilder(
                       context, widget.className, widget.professorName);
