@@ -6,7 +6,7 @@ import 'package:post_note/palette.dart';
 
 class UploadPage extends StatefulWidget {
   final int weekNumber;
-  final String className; // Add className parameter
+  final String className;
 
   const UploadPage(
       {super.key, required this.className, required this.weekNumber});
@@ -16,13 +16,15 @@ class UploadPage extends StatefulWidget {
 }
 
 class _UploadPageState extends State<UploadPage> {
+  // set default state for variables
   String? filePath;
   bool isLoading = false;
   bool fileUploaded = false;
-
   PlatformFile? _file;
   bool isImage = false;
 
+  // call when the user wants to upload another file
+  // after having just uploaded one
   Future<void> resetState() async {
     setState(() {
       filePath = null;
@@ -33,45 +35,61 @@ class _UploadPageState extends State<UploadPage> {
     });
   }
 
+  // function to pick the file
   Future<void> pickFile() async {
     try {
-      // Reset the state when picking another file
+      // reset the state when picking another file
       await resetState();
 
+      // the file that the user picked
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.any,
       );
 
-      // If the user does not pick anything
+      // if the user does not pick anything
       if (result == null) return;
 
+      // get the file name and extension
+      // check the extension
       PlatformFile file = result.files.first;
+      // if the file is an image, can display preview
       if (file.extension == 'jpg' ||
           file.extension == 'jpeg' ||
           file.extension == 'png') {
         setState(() {
           isImage = true;
         });
+        // else the file is not an image, so unable to display preview
       } else {
         setState(() {
           isImage = false;
         });
       }
 
+<<<<<<< HEAD
       await Future.delayed(const Duration(seconds: 2));
+=======
+      // wait a couple seconds for the file to be uploaded
+      await Future.delayed(Duration(seconds: 2));
+
+      // the file is getting uploaded
+>>>>>>> 8aa1a3e9d3fae90c8350dc244688afcdab1f5efb
       setState(() {
         isLoading = false;
         _file = file;
         fileUploaded = true;
       });
 
+      // waiting until the file actually is uploaded
       await _uploadFileToFirebase(file);
     } catch (e) {
+      // in case an issue arises
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.toString())));
     }
   }
 
+  // function that uploads the file under the correct folders in Firebase
   Future<void> _uploadFileToFirebase(PlatformFile file) async {
     try {
       Reference storageRef = FirebaseStorage.instance
@@ -87,8 +105,10 @@ class _UploadPageState extends State<UploadPage> {
     }
   }
 
+  // function that will tell the user that the file was successfully uploaded
   void _checkFileUpload(BuildContext context) {
     if (fileUploaded) {
+      // a pop up that will tell the user that the upload was a success
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -113,44 +133,61 @@ class _UploadPageState extends State<UploadPage> {
     }
   }
 
+  // build function
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          toolbarHeight: 100,
           title: Text(
-              'File Upload for ${widget.className} - Week ${widget.weekNumber}'),
+            'File Upload for ${widget.className} - Week ${widget.weekNumber}',
+            style: TextStyle(fontSize: 55),
+          ),
         ),
         body: SingleChildScrollView(
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+<<<<<<< HEAD
                 const SizedBox(height: 150),
                 isLoading
                     ? const CircularProgressIndicator()
+=======
+                SizedBox(height: 150),
+                // if button to upload has been clicked, show progress indicator
+                isLoading
+                    ? CircularProgressIndicator()
+                    // else allow the user to click to upload a file
+>>>>>>> 8aa1a3e9d3fae90c8350dc244688afcdab1f5efb
                     : ElevatedButton(
-                        onPressed: pickFile,
+                        onPressed: pickFile, // have the user pick the file
                         style: ElevatedButton.styleFrom(
                           fixedSize: const Size(350, 90),
                         ),
                         child: const Text('Select a file to upload',
                             style:
                                 TextStyle(color: Colors.white, fontSize: 30))),
-                //SizedBox(height: 20),
+                // if a file was actually picked
                 if (_file != null)
                   Column(
                     children: [
+                      // if the uploaded file is an image, display preview
                       if (isImage)
                         Image.memory(Uint8List.fromList(_file!.bytes!),
                             width: 600, height: 600),
+<<<<<<< HEAD
                       const SizedBox(height: 10),
                       //Text(
                       //  'Uploaded File Name: ${_file!.name}',
                       //  style: TextStyle(fontSize: 20),
                       //),
+=======
+                      SizedBox(height: 10),
+>>>>>>> 8aa1a3e9d3fae90c8350dc244688afcdab1f5efb
                     ],
                   ),
-                //SizedBox(height: 150),
+                // if the file got successfully uploaded, let the user know
                 if (fileUploaded)
                   Column(
                     children: <Widget>[

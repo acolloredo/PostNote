@@ -24,6 +24,7 @@ class ClassPage extends StatelessWidget {
           style: const TextStyle(fontSize: 55),
         ),
       ),
+      // unenroll button
       floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
       floatingActionButton: SizedBox(
         height: 100,
@@ -46,10 +47,9 @@ class ClassPage extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  // Stack for overlay effect
                   Stack(
                     children: <Widget>[
-                      // "Study Groups" box
+                      // left grey box for study groups
                       Container(
                         width: screenWidth * 0.5,
                         height: screenWidth * 0.5,
@@ -119,7 +119,7 @@ class ClassPage extends StatelessWidget {
                 ],
               ),
 
-              // add right box for week layout
+              // right box grey box for week layout
               Align(
                 alignment: Alignment.topRight,
                 child: Container(
@@ -129,6 +129,7 @@ class ClassPage extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
+                      // "Week Folders for Notes:" box
                       Container(
                         width: screenWidth * 0.25,
                         height: screenWidth * 0.1,
@@ -143,7 +144,8 @@ class ClassPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      // Week buttons using Flexible
+                      // two rows for week buttons
+                      // 1st row: Week 1 - 5
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: List.generate(
@@ -152,6 +154,7 @@ class ClassPage extends StatelessWidget {
                             flex: 1,
                             child: ElevatedButton(
                               onPressed: () {
+                                // if Week # button pushed, go to Week Page
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -182,6 +185,7 @@ class ClassPage extends StatelessWidget {
                         ),
                       ),
                       // Week buttons for the second set
+                      // 2 row: Week 6 - 10
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: List.generate(
@@ -190,6 +194,7 @@ class ClassPage extends StatelessWidget {
                             flex: 1,
                             child: ElevatedButton(
                               onPressed: () {
+                                // if Week # button pushed, go to Week Page
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
