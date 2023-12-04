@@ -46,7 +46,10 @@ class _ClassCardState extends State<ClassCard> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ClassPagePrime(className: widget.className)));
+            builder: (context) => ClassPagePrime(
+                  className: widget.className,
+                  professorName: widget.professorName,
+                )));
   }
 
   @override
