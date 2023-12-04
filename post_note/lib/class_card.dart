@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:post_note/palette.dart';
 import 'package:post_note/class_page.dart';
-import 'package:post_note/class_page_prime.dart';
 
 String _getCurrentUID() {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -46,7 +45,7 @@ class _ClassCardState extends State<ClassCard> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ClassPagePrime(
+            builder: (context) => ClassPage(
                   className: widget.className,
                   professorName: widget.professorName,
                 )));
