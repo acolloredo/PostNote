@@ -19,7 +19,9 @@ class WeekFolder extends StatefulWidget {
 }
 
 class _WeekFolderState extends State<WeekFolder> {
+  // list of string URLs
   List<String> downloadUrls = [];
+  // used to the let user know the last time the download links were reloaded
   DateTime lastReloadTimestamp = DateTime.now();
 
   @override
@@ -28,6 +30,7 @@ class _WeekFolderState extends State<WeekFolder> {
     _getDownloadUrls();
   }
 
+  // function to retreive the download URLs from Firebase
   Future<void> _getDownloadUrls() async {
     try {
       Reference storageRef = FirebaseStorage.instance
@@ -43,7 +46,9 @@ class _WeekFolderState extends State<WeekFolder> {
       }
 
       setState(() {
+        // populate the URL list with the Firebase URLs
         downloadUrls = urls;
+        // set the reload time stamp to right now
         lastReloadTimestamp = DateTime.now();
       });
     } catch (e) {
@@ -51,6 +56,7 @@ class _WeekFolderState extends State<WeekFolder> {
     }
   }
 
+  // put the timestamp in the hour:minute:second format
   String _formatTimestamp(DateTime timestamp) {
     return "${timestamp.hour}:${timestamp.minute}:${timestamp.second}";
   }
@@ -68,7 +74,7 @@ class _WeekFolderState extends State<WeekFolder> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            // Top ClipRRect
+            // Top ClipRRect for "Week #"
             ClipRRect(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30.0),
@@ -102,7 +108,7 @@ class _WeekFolderState extends State<WeekFolder> {
               ),
             ),
 
-            // Bottom ClipRRect
+            // Bottom ClipRRect for all of the download linked buttons
             ClipRRect(
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(30.0),
@@ -121,13 +127,15 @@ class _WeekFolderState extends State<WeekFolder> {
                 child: ListView(
                   shrinkWrap: true,
                   children: <Widget>[
+                    // for every URL, make a button that when clicked,
+                    // will allow you to download using the Firebase URL
                     for (String url in downloadUrls)
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
                           onPressed: () => _openURLInWebView(url),
                           style: ElevatedButton.styleFrom(
-                            primary: Palette.mint,
+                            backgroundColor: Palette.mint,
                             padding: EdgeInsets.all(20),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
@@ -135,6 +143,8 @@ class _WeekFolderState extends State<WeekFolder> {
                             minimumSize: Size(double.infinity, 80),
                           ),
                           child: FutureBuilder(
+                            // call function to get *only* the file name
+                            // from the file's download URL
                             future: _getFileName(url),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
@@ -153,6 +163,7 @@ class _WeekFolderState extends State<WeekFolder> {
                                   ],
                                 );
                               } else {
+                                // in case it takes a bit to get file name
                                 return CircularProgressIndicator();
                               }
                             },
@@ -160,13 +171,15 @@ class _WeekFolderState extends State<WeekFolder> {
                         ),
                       ),
                     Container(
+                      // if the page has not been update in awhile, user can
+                      // click the reload button that gets all the URLs
                       width: 30,
                       child: ElevatedButton(
                         onPressed: () {
                           _getDownloadUrls();
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Palette.outerSpace,
+                          backgroundColor: Palette.outerSpace,
                           padding: EdgeInsets.symmetric(
                               vertical: 10, horizontal: 15),
                           shape: RoundedRectangleBorder(
@@ -174,7 +187,7 @@ class _WeekFolderState extends State<WeekFolder> {
                           ),
                           minimumSize: Size(double.infinity, 50),
                         ),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
@@ -183,18 +196,15 @@ class _WeekFolderState extends State<WeekFolder> {
                                   TextStyle(fontSize: 18, color: Colors.white),
                             ),
                             SizedBox(width: 5),
-                            if (DateTime.now()
-                                    .difference(lastReloadTimestamp)
-                                    .inSeconds <=
-                                5)
-                              Icon(
-                                Icons.cached,
-                                color: Colors.white,
-                              ),
+                            Icon(
+                              Icons.cached,
+                              color: Colors.white,
+                            ),
                           ],
                         ),
                       ),
                     ),
+                    // display the last time the page was reloaded to the user
                     SizedBox(height: 5),
                     Container(
                       alignment: Alignment.center,
@@ -213,6 +223,7 @@ class _WeekFolderState extends State<WeekFolder> {
           ],
         ),
       ),
+      // if the user wants to upload a file, go to the upload page
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -231,6 +242,7 @@ class _WeekFolderState extends State<WeekFolder> {
     );
   }
 
+  // launch the file's Firebase URL to start the download
   Future<void> _openURLInWebView(String url) async {
     final Uri uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
@@ -240,6 +252,7 @@ class _WeekFolderState extends State<WeekFolder> {
     }
   }
 
+  // extract the file's name from the Firebase URL
   Future<String> _getFileName(String url) async {
     try {
       final Uri uri = Uri.parse(url);
