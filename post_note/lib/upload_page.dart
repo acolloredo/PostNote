@@ -8,7 +8,8 @@ class UploadPage extends StatefulWidget {
   final int weekNumber;
   final String className;
 
-  UploadPage({required this.className, required this.weekNumber});
+  const UploadPage(
+      {super.key, required this.className, required this.weekNumber});
 
   @override
   _UploadPageState createState() => _UploadPageState();
@@ -66,7 +67,7 @@ class _UploadPageState extends State<UploadPage> {
       }
 
       // wait a couple seconds for the file to be uploaded
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 2));
 
       // the file is getting uploaded
       setState(() {
@@ -108,9 +109,9 @@ class _UploadPageState extends State<UploadPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('File Uploaded!', style: TextStyle(fontSize: 25)),
+            title: const Text('File Uploaded!', style: TextStyle(fontSize: 25)),
             content: Text('Name of Uploaded File: ${_file!.name}',
-                style: TextStyle(fontSize: 22)),
+                style: const TextStyle(fontSize: 22)),
             actions: [
               TextButton(
                 onPressed: () {
@@ -136,7 +137,7 @@ class _UploadPageState extends State<UploadPage> {
           toolbarHeight: 100,
           title: Text(
             'File Upload for ${widget.className} - Week ${widget.weekNumber}',
-            style: TextStyle(fontSize: 55),
+            style: const TextStyle(fontSize: 55),
           ),
         ),
         body: SingleChildScrollView(
@@ -144,10 +145,10 @@ class _UploadPageState extends State<UploadPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                SizedBox(height: 150),
+                const SizedBox(height: 150),
                 // if button to upload has been clicked, show progress indicator
                 isLoading
-                    ? CircularProgressIndicator()
+                    ? const CircularProgressIndicator()
                     // else allow the user to click to upload a file
                     : ElevatedButton(
                         onPressed: pickFile, // have the user pick the file
@@ -165,7 +166,7 @@ class _UploadPageState extends State<UploadPage> {
                       if (isImage)
                         Image.memory(Uint8List.fromList(_file!.bytes!),
                             width: 600, height: 600),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                     ],
                   ),
                 // if the file got successfully uploaded, let the user know
@@ -182,7 +183,7 @@ class _UploadPageState extends State<UploadPage> {
                           style: TextStyle(color: Colors.white, fontSize: 30),
                         ),
                       ),
-                      SizedBox(height: 150),
+                      const SizedBox(height: 150),
                     ],
                   ),
               ],

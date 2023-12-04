@@ -1,8 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:post_note/class_view.dart';
 import 'package:post_note/palette.dart';
+import 'package:post_note/appbar_options.dart';
 
 class HomePage extends StatefulWidget {
   final Widget bodyContent;
@@ -81,7 +81,8 @@ class _HomePageState extends State<HomePage> {
                             ),
                             onTap: () => controller.openView(),
                             elevation: const MaterialStatePropertyAll(0.0),
-                            surfaceTintColor: const MaterialStatePropertyAll(Palette.fernGreen),
+                            surfaceTintColor: const MaterialStatePropertyAll(
+                                Palette.fernGreen),
                           );
                         },
                         suggestionsBuilder: (context, controller) {
@@ -112,94 +113,21 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: MenuAnchor(
-              style: MenuStyle(
-                padding: MaterialStateProperty.all(
-                  const EdgeInsets.all(8.0),
-                ),
-                backgroundColor: MaterialStateProperty.all(Palette.mint),
-                elevation: MaterialStateProperty.all(10.0),
-              ),
-              alignmentOffset: const Offset(-35.0, 0.0),
-              menuChildren: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: TextButton(
-                    onPressed: () {
-                      debugPrint("I am signing out");
-                      FirebaseAuth.instance.signOut();
-                      Navigator.popUntil(
-                        context,
-                        (route) => route.isFirst,
-                      );
-                    },
-                    child: const Text('Logout'),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: TextButton(
-                    onPressed: () {
-                      debugPrint("About appbar button pushed");
-                    },
-                    child: const Text('About'),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: TextButton(
-                    onPressed: () {
-                      debugPrint("Help appbar button pushed");
-                    },
-                    child: const Text('Help'),
-                  ),
-                ),
-              ],
-              builder: (context, controller, child) {
-                return NavBarButton(
-                  tooltipMessage: 'More',
-                  onPressed: () {
-                    controller.isOpen ? controller.close() : controller.open();
-                  },
-                  icon: const Icon(Icons.more_vert_sharp),
-                );
-              },
-            ),
-          ),
+        actions: const [
+          AppBarOptions(),
         ],
       ),
-      floatingActionButton: ModalRoute.of(context)?.settings.name != '/enrolled-classes'
-          ? null
-          : FloatingActionButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/class-search');
-              },
-              tooltip: 'Add a class',
-              child: const Icon(Icons.add),
-            ),
+      floatingActionButton:
+          ModalRoute.of(context)?.settings.name != '/enrolled-classes'
+              ? null
+              : FloatingActionButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/class-search');
+                  },
+                  tooltip: 'Add a class',
+                  child: const Icon(Icons.add),
+                ),
       body: widget.bodyContent,
-    );
-  }
-}
-
-class NavBarButton extends IconButton {
-  final String tooltipMessage;
-
-  const NavBarButton({
-    super.key,
-    required this.tooltipMessage,
-    required super.onPressed,
-    required super.icon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Tooltip(
-      message: tooltipMessage,
-      child: super.build(context),
     );
   }
 }

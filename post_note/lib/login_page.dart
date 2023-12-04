@@ -39,6 +39,8 @@ class _LoginPageState extends State<LoginPage> {
 
         final user = userCredential.user;
         debugPrint("Signed in user: $user");
+
+        invalidLoginCredentials = false;
       } on FirebaseAuthException catch (e) {
         if (e.code == "invalid-login-credentials") {
           setState(() {
@@ -46,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
           });
         }
       } catch (e) {
-        invalidLoginCredentials = false;
+        invalidLoginCredentials = true;
       }
     }
   }
@@ -131,8 +133,8 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () {
                           debugPrint("Sign in button pressed");
                           TextInput.finishAutofillContext();
-                          signInEmailPassword(email, password).timeout(const Duration(seconds: 4),
-                              onTimeout: () {
+                          signInEmailPassword(email, password).timeout(
+                              const Duration(seconds: 4), onTimeout: () {
                             debugPrint("Sign in timed out");
                           });
                         },
@@ -164,11 +166,13 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
                               child: Text(
                                 "Or",
                                 style: TextStyle(
-                                    fontSize: 20, color: Palette.outerSpace.withAlpha(200)),
+                                    fontSize: 20,
+                                    color: Palette.outerSpace.withAlpha(200)),
                               ),
                             ),
                             Expanded(
@@ -186,8 +190,8 @@ class _LoginPageState extends State<LoginPage> {
                         width: 384.0,
                         height: 70.0,
                         child: SignInWithGoogleButton(
-                          onPressed: () {
-                            signInWithGoogle();
+                          onPressed: () async {
+                            await signInWithGoogle();
                           },
                         ),
                       ),
