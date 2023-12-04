@@ -15,8 +15,3 @@ PostNote is a new web app designed for sharing notes among classmates, with an i
 ## Technologies Used
 - **Frontend:** Dart, Flutter
 - **Backend, Database, Authentication:** Firebase
-
-## Technologies
-Our app is mostly comprised of two technologies:
-- A **Flutter frontend**
-- And a **Firebase backend**
