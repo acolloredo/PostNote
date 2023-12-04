@@ -6,7 +6,8 @@ class DownloadPage extends StatefulWidget {
   final int weekNumber;
   final String className;
 
-  DownloadPage({required this.className, required this.weekNumber});
+  const DownloadPage(
+      {super.key, required this.className, required this.weekNumber});
 
   @override
   _DownloadPageState createState() => _DownloadPageState();
@@ -66,7 +67,7 @@ class _DownloadPageState extends State<DownloadPage> {
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
                 onTap: () => _openURLInWebView(url),
-                child: Text(
+                child: const Text(
                   'Download File',
                   style: TextStyle(
                     color: Colors.blue,

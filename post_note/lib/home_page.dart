@@ -81,7 +81,8 @@ class _HomePageState extends State<HomePage> {
                             ),
                             onTap: () => controller.openView(),
                             elevation: const MaterialStatePropertyAll(0.0),
-                            surfaceTintColor: const MaterialStatePropertyAll(Palette.fernGreen),
+                            surfaceTintColor: const MaterialStatePropertyAll(
+                                Palette.fernGreen),
                           );
                         },
                         suggestionsBuilder: (context, controller) {
@@ -171,15 +172,16 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      floatingActionButton: ModalRoute.of(context)?.settings.name != '/enrolled-classes'
-          ? null
-          : FloatingActionButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/class-search');
-              },
-              tooltip: 'Add a class',
-              child: const Icon(Icons.add),
-            ),
+      floatingActionButton:
+          ModalRoute.of(context)?.settings.name != '/enrolled-classes'
+              ? null
+              : FloatingActionButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/class-search');
+                  },
+                  tooltip: 'Add a class',
+                  child: const Icon(Icons.add),
+                ),
       body: widget.bodyContent,
     );
   }

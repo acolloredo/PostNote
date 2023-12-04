@@ -8,7 +8,8 @@ class UploadPage extends StatefulWidget {
   final int weekNumber;
   final String className; // Add className parameter
 
-  UploadPage({required this.className, required this.weekNumber});
+  const UploadPage(
+      {super.key, required this.className, required this.weekNumber});
 
   @override
   _UploadPageState createState() => _UploadPageState();
@@ -57,7 +58,7 @@ class _UploadPageState extends State<UploadPage> {
         });
       }
 
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 2));
       setState(() {
         isLoading = false;
         _file = file;
@@ -92,9 +93,9 @@ class _UploadPageState extends State<UploadPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('File Uploaded!', style: TextStyle(fontSize: 25)),
+            title: const Text('File Uploaded!', style: TextStyle(fontSize: 25)),
             content: Text('Name of Uploaded File: ${_file!.name}',
-                style: TextStyle(fontSize: 22)),
+                style: const TextStyle(fontSize: 22)),
             actions: [
               TextButton(
                 onPressed: () {
@@ -124,9 +125,9 @@ class _UploadPageState extends State<UploadPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                SizedBox(height: 150),
+                const SizedBox(height: 150),
                 isLoading
-                    ? CircularProgressIndicator()
+                    ? const CircularProgressIndicator()
                     : ElevatedButton(
                         onPressed: pickFile,
                         style: ElevatedButton.styleFrom(
@@ -142,7 +143,7 @@ class _UploadPageState extends State<UploadPage> {
                       if (isImage)
                         Image.memory(Uint8List.fromList(_file!.bytes!),
                             width: 600, height: 600),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       //Text(
                       //  'Uploaded File Name: ${_file!.name}',
                       //  style: TextStyle(fontSize: 20),
@@ -163,7 +164,7 @@ class _UploadPageState extends State<UploadPage> {
                           style: TextStyle(color: Colors.white, fontSize: 30),
                         ),
                       ),
-                      SizedBox(height: 150),
+                      const SizedBox(height: 150),
                     ],
                   ),
               ],

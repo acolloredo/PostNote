@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:post_note/palette.dart';
 import 'package:post_note/upload_page.dart';
-import 'package:post_note/download_page.dart';
 
 class WeekFolder extends StatelessWidget {
   final int weekNumber;
   final String className;
 
   const WeekFolder({
-    Key? key,
+    super.key,
     required this.weekNumber,
     required this.className,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +29,10 @@ class WeekFolder extends StatelessWidget {
             ),
           );
         },
-        child: Text('Upload'),
         backgroundColor: Palette.fernGreen,
+        child: const Text('Upload'),
       ),
-      persistentFooterButtons: <Widget>[
+      persistentFooterButtons: const <Widget>[
         // Place any additional persistent footer buttons here if needed
       ],
       body: SingleChildScrollView(
@@ -49,7 +48,7 @@ class WeekFolder extends StatelessWidget {
                     alignment: Alignment.bottomCenter,
                     width: width,
                     height: height,
-                    margin: EdgeInsets.all(15.0),
+                    margin: const EdgeInsets.all(15.0),
                     decoration: BoxDecoration(
                       color: Palette.outerSpace,
                       borderRadius: BorderRadius.circular(10.0),
@@ -69,13 +68,13 @@ class WeekFolder extends StatelessWidget {
                     alignment: Alignment.center,
                     width: 200,
                     height: 75,
-                    margin: EdgeInsets.all(15.0),
+                    margin: const EdgeInsets.all(15.0),
                     decoration: BoxDecoration(
                       color: Palette.outerSpace,
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: Text(
-                      'Week ${weekNumber}',
+                      'Week $weekNumber',
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
