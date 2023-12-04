@@ -31,7 +31,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // TODO: add elevation?
         toolbarHeight: 75.0,
         title: Row(
           children: [

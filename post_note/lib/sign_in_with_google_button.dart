@@ -17,8 +17,10 @@ class SignInWithGoogleButton extends StatelessWidget {
         ),
         child: MaterialButton(
           onPressed: onPressed,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-          child: Ink.image(image: const AssetImage("images/web_neutral_sq_ctn@4x.png")),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+          child: Ink.image(
+              image: const AssetImage("images/web_neutral_sq_ctn@4x.png")),
         ),
       ),
     );

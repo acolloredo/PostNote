@@ -27,12 +27,11 @@ class _PostNoteState extends State<PostNote> {
   final Future<FirebaseApp> initFirebaseApp = Firebase.initializeApp(
     options: DefaultFirebaseOptions.web,
   );
-  final navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      navigatorKey: navigatorKey,
+      initialRoute: "login",
       routes: {
         '/': (context) => FutureBuilder(
               future: initFirebaseApp,
@@ -41,8 +40,7 @@ class _PostNoteState extends State<PostNote> {
                   FirebaseAuth.instance.authStateChanges().listen(
                     (user) {
                       if (user != null) {
-                        navigatorKey.currentState!
-                            .pushNamed('/enrolled-classes');
+                        Navigator.of(context).pushNamed('/enrolled-classes');
                       }
                     },
                   );
