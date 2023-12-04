@@ -7,7 +7,9 @@ class SearchBarAnchor extends StatelessWidget {
   const SearchBarAnchor({
     Key? key, // Added Key? key parameter
     required this.myController,
-    required this.classItems, // Added required classItems parameter
+    required this.classItems,
+    required GridView Function(dynamic context, dynamic controller)
+        suggestionsBuilder, // Added required classItems parameter
   }) : super(key: key); // Added super(key: key);
 
   final SearchController myController;

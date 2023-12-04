@@ -85,11 +85,13 @@ class _ClassViewState extends State<ClassView> {
   Widget build(BuildContext context) {
     print("build!");
     return StreamBuilder<QuerySnapshot>(
-      stream: classViewStreamController.stream, // Use classViewStreamController
+      stream:
+          classViewStreamController.stream, // Using classViewStreamController
       builder: (context, snapshot) {
         return SearchBarAnchor(
           myController: SearchController(),
-          classItems: classData, // Pass class data to SearchBarAnchor
+          classItems: classData, // Passing class data to SearchBarAnchor
+          //goal is to dynamically generate suggestions
           suggestionsBuilder: (context, controller) {
             final searchQuery = controller.query.toLowerCase();
             final filteredClasses = snapshot.data!.docs.where((doc) {
