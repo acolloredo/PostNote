@@ -8,9 +8,9 @@ class ClassPage extends StatelessWidget {
   final String className;
 
   const ClassPage({
-    Key? key,
+    super.key,
     required this.className,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class ClassPage extends StatelessWidget {
         toolbarHeight: 100,
         title: Text(
           className,
-          style: TextStyle(fontSize: 55),
+          style: const TextStyle(fontSize: 55),
         ),
       ),
       // unenroll button
@@ -34,8 +34,8 @@ class ClassPage extends StatelessWidget {
             onPressed: () {
               // allow student to unenroll from class
             },
-            child: Text('Unenroll'),
             backgroundColor: Palette.fernGreen,
+            child: const Text('Unenroll'),
           ),
         ),
       ),
@@ -174,7 +174,7 @@ class ClassPage extends StatelessWidget {
                                 scrollDirection: Axis.horizontal,
                                 child: Text(
                                   'Week ${index + 1}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 22,
                                     color: Colors.white,
                                   ),
@@ -213,7 +213,7 @@ class ClassPage extends StatelessWidget {
                                 scrollDirection: Axis.horizontal,
                                 child: Text(
                                   'Week ${index + 6}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 22,
                                     color: Colors.white,
                                   ),
