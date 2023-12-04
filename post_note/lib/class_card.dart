@@ -45,7 +45,10 @@ class _ClassCardState extends State<ClassCard> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ClassPage(className: widget.className)));
+            builder: (context) => ClassPage(
+                  className: widget.className,
+                  professorName: widget.professorName,
+                )));
   }
 
   @override
@@ -62,11 +65,7 @@ class _ClassCardState extends State<ClassCard> {
               onTap: () {
                 if (widget.userInClass) {
                   // takes to class-specific page
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              ClassPage(className: widget.className)));
+                  sendToClassPage();
                 } else {
                   _enrollDialogBuilder(
                       context, widget.className, widget.professorName);
