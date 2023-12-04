@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'sign_in_with_google_button.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
+// import 'package:flutter_svg/svg.dart';
 import 'package:post_note/palette.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:post_note/splash_logo.dart';
 import 'login_field.dart';
 import 'gradient_button.dart';
+
+Future<UserCredential> signInWithGoogle() async {
+  GoogleAuthProvider googleProvider = GoogleAuthProvider();
+
+  return await FirebaseAuth.instance.signInWithPopup(googleProvider);
+}
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -124,8 +131,8 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () {
                           debugPrint("Sign in button pressed");
                           TextInput.finishAutofillContext();
-                          signInEmailPassword(email, password).timeout(
-                              const Duration(seconds: 4), onTimeout: () {
+                          signInEmailPassword(email, password).timeout(const Duration(seconds: 4),
+                              onTimeout: () {
                             debugPrint("Sign in timed out");
                           });
                         },
@@ -157,13 +164,11 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
                               child: Text(
                                 "Or",
                                 style: TextStyle(
-                                    fontSize: 20,
-                                    color: Palette.outerSpace.withAlpha(200)),
+                                    fontSize: 20, color: Palette.outerSpace.withAlpha(200)),
                               ),
                             ),
                             Expanded(
@@ -177,23 +182,13 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          debugPrint("Continue with Google button pressed");
-                        },
-                        // HACK: change shape to remove background
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          maximumSize: const Size(400.0, double.infinity),
-                          minimumSize: const Size(400.0, 0.0),
-                          padding: const EdgeInsets.all(0.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                        child: SvgPicture.asset(
-                          "svgs/web_neutral_sq_ctn.svg",
-                          width: 400.0,
+                      child: SizedBox(
+                        width: 384.0,
+                        height: 70.0,
+                        child: SignInWithGoogleButton(
+                          onPressed: () {
+                            signInWithGoogle();
+                          },
                         ),
                       ),
                     ),
