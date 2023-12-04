@@ -1,11 +1,12 @@
-// ignore_for_file: avoid_print
 import 'dart:math';
 import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:post_note/class_card.dart';
+import 'search_bar.dart';
 
 final ScrollController classViewScrollController = ScrollController(
   debugLabel: "classViewScrollController",
@@ -26,6 +27,7 @@ class ClassView extends StatefulWidget {
 }
 
 class _ClassViewState extends State<ClassView> {
+  List<Map<String, dynamic>> classData = [];
   Iterable enrolledClassesArr = [];
   final firestoreInstance = FirebaseFirestore.instance;
   StreamController<QuerySnapshot<Object?>> classViewStreamController =
@@ -82,54 +84,35 @@ class _ClassViewState extends State<ClassView> {
   @override
   Widget build(BuildContext context) {
     print("build!");
-    return Column(
-      children: [
-        Expanded(
-          child: StreamBuilder<QuerySnapshot>(
-            stream: classViewStreamController.stream,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                print("no data");
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              return LayoutBuilder(
-                builder: (context, constraints) {
-                  return GridView.builder(
-                    controller: classViewScrollController,
-                    clipBehavior: Clip.antiAlias,
-                    padding: const EdgeInsets.fromLTRB(100.0, 25.0, 100.0, 0.0),
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 400.0,
-                      mainAxisExtent: max(constraints.maxHeight / 3, 250.0),
-                    ),
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      DocumentSnapshot doc = snapshot.data!.docs[index];
-                      final className = doc["class_name"];
-                      final professorName = doc["professor_name"];
-                      final classUid = doc["class_uid"];
-                      debugPrint("INDEX: $index");
-                      debugPrint("CLASS NAME: $className");
-                      debugPrint("PROFESSOR NAME: $professorName");
-                      debugPrint("\n\n");
+    return StreamBuilder<QuerySnapshot>(
+      stream: classViewStreamController.stream, // Use classViewStreamController
+      builder: (context, snapshot) {
+        return SearchBarAnchor(
+          myController: SearchController(),
+          classItems: classData, // Pass class data to SearchBarAnchor
+          suggestionsBuilder: (context, controller) {
+            final searchQuery = controller.query.toLowerCase();
+            final filteredClasses = snapshot.data!.docs.where((doc) {
+              final className = doc["class_name"].toLowerCase();
+              final professorName = doc["professor_name"].toLowerCase();
+              return className.contains(searchQuery) ||
+                  professorName.contains(searchQuery);
+            }).toList();
 
-                      return ClassCard(
-                        constraints: constraints,
-                        professorName: professorName,
-                        className: className,
-                        classUid: classUid,
-                        userInClass: false,
-                      );
-                    },
-                  );
-                },
-              );
-            },
-          ),
-        ),
-      ],
+            return GridView.builder(
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 400.0,
+                mainAxisExtent:
+                    max(MediaQuery.of(context).size.height / 3, 250.0),
+              ),
+              itemCount: filteredClasses.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Text(filteredClasses[index]["class_name"]);
+              },
+            );
+          },
+        );
+      },
     );
   }
 }
