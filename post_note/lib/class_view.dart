@@ -81,32 +81,6 @@ class _ClassViewState extends State<ClassView> {
   }
 
   @override
-  initState() {
-    super.initState();
-    getEnrolledClassesArray().whenComplete(() async {
-      if (enrolledClassesArr.isNotEmpty) {
-        Stream<QuerySnapshot<Object?>> unenrolledClassesStream =
-            firestoreInstance
-                .collection("classes")
-                .where('class_uid', whereNotIn: enrolledClassesArr)
-                .where('quarter', isEqualTo: "Fall23")
-                .snapshots();
-
-        setState(() {
-          classViewStreamController.addStream(unenrolledClassesStream);
-        });
-      } else {
-        setState(() {
-          classViewStreamController.addStream(firestoreInstance
-              .collection("classes")
-              .where('quarter', isEqualTo: "Fall23")
-              .snapshots());
-        });
-      }
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -202,42 +176,29 @@ class _ClassViewState extends State<ClassView> {
       body: Column(
         children: [
           Expanded(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: classViewStreamController.stream,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  print("no data");
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                return LayoutBuilder(
-                  builder: (context, constraints) {
-                    return GridView.builder(
-                      controller: classViewScrollController,
-                      clipBehavior: Clip.antiAlias,
-                      padding:
-                          const EdgeInsets.fromLTRB(100.0, 25.0, 100.0, 0.0),
-                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 400.0,
-                        mainAxisExtent: max(constraints.maxHeight / 3, 250.0),
-                      ),
-                      itemCount: snapshot.data!.docs.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        DocumentSnapshot doc = snapshot.data!.docs[index];
-                        final className = doc["class_name"];
-                        final professorName = doc["professor_name"];
-                        final classUid = doc["class_uid"];
-                        print(classSearchController.value);
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return GridView.builder(
+                  controller: classViewScrollController,
+                  clipBehavior: Clip.antiAlias,
+                  padding: const EdgeInsets.fromLTRB(100.0, 25.0, 100.0, 0.0),
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 400.0,
+                    mainAxisExtent: max(constraints.maxHeight / 3, 250.0),
+                  ),
+                  itemCount: unenrolledClassesArr.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    DocumentSnapshot doc = unenrolledClassesArr[index];
+                    final className = doc["class_name"];
+                    final professorName = doc["professor_name"];
+                    final classUid = doc["class_uid"];
 
-                        return ClassCard(
-                          constraints: constraints,
-                          professorName: professorName,
-                          className: className,
-                          classUid: classUid,
-                          userInClass: false,
-                        );
-                      },
+                    return ClassCard(
+                      constraints: constraints,
+                      professorName: professorName,
+                      className: className,
+                      classUid: classUid,
+                      userInClass: false,
                     );
                   },
                 );
