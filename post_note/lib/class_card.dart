@@ -46,9 +46,10 @@ class _ClassCardState extends State<ClassCard> {
         context,
         MaterialPageRoute(
             builder: (context) => ClassPage(
-                  className: widget.className,
-                  professorName: widget.professorName,
-                )));
+                className: widget.className,
+                professorName: widget.professorName,
+                classUid: widget.classUid,
+                uid: _getCurrentUID())));
   }
 
   @override

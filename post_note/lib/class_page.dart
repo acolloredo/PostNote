@@ -7,53 +7,31 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class ClassPage extends StatelessWidget {
   final String className;
   final String professorName;
-  // pass in class uid
-  //final String classUid;
+  final String classUid;
+  final String uid;
 
+  final firestoreInstance = FirebaseFirestore.instance;
+
+  // unenroll:
   // get call to Firestore to get classUids enrolled in; current array of enrolled class
   // pop the unenrolled class from array
   // update to call to update to not have the class that you want to unenroll
   // and naviate user back to enrolled classes
 
-  /* to get user uid:
-  String _getCurrentUID() {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final User? user = auth.currentUser;
-    final String uid = user!.uid;
-    return uid;
-  }
-  */
-
-  /* to enroll a user in class
-  Future<void> enrollUserInClass(uid, classUid) async {
-    await firestoreInstance.collection("users").doc(uid).update({
-      "enrolled_classes": FieldValue.arrayUnion([classUid]) // a new variable to array
-      // need to pop the classUid
-    });
-  }
-  */
-
-  /*
-  make a ref to cloud firebase
-
-  */
-
-  /*
-  onPressed: () {
-                  String uid = _getCurrentUID();
-                  enrollUserInClass(uid, widget.classUid).whenComplete(() {
-                    Navigator.of(context).pop();
-                    Navigator.of(context, rootNavigator: true)
-                        .popAndPushNamed("/enrolled-classes");
-                  });
-                },
-  */
-
-  const ClassPage({
+  ClassPage({
     super.key,
     required this.className,
     required this.professorName,
+    required this.classUid,
+    required this.uid, // uid was already found in class_card.dart
   });
+
+  // unenroll user function by removing classUid from enrolled_classes array
+  Future<void> unenrollUserInClass(uid, classUid) async {
+    await firestoreInstance.collection("users").doc(uid).update({
+      "enrolled_classes": FieldValue.arrayRemove([classUid])
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +54,13 @@ class ClassPage extends StatelessWidget {
               iconSize: 30.0,
               tooltip: "Unenroll",
               color: Palette.outerSpace,
-              onPressed: () {},
+              onPressed: () {
+                unenrollUserInClass(uid, classUid).whenComplete(() {
+                  Navigator.of(context).pop();
+                  Navigator.of(context, rootNavigator: true)
+                      .popAndPushNamed("/enrolled-classes");
+                });
+              },
             ),
           ),
           const AppBarOptions(),
