@@ -122,7 +122,7 @@ class _ClassCardState extends State<ClassCard> {
               TextButton(
                 style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Palette.outerSpace)),
+                        MaterialStateProperty.all<Color>(Palette.fernGreen)),
                 child: const Padding(
                   padding:
                       EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
