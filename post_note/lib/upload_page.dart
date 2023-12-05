@@ -8,7 +8,8 @@ class UploadPage extends StatefulWidget {
   final int weekNumber;
   final String className;
 
-  const UploadPage({super.key, required this.className, required this.weekNumber});
+  const UploadPage(
+      {super.key, required this.className, required this.weekNumber});
 
   @override
   _UploadPageState createState() => _UploadPageState();
@@ -52,7 +53,9 @@ class _UploadPageState extends State<UploadPage> {
       // check the extension
       PlatformFile file = result.files.first;
       // if the file is an image, can display preview
-      if (file.extension == 'jpg' || file.extension == 'jpeg' || file.extension == 'png') {
+      if (file.extension == 'jpg' ||
+          file.extension == 'jpeg' ||
+          file.extension == 'png') {
         setState(() {
           isImage = true;
         });
@@ -77,7 +80,8 @@ class _UploadPageState extends State<UploadPage> {
       await _uploadFileToFirebase(file);
     } catch (e) {
       // in case an issue arises
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.toString())));
     }
   }
 
@@ -106,14 +110,15 @@ class _UploadPageState extends State<UploadPage> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('File Uploaded!', style: TextStyle(fontSize: 25)),
-            content:
-                Text('Name of Uploaded File: ${_file!.name}', style: const TextStyle(fontSize: 22)),
+            content: Text('Name of Uploaded File: ${_file!.name}',
+                style: const TextStyle(fontSize: 22)),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text('OK', style: TextStyle(color: Colors.black, fontSize: 22)),
+                child: const Text('OK',
+                    style: TextStyle(color: Colors.black, fontSize: 22)),
               ),
             ],
           );
@@ -151,14 +156,16 @@ class _UploadPageState extends State<UploadPage> {
                           fixedSize: const Size(350, 90),
                         ),
                         child: const Text('Select a file to upload',
-                            style: TextStyle(color: Colors.white, fontSize: 30))),
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 30))),
                 // if a file was actually picked
                 if (_file != null)
                   Column(
                     children: [
                       // if the uploaded file is an image, display preview
                       if (isImage)
-                        Image.memory(Uint8List.fromList(_file!.bytes!), width: 600, height: 600),
+                        Image.memory(Uint8List.fromList(_file!.bytes!),
+                            width: 600, height: 600),
                       const SizedBox(height: 10),
                     ],
                   ),
@@ -169,7 +176,8 @@ class _UploadPageState extends State<UploadPage> {
                       ElevatedButton(
                         onPressed: () => _checkFileUpload(context),
                         style: ElevatedButton.styleFrom(
-                            fixedSize: const Size(350, 90), backgroundColor: Palette.fernGreen),
+                            fixedSize: const Size(350, 90),
+                            backgroundColor: Palette.fernGreen),
                         child: const Text(
                           'Upload Success!',
                           style: TextStyle(color: Colors.white, fontSize: 30),

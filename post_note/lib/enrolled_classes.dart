@@ -12,15 +12,15 @@ final ScrollController enrolledClassViewScrollController = ScrollController(
   debugLabel: "enrolledClassViewScrollController",
 );
 
-String _getCurrentUID() {
-  final FirebaseAuth auth = FirebaseAuth.instance;
-  final User? user = auth.currentUser;
-  final String uid = user!.uid;
-  return uid;
-}
-
 class EnrolledClassView extends StatefulWidget {
   const EnrolledClassView({super.key});
+
+  String _getCurrentUID() {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    final String uid = user!.uid;
+    return uid;
+  }
 
   @override
   State<EnrolledClassView> createState() => _EnrolledClassViewState();
@@ -36,7 +36,7 @@ class _EnrolledClassViewState extends State<EnrolledClassView> {
   Future<void> getEnrolledClassesArray() async {
     await firestoreInstance
         .collection("users")
-        .doc(_getCurrentUID())
+        .doc(widget._getCurrentUID())
         .get()
         .then((value) {
       setState(() {
