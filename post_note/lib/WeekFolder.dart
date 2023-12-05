@@ -180,7 +180,7 @@ class _WeekFolderState extends State<WeekFolder> {
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Palette.outerSpace,
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 15),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),

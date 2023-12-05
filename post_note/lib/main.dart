@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:post_note/create_account_page.dart';
-import 'package:post_note/home_page.dart';
 import 'package:post_note/login_page.dart';
 import 'firebase_options.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,8 +10,16 @@ import 'package:post_note/palette.dart';
 import 'package:post_note/class_view.dart';
 import 'package:post_note/enrolled_classes.dart';
 
-void main() {
+late final FirebaseApp app;
+late final FirebaseAuth auth;
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  app = await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  auth = FirebaseAuth.instanceFor(app: app);
+
   runApp(const PostNote());
 }
 
@@ -24,37 +31,41 @@ class PostNote extends StatefulWidget {
 }
 
 class _PostNoteState extends State<PostNote> {
-  final Future<FirebaseApp> initFirebaseApp = Firebase.initializeApp(
-    options: DefaultFirebaseOptions.web,
-  );
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: "login",
       routes: {
-        '/': (context) => FutureBuilder(
-              future: initFirebaseApp,
+        // Login route:
+        '/': (context) => StreamBuilder(
+              stream: auth.authStateChanges(),
               builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  FirebaseAuth.instance.authStateChanges().listen(
-                    (user) {
-                      if (user != null) {
-                        Navigator.of(context).pushNamed('/enrolled-classes');
-                      }
-                    },
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: CircularProgressIndicator(),
+                    ),
                   );
                 }
-                return const LoginPage();
+                final user = snapshot.data;
+                if (user == null) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    Navigator.pushNamed(context, '/login');
+                  });
+                } else {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    Navigator.pushNamed(context, '/enrolled-classes');
+                  });
+                }
+                return const Scaffold();
               },
             ),
+        '/login': (context) => const LoginPage(),
         '/create-account': (context) => const CreateAccountPage(),
-        '/enrolled-classes': (context) => const HomePage(
-              bodyContent: EnrolledClassView(),
-            ),
-        '/class-search': (context) => const HomePage(
-              bodyContent: ClassView(),
-            ),
+        '/enrolled-classes': (context) => const EnrolledClassView(),
+        '/class-search': (context) => const ClassView(),
       },
       scrollBehavior: const CupertinoScrollBehavior().copyWith(
         dragDevices: {},
