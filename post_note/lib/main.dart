@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:post_note/palette.dart';
 import 'package:post_note/class_view.dart';
 import 'package:post_note/enrolled_classes.dart';
+import 'package:post_note/about.dart';
 
 late final FirebaseApp app;
 late final FirebaseAuth auth;
@@ -66,6 +67,7 @@ class _PostNoteState extends State<PostNote> {
         '/create-account': (context) => const CreateAccountPage(),
         '/enrolled-classes': (context) => const EnrolledClassView(),
         '/class-search': (context) => const ClassView(),
+        '/about': (context) => AboutPage()
       },
       scrollBehavior: const CupertinoScrollBehavior().copyWith(
         dragDevices: {},

@@ -40,6 +40,7 @@ class AppBarOptions extends StatelessWidget {
             child: TextButton(
               onPressed: () {
                 debugPrint("About appbar button pushed");
+                Navigator.pushNamed(context, '/about');
               },
               child: const Text('About'),
             ),
