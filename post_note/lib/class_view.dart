@@ -26,10 +26,15 @@ class ClassView extends StatefulWidget {
 }
 
 class _ClassViewState extends State<ClassView> {
+  TextEditingController _searchController = TextEditingController();
   Iterable enrolledClassesArr = [];
   final firestoreInstance = FirebaseFirestore.instance;
   StreamController<QuerySnapshot<Object?>> classViewStreamController =
       BehaviorSubject();
+
+  //Future resultsLoaded;
+  List _allResults = [];
+  List _resultsList = [];
 
   Future<void> getEnrolledClassesArray() async {
     await firestoreInstance
@@ -77,6 +82,13 @@ class _ClassViewState extends State<ClassView> {
         });
       }
     });
+
+    _searchController.addListener(_onSearchChanged);
+  }
+
+  _onSearchChanged() {
+    print(_searchController.text);
+    print("changed");
   }
 
   @override
@@ -84,6 +96,10 @@ class _ClassViewState extends State<ClassView> {
     print("build!");
     return Column(
       children: [
+        TextField(
+          controller: _searchController,
+          decoration: InputDecoration(prefixIcon: Icon(Icons.search)),
+        ),
         Expanded(
           child: StreamBuilder<QuerySnapshot>(
             stream: classViewStreamController.stream,
@@ -94,6 +110,7 @@ class _ClassViewState extends State<ClassView> {
                   child: CircularProgressIndicator(),
                 );
               }
+
               return LayoutBuilder(
                 builder: (context, constraints) {
                   return GridView.builder(
