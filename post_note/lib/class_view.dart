@@ -31,11 +31,35 @@ class ClassView extends StatefulWidget {
 class _ClassViewState extends State<ClassView> {
   List enrolledClassesArr = [];
   List unenrolledClassesArr = [];
+  List searchResults = [];
   final firestoreInstance = FirebaseFirestore.instance;
   late Future dataLoaded;
   StreamController<QuerySnapshot<Object?>> classViewStreamController =
       BehaviorSubject();
   SearchController classSearchController = SearchController();
+  TextEditingController classTextController = TextEditingController();
+
+  setResultsList() {
+    var showResults = [];
+    String searchQuery = classTextController.text.toLowerCase();
+
+    if (searchQuery != "") {
+      for (var classSnapshot in unenrolledClassesArr) {
+        String className = classSnapshot["class_name"].toLowerCase();
+        String profName = classSnapshot["professor_name"].toLowerCase();
+
+        if (className.contains(searchQuery) || profName.contains(searchQuery)) {
+          showResults.add(classSnapshot);
+        }
+      }
+    } else {
+      showResults = List.from(unenrolledClassesArr);
+    }
+
+    setState(() {
+      searchResults = showResults;
+    });
+  }
 
   Future getEnrolledClassesArray() async {
     await firestoreInstance
@@ -44,9 +68,7 @@ class _ClassViewState extends State<ClassView> {
         .get()
         .then((value) {
       setState(() {
-        print("SET STATE IN getEnrolledClassesArray");
         enrolledClassesArr = value.data()?["enrolled_classes"];
-        print(enrolledClassesArr);
       });
     });
   }
@@ -71,13 +93,25 @@ class _ClassViewState extends State<ClassView> {
         unenrolledClassesArr = data.docs;
       });
     }
+
+    setResultsList();
     return "success";
+  }
+
+  _onSearchChanged() {
+    setResultsList();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     dataLoaded = getUnenrolledClassesArray();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    classTextController.addListener(_onSearchChanged);
   }
 
   @override
@@ -122,6 +156,7 @@ class _ClassViewState extends State<ClassView> {
                   dividerColor: Palette.outerSpace,
                   builder: (context, controller) {
                     return SearchBar(
+                      controller: classTextController,
                       leading: const Padding(
                         padding: EdgeInsets.only(left: 8.0),
                         child: Icon(
@@ -132,9 +167,6 @@ class _ClassViewState extends State<ClassView> {
                       elevation: const MaterialStatePropertyAll(0.0),
                       surfaceTintColor:
                           const MaterialStatePropertyAll(Palette.fernGreen),
-                      onChanged: (value) {
-                        print(value);
-                      },
                     );
                   },
                   suggestionsBuilder: (context, controller) {
@@ -186,9 +218,9 @@ class _ClassViewState extends State<ClassView> {
                     maxCrossAxisExtent: 400.0,
                     mainAxisExtent: max(constraints.maxHeight / 3, 250.0),
                   ),
-                  itemCount: unenrolledClassesArr.length,
+                  itemCount: searchResults.length,
                   itemBuilder: (BuildContext context, int index) {
-                    DocumentSnapshot doc = unenrolledClassesArr[index];
+                    DocumentSnapshot doc = searchResults[index];
                     final className = doc["class_name"];
                     final professorName = doc["professor_name"];
                     final classUid = doc["class_uid"];
