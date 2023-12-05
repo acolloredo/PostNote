@@ -1,9 +1,10 @@
 // ignore_for_file: avoid_print
+import 'dart:async';
 import 'dart:math';
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:post_note/class_card.dart';
 import 'package:flutter_svg/svg.dart';
@@ -22,16 +23,17 @@ String _getCurrentUID() {
 }
 
 class ClassView extends StatefulWidget {
-  const ClassView({super.key});
+  const ClassView({Key? key}) : super(key: key);
 
   @override
   State<ClassView> createState() => _ClassViewState();
 }
 
 class _ClassViewState extends State<ClassView> {
+  List<DocumentSnapshot> allClasses = [];
   Iterable enrolledClassesArr = [];
   final firestoreInstance = FirebaseFirestore.instance;
-  StreamController<QuerySnapshot<Object?>> classViewStreamController =
+  StreamController<List<DocumentSnapshot>> classViewStreamController =
       BehaviorSubject();
   SearchController classSearchController = SearchController();
 
@@ -50,7 +52,13 @@ class _ClassViewState extends State<ClassView> {
   }
 
   _onTextChanged() {
-    print(classSearchController.text);
+    final searchText = classSearchController.text.toLowerCase();
+    final filteredClasses = allClasses.where((doc) {
+      final className = doc["class_name"].toString().toLowerCase();
+      return className.contains(searchText);
+    }).toList();
+
+    classViewStreamController.add(filteredClasses);
   }
 
   @override
@@ -66,15 +74,23 @@ class _ClassViewState extends State<ClassView> {
                 .where('quarter', isEqualTo: "Fall23")
                 .snapshots();
 
-        setState(() {
-          classViewStreamController.addStream(unenrolledClassesStream);
+        unenrolledClassesStream.listen((QuerySnapshot<Object?> snapshot) {
+          setState(() {
+            allClasses = snapshot.docs;
+            _onTextChanged(); // Initial filtering
+          });
         });
       } else {
-        setState(() {
-          classViewStreamController.addStream(firestoreInstance
-              .collection("classes")
-              .where('quarter', isEqualTo: "Fall23")
-              .snapshots());
+        Stream<QuerySnapshot<Object?>> allClassesStream = firestoreInstance
+            .collection("classes")
+            .where('quarter', isEqualTo: "Fall23")
+            .snapshots();
+
+        allClassesStream.listen((QuerySnapshot<Object?> snapshot) {
+          setState(() {
+            allClasses = snapshot.docs;
+            _onTextChanged(); // Initial filtering
+          });
         });
       }
     });
@@ -84,6 +100,7 @@ class _ClassViewState extends State<ClassView> {
   void dispose() {
     classSearchController.removeListener(_onTextChanged);
     classSearchController.dispose();
+    classViewStreamController.close();
     super.dispose();
   }
 
@@ -183,7 +200,7 @@ class _ClassViewState extends State<ClassView> {
       body: Column(
         children: [
           Expanded(
-            child: StreamBuilder<QuerySnapshot>(
+            child: StreamBuilder<List<DocumentSnapshot>>(
               stream: classViewStreamController.stream,
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
@@ -203,9 +220,9 @@ class _ClassViewState extends State<ClassView> {
                         maxCrossAxisExtent: 400.0,
                         mainAxisExtent: max(constraints.maxHeight / 3, 250.0),
                       ),
-                      itemCount: snapshot.data!.docs.length,
+                      itemCount: snapshot.data!.length,
                       itemBuilder: (BuildContext context, int index) {
-                        DocumentSnapshot doc = snapshot.data!.docs[index];
+                        DocumentSnapshot doc = snapshot.data![index];
                         final className = doc["class_name"];
                         final professorName = doc["professor_name"];
                         final classUid = doc["class_uid"];
