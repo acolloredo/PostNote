@@ -29,13 +29,15 @@ class ClassView extends StatefulWidget {
 }
 
 class _ClassViewState extends State<ClassView> {
-  Iterable enrolledClassesArr = [];
+  List enrolledClassesArr = [];
+  List unenrolledClassesArr = [];
   final firestoreInstance = FirebaseFirestore.instance;
+  late Future dataLoaded;
   StreamController<QuerySnapshot<Object?>> classViewStreamController =
       BehaviorSubject();
   SearchController classSearchController = SearchController();
 
-  Future<void> getEnrolledClassesArray() async {
+  Future getEnrolledClassesArray() async {
     await firestoreInstance
         .collection("users")
         .doc(_getCurrentUID())
@@ -49,14 +51,38 @@ class _ClassViewState extends State<ClassView> {
     });
   }
 
-  _onTextChanged() {
-    print(classSearchController.text);
+  Future getUnenrolledClassesArray() async {
+    await getEnrolledClassesArray();
+    if (enrolledClassesArr.isNotEmpty) {
+      var data = await firestoreInstance
+          .collection("classes")
+          .where('class_uid', whereNotIn: enrolledClassesArr)
+          .where('quarter', isEqualTo: "Fall23")
+          .get();
+      setState(() {
+        unenrolledClassesArr = data.docs;
+      });
+    } else {
+      var data = await firestoreInstance
+          .collection("classes")
+          .where('quarter', isEqualTo: "Fall23")
+          .get();
+      setState(() {
+        unenrolledClassesArr = data.docs;
+      });
+    }
+    return "success";
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    dataLoaded = getUnenrolledClassesArray();
   }
 
   @override
   initState() {
     super.initState();
-    classSearchController.addListener(_onTextChanged);
     getEnrolledClassesArray().whenComplete(() async {
       if (enrolledClassesArr.isNotEmpty) {
         Stream<QuerySnapshot<Object?>> unenrolledClassesStream =
@@ -78,13 +104,6 @@ class _ClassViewState extends State<ClassView> {
         });
       }
     });
-  }
-
-  @override
-  void dispose() {
-    classSearchController.removeListener(_onTextChanged);
-    classSearchController.dispose();
-    super.dispose();
   }
 
   @override
