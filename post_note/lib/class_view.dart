@@ -15,7 +15,7 @@ final ScrollController classViewScrollController = ScrollController(
 );
 
 class ClassView extends StatefulWidget {
-  const ClassView({Key? key}) : super(key: key);
+  const ClassView({super.key});
 
   @override
   State<ClassView> createState() => _ClassViewState();
