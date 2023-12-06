@@ -3,12 +3,10 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/services.dart';
 import 'package:post_note/class_card.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:post_note/appbar_options.dart';
 import 'package:post_note/palette.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rxdart/rxdart.dart';
 
