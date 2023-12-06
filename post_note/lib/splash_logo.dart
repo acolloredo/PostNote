@@ -16,7 +16,8 @@ class SplashLogo extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SvgPicture.asset(
-          'svgs/Post-Note-Logo-Filled.svg',
+          //'svgs/Post-Note-Logo-Filled.svg',
+          'svgs/update_post_note_logo.svg',
           width: 225,
           height: 225,
           fit: BoxFit.cover,
