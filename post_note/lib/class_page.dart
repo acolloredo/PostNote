@@ -2,18 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:post_note/WeekFolder.dart';
 import 'package:post_note/palette.dart';
 import 'package:post_note/appbar_options.dart';
-
-// add an unenroll button
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ClassPage extends StatelessWidget {
   final String className;
   final String professorName;
+  final String classUid;
+  final String uid;
 
-  const ClassPage({
+  final firestoreInstance = FirebaseFirestore.instance;
+
+  // unenroll:
+  // get call to Firestore to get classUids enrolled in; current array of enrolled class
+  // pop the unenrolled class from array
+  // update to call to update to not have the class that you want to unenroll
+  // and naviate user back to enrolled classes
+
+  ClassPage({
     super.key,
     required this.className,
     required this.professorName,
+    required this.classUid,
+    required this.uid, // uid was already found in class_card.dart
   });
+
+  // unenroll user function by removing classUid from enrolled_classes array
+  Future<void> unenrollUserInClass(uid, classUid) async {
+    await firestoreInstance.collection("users").doc(uid).update({
+      "enrolled_classes": FieldValue.arrayRemove([classUid])
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +54,13 @@ class ClassPage extends StatelessWidget {
               iconSize: 30.0,
               tooltip: "Unenroll",
               color: Palette.outerSpace,
-              onPressed: () {},
+              onPressed: () {
+                unenrollUserInClass(uid, classUid).whenComplete(() {
+                  Navigator.of(context).pop();
+                  Navigator.of(context, rootNavigator: true)
+                      .popAndPushNamed("/enrolled-classes");
+                });
+              },
             ),
           ),
           const AppBarOptions(),

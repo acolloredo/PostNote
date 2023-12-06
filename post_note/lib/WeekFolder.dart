@@ -9,10 +9,10 @@ class WeekFolder extends StatefulWidget {
   final String className;
 
   const WeekFolder({
-    super.key,
+    Key? key,
     required this.weekNumber,
     required this.className,
-  });
+  }) : super(key: key);
 
   @override
   _WeekFolderState createState() => _WeekFolderState();
@@ -68,7 +68,7 @@ class _WeekFolderState extends State<WeekFolder> {
         toolbarHeight: 100,
         title: Text(
           widget.className,
-          style: const TextStyle(fontSize: 55),
+          style: TextStyle(fontSize: 55),
         ),
       ),
       body: SingleChildScrollView(
@@ -76,7 +76,7 @@ class _WeekFolderState extends State<WeekFolder> {
           children: <Widget>[
             // Top ClipRRect for "Week #"
             ClipRRect(
-              borderRadius: const BorderRadius.only(
+              borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30.0),
                 topRight: Radius.circular(30.0),
               ),
@@ -84,8 +84,8 @@ class _WeekFolderState extends State<WeekFolder> {
                 alignment: Alignment.center,
                 width: double.infinity,
                 height: 50,
-                margin: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
-                decoration: const BoxDecoration(
+                margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
+                decoration: BoxDecoration(
                   color: Palette.outerSpace,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30.0),
@@ -110,14 +110,14 @@ class _WeekFolderState extends State<WeekFolder> {
 
             // Bottom ClipRRect for all of the download linked buttons
             ClipRRect(
-              borderRadius: const BorderRadius.only(
+              borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(30.0),
                 bottomRight: Radius.circular(30.0),
               ),
               child: Container(
                 width: double.infinity,
-                margin: const EdgeInsets.fromLTRB(15.0, 0, 15.0, 0),
-                decoration: const BoxDecoration(
+                margin: EdgeInsets.fromLTRB(15.0, 0, 15.0, 0),
+                decoration: BoxDecoration(
                   color: Palette.outerSpace,
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(30.0),
@@ -136,11 +136,11 @@ class _WeekFolderState extends State<WeekFolder> {
                           onPressed: () => _openURLInWebView(url),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Palette.mint,
-                            padding: const EdgeInsets.all(20),
+                            padding: EdgeInsets.all(20),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            minimumSize: const Size(double.infinity, 80),
+                            minimumSize: Size(double.infinity, 80),
                           ),
                           child: FutureBuilder(
                             // call function to get *only* the file name
@@ -154,7 +154,7 @@ class _WeekFolderState extends State<WeekFolder> {
                                   children: [
                                     Text(
                                       fileName,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 20,
                                         decoration: TextDecoration.underline,
@@ -164,13 +164,13 @@ class _WeekFolderState extends State<WeekFolder> {
                                 );
                               } else {
                                 // in case it takes a bit to get file name
-                                return const CircularProgressIndicator();
+                                return CircularProgressIndicator();
                               }
                             },
                           ),
                         ),
                       ),
-                    SizedBox(
+                    Container(
                       // if the page has not been update in awhile, user can
                       // click the reload button that gets all the URLs
                       width: 30,
@@ -185,7 +185,7 @@ class _WeekFolderState extends State<WeekFolder> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          minimumSize: const Size(double.infinity, 50),
+                          minimumSize: Size(double.infinity, 50),
                         ),
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -205,12 +205,12 @@ class _WeekFolderState extends State<WeekFolder> {
                       ),
                     ),
                     // display the last time the page was reloaded to the user
-                    const SizedBox(height: 5),
+                    SizedBox(height: 5),
                     Container(
                       alignment: Alignment.center,
                       child: Text(
                         'Last Reloaded: ${_formatTimestamp(lastReloadTimestamp)}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,
                         ),
@@ -236,8 +236,8 @@ class _WeekFolderState extends State<WeekFolder> {
             ),
           );
         },
+        child: Text('Upload'),
         backgroundColor: Palette.fernGreen,
-        child: const Text('Upload'),
       ),
     );
   }

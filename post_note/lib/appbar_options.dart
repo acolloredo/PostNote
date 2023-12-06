@@ -49,6 +49,27 @@ class AppBarOptions extends StatelessWidget {
             child: TextButton(
               onPressed: () {
                 debugPrint("Help appbar button pushed");
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Please email:',
+                          style: TextStyle(fontSize: 25)),
+                      content: Text('postnote@gmail.com',
+                          style: const TextStyle(fontSize: 22)),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('OK',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 22)),
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
               child: const Text('Help'),
             ),
