@@ -1,11 +1,26 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:post_note/palette.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:mailto/mailto.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class AppBarOptions extends StatelessWidget {
   const AppBarOptions({
     super.key,
   });
+
+  launchMailto() async {
+    final mailtoLink = Mailto(
+      to: ['postnote68@gmail.com'],
+      subject: '[PostNote Support Request]: Help Required',
+      body: 'Hi PostNote Team, *insertMessage here*',
+    );
+    // Convert the Mailto instance into a string.
+    // Use either Dart's string interpolation
+    // or the toString() method.
+    await launchUrlString('$mailtoLink');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,11 +68,30 @@ class AppBarOptions extends StatelessWidget {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: const Text('Please email:',
+                      title: const Text('Read user guide or email us:',
                           style: TextStyle(fontSize: 25)),
-                      content: Text('postnote@gmail.com',
-                          style: const TextStyle(fontSize: 22)),
                       actions: [
+                        TextButton(
+                          onPressed: launchMailto,
+                          child: const Text('postnote68@gmail.com',
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 22)),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            final Uri url = Uri.parse(
+                                'https://docs.google.com/document/d/1fO4Fn-NJVvtoj7mL0FaDDEi826xHD96FDZ2r644GdT8/edit');
+
+                            if (await canLaunchUrl(url)) {
+                              await launchUrl(url);
+                            } else {
+                              throw 'Could not launch $url';
+                            }
+                          },
+                          child: const Text('User Guide',
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 22)),
+                        ),
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).pop();
