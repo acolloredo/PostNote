@@ -7,11 +7,13 @@ import 'package:url_launcher/url_launcher.dart';
 class WeekFolder extends StatefulWidget {
   final int weekNumber;
   final String className;
+  final String professorName;
 
   const WeekFolder({
     Key? key,
     required this.weekNumber,
     required this.className,
+    required this.professorName,
   }) : super(key: key);
 
   @override
@@ -65,10 +67,10 @@ class _WeekFolderState extends State<WeekFolder> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 100,
+        toolbarHeight: 75,
         title: Text(
           widget.className,
-          style: TextStyle(fontSize: 55),
+          style: TextStyle(fontSize: 35),
         ),
       ),
       body: SingleChildScrollView(

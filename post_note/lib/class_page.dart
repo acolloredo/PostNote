@@ -123,6 +123,8 @@ class ClassPage extends StatelessWidget {
                                                                   index + 1,
                                                               className:
                                                                   className,
+                                                              professorName:
+                                                                  professorName,
                                                             )));
                                               },
                                               child: Card(
