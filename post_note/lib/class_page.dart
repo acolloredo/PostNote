@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:post_note/WeekFolder.dart';
+import 'package:post_note/week_folder.dart';
 import 'package:post_note/palette.dart';
 import 'package:post_note/appbar_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
