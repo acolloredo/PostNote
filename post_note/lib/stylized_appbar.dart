@@ -49,6 +49,7 @@ class _StyledAppBarState extends State<StyledAppBar> {
             },
             child: SvgPicture.asset(
               'svgs/Post-Note-Logo-Filled.svg',
+              //'svgs/update_post_note_logo.svg',
             ),
           ),
         ),
