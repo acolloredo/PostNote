@@ -119,13 +119,10 @@ class ClassPage extends StatelessWidget {
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             WeekFolder(
-                                                              weekNumber:
-                                                                  index + 1,
-                                                              className:
-                                                                  className,
-                                                              professorName:
-                                                                  professorName,
-                                                            )));
+                                                                weekNumber:
+                                                                    index + 1,
+                                                                className:
+                                                                    className)));
                                               },
                                               child: Card(
                                                 color: Palette.mintCream,
