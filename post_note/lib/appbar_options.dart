@@ -61,9 +61,9 @@ class AppBarOptions extends StatelessWidget {
                     return AlertDialog(
                       title: const Text('About PostNote:',
                           style: TextStyle(fontSize: 25)),
-                      content: Text(
+                      content: const Text(
                           'A centralized hub where students can easily share, manage, and view notes!',
-                          style: const TextStyle(fontSize: 22)),
+                          style: TextStyle(fontSize: 22)),
                       actions: [
                         TextButton(
                           onPressed: () {

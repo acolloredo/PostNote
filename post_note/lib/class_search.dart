@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:post_note/auth.dart';
 import 'package:post_note/class_card.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:post_note/appbar_options.dart';
 import 'package:post_note/palette.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rxdart/rxdart.dart';
 
 final ScrollController classViewScrollController = ScrollController(
@@ -20,13 +20,6 @@ class ClassView extends StatefulWidget {
   State<ClassView> createState() => _ClassViewState();
 }
 
-String _getCurrentUID() {
-  final FirebaseAuth auth = FirebaseAuth.instance;
-  final User? user = auth.currentUser;
-  final String uid = user!.uid;
-  return uid;
-}
-
 class _ClassViewState extends State<ClassView> {
   final firestoreInstance = FirebaseFirestore.instance;
 
@@ -34,7 +27,6 @@ class _ClassViewState extends State<ClassView> {
   List enrolledClassesArr = [];
   List unenrolledClassesArr = [];
   List searchResults = [];
-
   StreamController<QuerySnapshot<Object?>> classViewStreamController =
       BehaviorSubject();
   SearchController classSearchController = SearchController();
@@ -44,7 +36,7 @@ class _ClassViewState extends State<ClassView> {
   Future<void> getEnrolledClassesArray() async {
     await firestoreInstance
         .collection("users")
-        .doc(_getCurrentUID())
+        .doc(getCurrentUID())
         .get()
         .then((value) {
       //value of the future after it's been resolve
@@ -129,6 +121,35 @@ class _ClassViewState extends State<ClassView> {
   @override
   initState() {
     super.initState();
+    getEnrolledClassesArray().whenComplete(() async {
+      if (enrolledClassesArr.isNotEmpty) {
+        var query = firestoreInstance
+            .collection("classes")
+            .where('class_uid', whereNotIn: enrolledClassesArr)
+            .where('quarter', isEqualTo: "Fall23");
+        print(query);
+        Stream<QuerySnapshot<Object?>> unenrolledClassesStream =
+            firestoreInstance
+                .collection("classes")
+                .where('class_uid', whereNotIn: enrolledClassesArr)
+                .where('quarter', isEqualTo: "Fall23")
+                .snapshots();
+
+        setState(() {
+          print("SET STATE IN enrolledClassesArr.isNotEmpty");
+          classViewStreamController.addStream(unenrolledClassesStream);
+        });
+      } else {
+        debugPrint("NO ENROLLED CLASSES");
+        setState(() {
+          print("SET STATE IN else");
+          classViewStreamController.addStream(firestoreInstance
+              .collection("classes")
+              .where('quarter', isEqualTo: "Fall23")
+              .snapshots());
+        });
+      }
+    });
     classTextController.addListener(_onSearchChanged);
   }
 
