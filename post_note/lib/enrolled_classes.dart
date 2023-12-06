@@ -1,4 +1,3 @@
-// ignore_for_file: avoid_print
 import 'dart:math';
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -41,10 +40,8 @@ class _EnrolledClassViewState extends State<EnrolledClassView> {
         .get()
         .then((value) {
       setState(() {
-        print("SET STATE IN getEnrolledClassesArray");
         enrolledClassesArr = value.data()?["enrolled_classes"];
         numEnrolledClasses = enrolledClassesArr.length;
-        print(enrolledClassesArr);
       });
     });
   }
@@ -81,7 +78,6 @@ class _EnrolledClassViewState extends State<EnrolledClassView> {
               stream: enrolledClassViewStreamController.stream,
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  print("no data");
                   return const Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

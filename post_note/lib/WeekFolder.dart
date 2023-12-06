@@ -54,7 +54,7 @@ class _WeekFolderState extends State<WeekFolder> {
         lastReloadTimestamp = DateTime.now();
       });
     } catch (e) {
-      print("Error getting download URLs: $e");
+      debugPrint("Error getting download URLs: $e");
     }
   }
 
@@ -250,7 +250,7 @@ class _WeekFolderState extends State<WeekFolder> {
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
     } else {
-      print('Could not launch $url');
+      debugPrint('Could not launch $url');
     }
   }
 
@@ -269,7 +269,7 @@ class _WeekFolderState extends State<WeekFolder> {
         return "Unknown File";
       }
     } catch (e) {
-      print("Error extracting filename: $e");
+      debugPrint("Error extracting filename: $e");
       return "Unknown File";
     }
   }
