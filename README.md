@@ -10,7 +10,6 @@ PostNote is a new web app designed for sharing notes among classmates, with an i
 1. **Course Integration:** Seamlessly join your courses, ensuring that the platform is tailored to your academic needs.
 2. **Note Upload and Download:** Easily upload your notes for various courses and download notes shared by your peers. Accelerate your learning by accessing a diverse range of study materials.
 3. **Peer Collaboration:** Connect with fellow students to create a vibrant community of knowledge-sharing. PostNote encourages collaboration, allowing you to learn from your peers and contribute to the collective academic growth.
-4. **Study Groups:** Form or join study groups to amplify the note-sharing experience. Work together with like-minded individuals to tackle challenging subjects and ace your exams.
 
 ## Technologies Used
 - **Frontend:** Dart, Flutter
