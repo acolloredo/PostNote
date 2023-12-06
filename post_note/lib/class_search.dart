@@ -27,13 +27,18 @@ class _ClassViewState extends State<ClassView> {
   List enrolledClassesArr = [];
   List unenrolledClassesArr = [];
   List searchResults = [];
-  StreamController<QuerySnapshot<Object?>> classViewStreamController = BehaviorSubject();
+  StreamController<QuerySnapshot<Object?>> classViewStreamController =
+      BehaviorSubject();
   SearchController classSearchController = SearchController();
   TextEditingController classTextController = TextEditingController();
 
 //getting the enrolled classesarray
   Future<void> getEnrolledClassesArray() async {
-    await firestoreInstance.collection("users").doc(getCurrentUID()).get().then((value) {
+    await firestoreInstance
+        .collection("users")
+        .doc(getCurrentUID())
+        .get()
+        .then((value) {
       //value of the future after it's been resolve
       setState(() {
         enrolledClassesArr = value.data()?["enrolled_classes"];
@@ -57,8 +62,10 @@ class _ClassViewState extends State<ClassView> {
       });
     } else {
       //if we haven't enrolled in any classes, then we are going to add all the classes in data to our enrolledClasses Array
-      var data =
-          await firestoreInstance.collection("classes").where('quarter', isEqualTo: "Fall23").get();
+      var data = await firestoreInstance
+          .collection("classes")
+          .where('quarter', isEqualTo: "Fall23")
+          .get();
       setState(() {
         unenrolledClassesArr = data.docs;
       });
@@ -121,11 +128,12 @@ class _ClassViewState extends State<ClassView> {
             .where('class_uid', whereNotIn: enrolledClassesArr)
             .where('quarter', isEqualTo: "Fall23");
         print(query);
-        Stream<QuerySnapshot<Object?>> unenrolledClassesStream = firestoreInstance
-            .collection("classes")
-            .where('class_uid', whereNotIn: enrolledClassesArr)
-            .where('quarter', isEqualTo: "Fall23")
-            .snapshots();
+        Stream<QuerySnapshot<Object?>> unenrolledClassesStream =
+            firestoreInstance
+                .collection("classes")
+                .where('class_uid', whereNotIn: enrolledClassesArr)
+                .where('quarter', isEqualTo: "Fall23")
+                .snapshots();
 
         setState(() {
           print("SET STATE IN enrolledClassesArr.isNotEmpty");
@@ -203,7 +211,8 @@ class _ClassViewState extends State<ClassView> {
                         ),
                       ),
                       elevation: const MaterialStatePropertyAll(0.0),
-                      surfaceTintColor: const MaterialStatePropertyAll(Palette.fernGreen),
+                      surfaceTintColor:
+                          const MaterialStatePropertyAll(Palette.fernGreen),
                     );
                   },
                   suggestionsBuilder: (context, controller) {
@@ -256,7 +265,8 @@ class _ClassViewState extends State<ClassView> {
                   ),
                   itemCount: searchResults.length,
                   itemBuilder: (BuildContext context, int index) {
-                    DocumentSnapshot doc = searchResults[index]; //this contains the searchResults
+                    DocumentSnapshot doc =
+                        searchResults[index]; //this contains the searchResults
                     final className = doc["class_name"];
                     final professorName = doc["professor_name"];
                     final classUid = doc["class_uid"];

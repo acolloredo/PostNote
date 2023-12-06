@@ -101,11 +101,14 @@ class ClassPage extends StatelessWidget {
                         child: LayoutBuilder(
                           builder: (context, constraints) {
                             return GridView.builder(
-                              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                              gridDelegate:
+                                  SliverGridDelegateWithMaxCrossAxisExtent(
                                 mainAxisSpacing: 10.0,
                                 crossAxisSpacing: 10.0,
-                                maxCrossAxisExtent: max(constraints.maxWidth / 5, 200.0),
-                                mainAxisExtent: max(constraints.maxHeight / 2.25, 50.0),
+                                maxCrossAxisExtent:
+                                    max(constraints.maxWidth / 5, 200.0),
+                                mainAxisExtent:
+                                    max(constraints.maxHeight / 2.25, 50.0),
                                 childAspectRatio: 2.0,
                               ),
                               itemCount: 10,
@@ -130,15 +133,19 @@ class ClassPage extends StatelessWidget {
                                       child: Card(
                                         color: Palette.mintCream,
                                         child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
                                           children: [
                                             FittedBox(
                                               child: Padding(
-                                                padding: const EdgeInsets.all(4.0),
+                                                padding:
+                                                    const EdgeInsets.all(4.0),
                                                 child: Text(
                                                   "Week ${index + 1} Notes",
-                                                  style: const TextStyle(fontSize: 25.0),
+                                                  style: const TextStyle(
+                                                      fontSize: 25.0),
                                                 ),
                                               ),
                                             ),
@@ -217,7 +224,8 @@ class StudyGroupListView extends StatefulWidget {
 }
 
 class _StudyGroupListViewState extends State<StudyGroupListView> {
-  StreamController<QuerySnapshot<Object?>> studyGroupListViewStreamController = BehaviorSubject();
+  StreamController<QuerySnapshot<Object?>> studyGroupListViewStreamController =
+      BehaviorSubject();
 
   // getStudyGroupsArray() async {
   //   return
@@ -260,9 +268,13 @@ class _StudyGroupListViewState extends State<StudyGroupListView> {
                                 ),
                                 child: Builder(
                                   builder: (context) {
-                                    List<dynamic> members =
-                                        snapshot.data?.docs[index].get("members") ?? "";
-                                    var name = snapshot.data?.docs[index].get("name") ?? "";
+                                    List<dynamic> members = snapshot
+                                            .data?.docs[index]
+                                            .get("members") ??
+                                        "";
+                                    var name = snapshot.data?.docs[index]
+                                            .get("name") ??
+                                        "";
                                     return Row(
                                       children: [
                                         Text("${index + 1}.  "),
@@ -373,8 +385,6 @@ class ClassPageSection extends StatelessWidget {
 //     );
 //   }
 // }
-
-
 
 // class ClassStudyGroupsSection extends StatelessWidget {
 //   const ClassStudyGroupsSection({

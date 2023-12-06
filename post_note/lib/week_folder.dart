@@ -35,8 +35,9 @@ class _WeekFolderState extends State<WeekFolder> {
   // function to retreive the download URLs from Firebase
   Future<void> _getDownloadUrls() async {
     try {
-      Reference storageRef =
-          FirebaseStorage.instance.ref().child('${widget.className}/Week${widget.weekNumber}/');
+      Reference storageRef = FirebaseStorage.instance
+          .ref()
+          .child('${widget.className}/Week${widget.weekNumber}/');
 
       final ListResult result = await storageRef.listAll();
 
@@ -181,7 +182,8 @@ class _WeekFolderState extends State<WeekFolder> {
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Palette.outerSpace,
-                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 15),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -192,7 +194,8 @@ class _WeekFolderState extends State<WeekFolder> {
                           children: [
                             Text(
                               'Reload',
-                              style: TextStyle(fontSize: 18, color: Colors.white),
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.white),
                             ),
                             SizedBox(width: 5),
                             Icon(

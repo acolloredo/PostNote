@@ -84,8 +84,8 @@ class _PostNoteState extends State<PostNote> {
         textTheme: GoogleFonts.latoTextTheme(
           Theme.of(context).textTheme,
         ),
-        searchViewTheme: const SearchViewThemeData()
-            .copyWith(backgroundColor: Colors.white, surfaceTintColor: Colors.white),
+        searchViewTheme: const SearchViewThemeData().copyWith(
+            backgroundColor: Colors.white, surfaceTintColor: Colors.white),
         searchBarTheme: const SearchBarThemeData(
           overlayColor: MaterialStatePropertyAll(Colors.transparent),
           backgroundColor: MaterialStatePropertyAll(Colors.white),
