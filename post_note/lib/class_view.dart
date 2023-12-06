@@ -4,19 +4,14 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:post_note/auth.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:post_note/class_card.dart';
+import 'package:post_note/home_page.dart' as home;
 
 final ScrollController classViewScrollController = ScrollController(
   debugLabel: "classViewScrollController",
 );
-
-String _getCurrentUID() {
-  final FirebaseAuth auth = FirebaseAuth.instance;
-  final User? user = auth.currentUser;
-  final String uid = user!.uid;
-  return uid;
-}
 
 class ClassView extends StatefulWidget {
   const ClassView({super.key});
@@ -28,15 +23,10 @@ class ClassView extends StatefulWidget {
 class _ClassViewState extends State<ClassView> {
   Iterable enrolledClassesArr = [];
   final firestoreInstance = FirebaseFirestore.instance;
-  StreamController<QuerySnapshot<Object?>> classViewStreamController =
-      BehaviorSubject();
+  StreamController<QuerySnapshot<Object?>> classViewStreamController = BehaviorSubject();
 
   Future<void> getEnrolledClassesArray() async {
-    await firestoreInstance
-        .collection("users")
-        .doc(_getCurrentUID())
-        .get()
-        .then((value) {
+    await firestoreInstance.collection("users").doc(getCurrentUID()).get().then((value) {
       setState(() {
         print("SET STATE IN getEnrolledClassesArray");
         enrolledClassesArr = value.data()?["enrolled_classes"];
@@ -55,12 +45,11 @@ class _ClassViewState extends State<ClassView> {
             .where('class_uid', whereNotIn: enrolledClassesArr)
             .where('quarter', isEqualTo: "Fall23");
         print(query);
-        Stream<QuerySnapshot<Object?>> unenrolledClassesStream =
-            firestoreInstance
-                .collection("classes")
-                .where('class_uid', whereNotIn: enrolledClassesArr)
-                .where('quarter', isEqualTo: "Fall23")
-                .snapshots();
+        Stream<QuerySnapshot<Object?>> unenrolledClassesStream = firestoreInstance
+            .collection("classes")
+            .where('class_uid', whereNotIn: enrolledClassesArr)
+            .where('quarter', isEqualTo: "Fall23")
+            .snapshots();
 
         setState(() {
           print("SET STATE IN enrolledClassesArr.isNotEmpty");

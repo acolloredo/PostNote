@@ -2,15 +2,9 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:post_note/auth.dart';
 import 'package:post_note/palette.dart';
 import 'package:post_note/class_page.dart';
-
-String _getCurrentUID() {
-  final FirebaseAuth auth = FirebaseAuth.instance;
-  final User? user = auth.currentUser;
-  final String uid = user!.uid;
-  return uid;
-}
 
 class ClassCard extends StatefulWidget {
   final String professorName;
@@ -43,12 +37,15 @@ class _ClassCardState extends State<ClassCard> {
 
   void sendToClassPage() {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => ClassPage(
-                  className: widget.className,
-                  professorName: widget.professorName,
-                )));
+      context,
+      MaterialPageRoute(
+        builder: (context) => ClassPage(
+          className: widget.className,
+          classUid: widget.classUid,
+          professorName: widget.professorName,
+        ),
+      ),
+    );
   }
 
   @override
@@ -57,36 +54,32 @@ class _ClassCardState extends State<ClassCard> {
       padding: const EdgeInsets.only(bottom: 50.0),
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
-        child: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(25.0)),
-          child: Card(
-            color: widget.userInClass ? Palette.outerSpace : Palette.fernGreen,
-            child: InkWell(
-              onTap: () {
-                if (widget.userInClass) {
-                  // takes to class-specific page
-                  sendToClassPage();
-                } else {
-                  _enrollDialogBuilder(
-                      context, widget.className, widget.professorName);
-                }
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Card(
-                  color:
-                      widget.userInClass ? Palette.teaGreen : Palette.mintCream,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        widget.className,
-                        style: const TextStyle(fontSize: 30.0),
-                      ),
-                      Text(widget.professorName,
-                          style: const TextStyle(fontSize: 24.0)),
-                    ],
-                  ),
+        child: Card(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+          elevation: 5.0,
+          color: widget.userInClass ? Palette.outerSpace : Palette.fernGreen,
+          child: InkWell(
+            onTap: () {
+              if (widget.userInClass) {
+                // takes to class-specific page
+                sendToClassPage();
+              } else {
+                _enrollDialogBuilder(context, widget.className, widget.professorName);
+              }
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Card(
+                color: widget.userInClass ? Palette.teaGreen : Palette.mintCream,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      widget.className,
+                      style: const TextStyle(fontSize: 30.0),
+                    ),
+                    Text(widget.professorName, style: const TextStyle(fontSize: 24.0)),
+                  ],
                 ),
               ),
             ),
@@ -96,8 +89,7 @@ class _ClassCardState extends State<ClassCard> {
     );
   }
 
-  Future<void> _enrollDialogBuilder(
-      BuildContext context, String className, String professor) {
+  Future<void> _enrollDialogBuilder(BuildContext context, String className, String professor) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -120,11 +112,9 @@ class _ClassCardState extends State<ClassCard> {
             actions: <Widget>[
               TextButton(
                 style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Palette.fernGreen)),
+                    backgroundColor: MaterialStateProperty.all<Color>(Palette.fernGreen)),
                 child: const Padding(
-                  padding:
-                      EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+                  padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
                   child: Text(
                     'Enroll',
                     textAlign: TextAlign.end,
@@ -132,21 +122,18 @@ class _ClassCardState extends State<ClassCard> {
                   ),
                 ),
                 onPressed: () {
-                  String uid = _getCurrentUID();
+                  String uid = getCurrentUID();
                   enrollUserInClass(uid, widget.classUid).whenComplete(() {
                     Navigator.of(context).pop();
-                    Navigator.of(context, rootNavigator: true)
-                        .popAndPushNamed("/enrolled-classes");
+                    Navigator.of(context, rootNavigator: true).popAndPushNamed("/enrolled-classes");
                   });
                 },
               ),
               TextButton(
                 style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Palette.errorColor)),
+                    backgroundColor: MaterialStateProperty.all<Color>(Palette.errorColor)),
                 child: const Padding(
-                  padding:
-                      EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+                  padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
                   child: Text(
                     'Cancel',
                     textAlign: TextAlign.end,

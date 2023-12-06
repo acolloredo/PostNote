@@ -2,8 +2,8 @@
 import 'dart:math';
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:post_note/auth.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:post_note/class_card.dart';
 import 'package:post_note/palette.dart';
@@ -15,13 +15,6 @@ final ScrollController enrolledClassViewScrollController = ScrollController(
 class EnrolledClassView extends StatefulWidget {
   const EnrolledClassView({super.key});
 
-  String _getCurrentUID() {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final User? user = auth.currentUser;
-    final String uid = user!.uid;
-    return uid;
-  }
-
   @override
   State<EnrolledClassView> createState() => _EnrolledClassViewState();
 }
@@ -30,15 +23,10 @@ class _EnrolledClassViewState extends State<EnrolledClassView> {
   Iterable enrolledClassesArr = [];
   int numEnrolledClasses = 0;
   final firestoreInstance = FirebaseFirestore.instance;
-  StreamController<QuerySnapshot<Object?>> enrolledClassViewStreamController =
-      BehaviorSubject();
+  StreamController<QuerySnapshot<Object?>> enrolledClassViewStreamController = BehaviorSubject();
 
   Future<void> getEnrolledClassesArray() async {
-    await firestoreInstance
-        .collection("users")
-        .doc(widget._getCurrentUID())
-        .get()
-        .then((value) {
+    await firestoreInstance.collection("users").doc(getCurrentUID()).get().then((value) {
       setState(() {
         print("SET STATE IN getEnrolledClassesArray");
         enrolledClassesArr = value.data()?["enrolled_classes"];
