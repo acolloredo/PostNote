@@ -134,10 +134,10 @@ class _UploadPageState extends State<UploadPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          toolbarHeight: 100,
+          toolbarHeight: 75,
           title: Text(
             'File Upload for ${widget.className} - Week ${widget.weekNumber}',
-            style: const TextStyle(fontSize: 55),
+            style: const TextStyle(fontSize: 35),
           ),
         ),
         body: SingleChildScrollView(
