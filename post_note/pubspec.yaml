@@ -33,9 +33,9 @@ dependencies:
     file_picker: ^4.2.2
     image_picker: ^0.8.3+3
     path_provider: ^2.0.11
-    rxdart: ^0.27.7         # Adds more complex interactions with Flutter streams
+    intl: ^0.18.1
+    rxdart: ^0.27.7 # Adds more complex interactions with Flutter streams
     #firebase: ^10.0.0
-
 
     # The following adds the Cupertino Icons font to your application.
     # Use with the CupertinoIcons class for iOS style icons.
@@ -52,7 +52,6 @@ dependencies:
     cloud_firestore: ^4.12.2
     url_launcher: ^6.2.1
     mailto: ^2.0.0
-
 
 dev_dependencies:
     flutter_test:
