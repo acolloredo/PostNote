@@ -37,8 +37,9 @@ class _WeekFolderState extends State<WeekFolder> {
   // function to retreive the download URLs from Firebase
   Future<void> _getDownloadUrls() async {
     try {
-      Reference storageRef =
-          FirebaseStorage.instance.ref().child('${widget.className}/Week${widget.weekNumber}/');
+      Reference storageRef = FirebaseStorage.instance
+          .ref()
+          .child('${widget.className}/Week${widget.weekNumber}/');
 
       final ListResult result = await storageRef.listAll();
 
@@ -62,7 +63,8 @@ class _WeekFolderState extends State<WeekFolder> {
   // put the timestamp in the hour:minute:second format
   String _formatTimestamp(DateTime timestamp) {
     final DateFormat formatter = DateFormat();
-    return formatter.format(DateTime.fromMicrosecondsSinceEpoch(timestamp.microsecondsSinceEpoch));
+    return formatter.format(
+        DateTime.fromMicrosecondsSinceEpoch(timestamp.microsecondsSinceEpoch));
   }
 
   @override
@@ -150,14 +152,16 @@ class _WeekFolderState extends State<WeekFolder> {
                                 if (snapshot.hasData) {
                                   final fileName = snapshot.data.toString();
                                   return Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         fileName,
                                         style: const TextStyle(
                                             color: Palette.mintCream,
                                             fontSize: 20,
-                                            decoration: TextDecoration.underline,
+                                            decoration:
+                                                TextDecoration.underline,
                                             decorationColor: Palette.mintCream),
                                       ),
                                     ],
@@ -174,7 +178,8 @@ class _WeekFolderState extends State<WeekFolder> {
                         padding: const EdgeInsets.all(8.0),
                         child: MaterialButton(
                           color: Palette.fernGreen,
-                          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 20, horizontal: 50),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -186,7 +191,8 @@ class _WeekFolderState extends State<WeekFolder> {
                             children: [
                               Text(
                                 'Reload',
-                                style: TextStyle(fontSize: 18, color: Palette.mintCream),
+                                style: TextStyle(
+                                    fontSize: 18, color: Palette.mintCream),
                               ),
                               SizedBox(width: 5),
                               Icon(

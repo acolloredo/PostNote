@@ -23,10 +23,15 @@ class _EnrolledClassViewState extends State<EnrolledClassView> {
   Iterable enrolledClassesArr = [];
   int numEnrolledClasses = 0;
   final firestoreInstance = FirebaseFirestore.instance;
-  StreamController<QuerySnapshot<Object?>> enrolledClassViewStreamController = BehaviorSubject();
+  StreamController<QuerySnapshot<Object?>> enrolledClassViewStreamController =
+      BehaviorSubject();
 
   Future<void> getEnrolledClassesArray() async {
-    await firestoreInstance.collection("users").doc(getCurrentUID()).get().then((value) {
+    await firestoreInstance
+        .collection("users")
+        .doc(getCurrentUID())
+        .get()
+        .then((value) {
       setState(() {
         enrolledClassesArr = value.data()?["enrolled_classes"];
         numEnrolledClasses = enrolledClassesArr.length;
@@ -102,7 +107,8 @@ class _EnrolledClassViewState extends State<EnrolledClassView> {
                     return GridView.builder(
                       controller: enrolledClassViewScrollController,
                       clipBehavior: Clip.antiAlias,
-                      padding: const EdgeInsets.fromLTRB(100.0, 25.0, 100.0, 0.0),
+                      padding:
+                          const EdgeInsets.fromLTRB(100.0, 25.0, 100.0, 0.0),
                       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                         maxCrossAxisExtent: 400.0,
                         mainAxisExtent: max(constraints.maxHeight / 3, 250.0),
