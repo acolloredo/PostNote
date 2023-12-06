@@ -77,16 +77,28 @@ class _ClassCardState extends State<ClassCard> {
                 child: Card(
                   color:
                       widget.userInClass ? Palette.teaGreen : Palette.mintCream,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        widget.className,
-                        style: const TextStyle(fontSize: 30.0),
-                      ),
-                      Text(widget.professorName,
-                          style: const TextStyle(fontSize: 24.0)),
-                    ],
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          widget.className,
+                          style: const TextStyle(fontSize: 30.0),
+                        ),
+                        Text(widget.professorName,
+                            style: const TextStyle(fontSize: 24.0)),
+                        Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
+                          child: Icon(
+                            widget.userInClass
+                                ? Icons.person
+                                : Icons.person_outline,
+                            size: 35,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),

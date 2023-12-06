@@ -95,9 +95,9 @@ class _UploadPageState extends State<UploadPage> {
 
       String downloadUrl = await storageRef.getDownloadURL();
 
-      print("File uploaded successfully. Download URL: $downloadUrl");
+      debugPrint("File uploaded successfully. Download URL: $downloadUrl");
     } catch (e) {
-      print("Error uploading file: $e");
+      debugPrint("Error uploading file: $e");
     }
   }
 
@@ -125,7 +125,7 @@ class _UploadPageState extends State<UploadPage> {
         },
       );
     } else {
-      print('File was not uploaded yet.');
+      debugPrint('File was not uploaded yet.');
     }
   }
 
