@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:post_note/class_view.dart';
+import 'package:post_note/class_search.dart';
 import 'package:post_note/palette.dart';
 import 'package:post_note/appbar_options.dart';
 
