@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:post_note/week_folder.dart';
 import 'package:post_note/palette.dart';
 import 'package:post_note/appbar_options.dart';
-import 'package:post_note/week_folder.dart';
 import 'dart:math';
 
 import 'package:rxdart/rxdart.dart';

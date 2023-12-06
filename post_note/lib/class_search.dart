@@ -1,13 +1,12 @@
-// ignore_for_file: avoid_print
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:post_note/auth.dart';
 import 'package:post_note/class_card.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:post_note/appbar_options.dart';
 import 'package:post_note/palette.dart';
-import 'package:post_note/auth.dart';
 import 'package:rxdart/rxdart.dart';
 
 final ScrollController classViewScrollController = ScrollController(
@@ -22,27 +21,22 @@ class ClassView extends StatefulWidget {
 }
 
 class _ClassViewState extends State<ClassView> {
-  final firebaseInstance = FirebaseFirestore.instance;
+  final firestoreInstance = FirebaseFirestore.instance;
 
-  late Future dataLoaded; //declares variables that will be intialized later
-  //List allClasses = [];
+  late Future dataLoaded;
   List enrolledClassesArr = [];
   List unenrolledClassesArr = [];
-  final firestoreInstance = FirebaseFirestore.instance;
   List searchResults = [];
   StreamController<QuerySnapshot<Object?>> classViewStreamController = BehaviorSubject();
-
   SearchController classSearchController = SearchController();
   TextEditingController classTextController = TextEditingController();
 
 //getting the enrolled classesarray
   Future<void> getEnrolledClassesArray() async {
-    await firebaseInstance.collection("users").doc(getCurrentUID()).get().then((value) {
+    await firestoreInstance.collection("users").doc(getCurrentUID()).get().then((value) {
       //value of the future after it's been resolve
       setState(() {
-        //print("SET STATE IN getEnrolledClassesArray");
         enrolledClassesArr = value.data()?["enrolled_classes"];
-        //print(enrolledClassesArr);
       });
     });
   }
@@ -51,7 +45,6 @@ class _ClassViewState extends State<ClassView> {
   Future getUnenrolledClassesArray() async {
     await getEnrolledClassesArray();
     //waiting until getEnrolled is finished
-    //only use .then(), when you want to run a function from a query to firebase
     if (enrolledClassesArr.isNotEmpty) {
       var data = await firestoreInstance
           .collection("classes")
@@ -61,7 +54,6 @@ class _ClassViewState extends State<ClassView> {
       //setting the state, since we are updating the unenrolled classes array
       setState(() {
         unenrolledClassesArr = data.docs;
-        print(unenrolledClassesArr);
       });
     } else {
       //if we haven't enrolled in any classes, then we are going to add all the classes in data to our enrolledClasses Array
@@ -81,7 +73,6 @@ class _ClassViewState extends State<ClassView> {
     //getting the search query from the
     if (classTextController.text.toLowerCase() != "") {
       for (var snapshot in unenrolledClassesArr) {
-        //using classsSnapshot, to get the the class name and make it lowercase
         String className = snapshot["class_name"].toLowerCase();
         String professorName = snapshot["professor_name"].toLowerCase();
 
@@ -107,8 +98,7 @@ class _ClassViewState extends State<ClassView> {
     //return a future, so we have to create a new future variable
     //to tell us if it's been loaded or not
     super.didChangeDependencies();
-    dataLoaded =
-        getUnenrolledClassesArray(); //just flag to say the getUnerolled classes was loaded and set the state of that data list
+    dataLoaded = getUnenrolledClassesArray();
 
     //because getUnenrolledArray is async, we can't just call it init
     //because it needs a call to firebase
@@ -231,7 +221,6 @@ class _ClassViewState extends State<ClassView> {
             child: InkWell(
               borderRadius: BorderRadius.circular(5.0),
               onTap: () {
-                debugPrint(ModalRoute.of(context)?.settings.name);
                 if (ModalRoute.of(context)?.settings.name == '/class-search') {
                   Navigator.pop(context);
                 } else {
