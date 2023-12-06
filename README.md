@@ -32,7 +32,7 @@ Step #5: Click on the zip file to unzip it.
 
 Step #6: Open VS Code.
 
-Step #7: Select File-> Open Folder -> PostNote-Release-1.0 -> Open.
+Step #7: Select File-> Open Folder -> PostNote-release -> Open.
 
 Step #8: Open a new terminal in VS Code.
 
