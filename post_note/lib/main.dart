@@ -7,7 +7,7 @@ import 'package:post_note/login_page.dart';
 import 'firebase_options.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:post_note/palette.dart';
-import 'package:post_note/class_view.dart';
+import 'package:post_note/class_search.dart';
 import 'package:post_note/enrolled_classes.dart';
 
 late final FirebaseApp app;
