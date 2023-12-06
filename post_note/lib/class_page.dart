@@ -177,9 +177,9 @@ class ClassPage extends StatelessWidget {
                         child: FractionallySizedBox(
                           widthFactor: 1.0,
                           child: ClassPageSection(
-                            title: "Class Study Groups",
+                            title: "My Study Groups",
                             body: Expanded(
-                              child: StudyGroupListView(
+                              child: MyStudyGroupListView(
                                 classUid: classUid,
                               ),
                             ),
@@ -193,8 +193,12 @@ class ClassPage extends StatelessWidget {
                         child: FractionallySizedBox(
                           widthFactor: 1.0,
                           child: ClassPageSection(
-                            title: "My Study Groups",
-                            body: Container(),
+                            title: "Class Study Groups",
+                            body: Expanded(
+                              child: JoinableStudyGroupListView(
+                                classUid: classUid,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -210,93 +214,165 @@ class ClassPage extends StatelessWidget {
   }
 }
 
-class StudyGroupListView extends StatefulWidget {
+class MyStudyGroupListView extends StatefulWidget {
   final firestoreInstance = FirebaseFirestore.instance;
   final String classUid;
 
-  StudyGroupListView({
+  MyStudyGroupListView({
     super.key,
     required this.classUid,
   });
 
   @override
-  State<StudyGroupListView> createState() => _StudyGroupListViewState();
+  State<MyStudyGroupListView> createState() => _MyStudyGroupListViewState();
 }
 
-class _StudyGroupListViewState extends State<StudyGroupListView> {
+class _MyStudyGroupListViewState extends State<MyStudyGroupListView> {
   StreamController<QuerySnapshot<Object?>> studyGroupListViewStreamController =
       BehaviorSubject();
-
-  // getStudyGroupsArray() async {
-  //   return
-  // }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   studyGroupListViewStreamController.addStream(getStudyGroupsArray());
-  // }
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
         padding: const EdgeInsets.all(8.0),
-        child: Container(
-            padding: const EdgeInsets.all(8.0),
-            child: StreamBuilder(
-                stream: widget.firestoreInstance
-                    .collection("study_groups")
-                    .where("class_uid", isEqualTo: widget.classUid)
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  return ListView.builder(
-                      itemCount: snapshot.data!.docs.length,
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          child: Card(
-                            color: Palette.outerSpace,
-                            child: Container(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Container(
-                                padding: const EdgeInsets.all(16.0),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: Palette.mintCream,
+        child: StreamBuilder(
+          stream: widget.firestoreInstance
+              .collection("study_groups")
+              .where("class_uid", isEqualTo: widget.classUid)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            return ListView.builder(
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  child: Card(
+                    color: Palette.outerSpace,
+                    child: Container(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Container(
+                        padding: const EdgeInsets.all(16.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Palette.mintCream,
+                        ),
+                        child: Builder(
+                          builder: (context) {
+                            List<dynamic> members =
+                                snapshot.data?.docs[index].get("members") ?? "";
+                            var name =
+                                snapshot.data?.docs[index].get("name") ?? "";
+                            return Row(
+                              children: [
+                                Text("${index + 1}.  "),
+                                Text("$name"),
+                                const Spacer(),
+                                Row(
+                                  children: [
+                                    const Icon(Icons.person),
+                                    Text(members.length.toString())
+                                  ],
                                 ),
-                                child: Builder(
-                                  builder: (context) {
-                                    List<dynamic> members = snapshot
-                                            .data?.docs[index]
-                                            .get("members") ??
-                                        "";
-                                    var name = snapshot.data?.docs[index]
-                                            .get("name") ??
-                                        "";
-                                    return Row(
-                                      children: [
-                                        Text("${index + 1}.  "),
-                                        Text("$name"),
-                                        const Spacer(),
-                                        Row(
-                                          children: [
-                                            const Icon(Icons.person),
-                                            Text(members.length.toString())
-                                          ],
-                                        ),
-                                      ],
-                                    );
-                                  },
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  onTap: () {},
+                );
+              },
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class JoinableStudyGroupListView extends StatefulWidget {
+  final firestoreInstance = FirebaseFirestore.instance;
+  final String classUid;
+
+  JoinableStudyGroupListView({
+    super.key,
+    required this.classUid,
+  });
+
+  @override
+  State<JoinableStudyGroupListView> createState() =>
+      _JoinableStudyGroupListView();
+}
+
+class _JoinableStudyGroupListView extends State<JoinableStudyGroupListView> {
+  StreamController<QuerySnapshot<Object?>> studyGroupListViewStreamController =
+      BehaviorSubject();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        padding: const EdgeInsets.all(8.0),
+        child: StreamBuilder(
+          stream: widget.firestoreInstance
+              .collection("joinable_study_groups")
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            return ListView.builder(
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  child: Card(
+                    color: Palette.outerSpace,
+                    child: Container(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Container(
+                        padding: const EdgeInsets.all(16.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Palette.mintCream,
+                        ),
+                        child: Builder(
+                          builder: (context) {
+                            List<dynamic> members =
+                                snapshot.data?.docs[index].get("members") ?? "";
+                            var name =
+                                snapshot.data?.docs[index].get("name") ?? "";
+                            return Row(
+                              children: [
+                                Text("${index + 1}.  "),
+                                Text("$name"),
+                                const Spacer(),
+                                Row(
+                                  children: [
+                                    const Icon(Icons.person),
+                                    Text(members.length.toString())
+                                  ],
                                 ),
-                              ),
-                            ),
-                          ),
-                          onTap: () {},
-                        );
-                      });
-                })));
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  onTap: () {},
+                );
+              },
+            );
+          },
+        ),
+      ),
+    );
   }
 }
 
@@ -344,118 +420,3 @@ class ClassPageSection extends StatelessWidget {
     );
   }
 }
-
-// class _bodyREMOVETHIS extends StatelessWidget {
-//   const _bodyREMOVETHIS({
-//     super.key,
-//     required this.className,
-//   });
-
-//   final String className;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
-//       child: Center(
-//         child: Column(
-//           children: <Widget>[
-//             SizedBox(
-//               // height: double.infinity,
-//               child: Padding(
-//                 padding: const EdgeInsets.only(bottom: 4.0),
-//                 child: WeeksSection(className: className),
-//               ),
-//             ),
-//             const Row(
-//               children: [
-//                 Padding(
-//                   padding: EdgeInsets.only(right: 2.0),
-//                   child: ClassStudyGroupsSection(),
-//                 ),
-//                 Padding(
-//                   padding: EdgeInsets.only(left: 2.0),
-//                   child: MyStudyGroupsSection(),
-//                 ),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class ClassStudyGroupsSection extends StatelessWidget {
-//   const ClassStudyGroupsSection({
-//     super.key,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SizedBox(
-//       // width: double.infinity,
-//       child: Card(
-//         color: Palette.outerSpace,
-//         child: Padding(
-//           padding: const EdgeInsets.all(4.0),
-//           child: Card(
-//             color: Palette.teaGreen,
-//             child: Column(
-//               children: [
-//                 const Padding(
-//                   padding: EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 16.0),
-//                   child: Text(
-//                     "Class Study Groups",
-//                     style: TextStyle(fontSize: 30),
-//                     textAlign: TextAlign.center,
-//                   ),
-//                 ),
-//                 ConstrainedBox(
-//                   constraints: (const BoxConstraints(minHeight: 100)),
-//                   child: ListView.builder(itemBuilder: (context, index) {
-//                     return const ListTile();
-//                   }),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class MyStudyGroupsSection extends StatelessWidget {
-//   const MyStudyGroupsSection({
-//     super.key,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const SizedBox(
-//       // width: double.infinity,
-//       child: Card(
-//         color: Palette.outerSpace,
-//         child: Padding(
-//           padding: EdgeInsets.all(4.0),
-//           child: Card(
-//             color: Palette.teaGreen,
-//             child: Column(
-//               children: [
-//                 Padding(
-//                   padding: EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 16.0),
-//                   child: Text(
-//                     "My Study Groups",
-//                     style: TextStyle(fontSize: 30),
-//                     textAlign: TextAlign.center,
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
