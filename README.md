@@ -14,3 +14,29 @@ PostNote is a new web app designed for sharing notes among classmates, with an i
 ## Technologies Used
 - **Frontend:** Dart, Flutter
 - **Backend, Database, Authentication:** Firebase
+
+## PostNote Installation Instructions
+
+- This uses Release 1.0.0.
+
+Step #1: To begin, install Visual Studio Code, also known as VS Code.
+Here’s a link to download the IDE: https://code.visualstudio.com/download 
+
+Step #2: Next, install Flutter for your respective platform using the following link: https://docs.flutter.dev/get-started/install 
+
+Step #3: Open the GitHub Release 1.0.0 Branch: https://github.com/acolloredo/PostNote/releases/tag/release
+
+Step #4: Click on Source code (zip).
+
+Step #5: Click on the zip file to unzip it.
+
+Step #6: Open VS Code.
+
+Step #7: Select File-> Open Folder -> PostNote-Release-1.0 -> Open.
+
+Step #8: Open a new terminal in VS Code.
+
+Step #9: In the terminal, type cd post_note.
+
+Step #10: Then type flutter run. (This will automatically resolve all dependencies.)
+
